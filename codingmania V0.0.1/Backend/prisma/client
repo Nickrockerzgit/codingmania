@@ -1,0 +1,17 @@
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient({
+  log: ['query', 'info', 'warn', 'error'],  // Logging for debugging
+});
+
+// Global error handling
+prisma.$on('error', (e) => {
+  console.error('Prisma Error:', e);
+});
+
+module.exports = prisma;
+
+
+
+
+

@@ -1,0 +1,541 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model carouseltable {
+  id          Int    @id @default(autoincrement())
+  title       String @db.VarChar(255)
+  description String @db.Text
+  image       String @db.VarChar(500)
+  fileId      String
+
+  @@map("carouseltable")
+}
+
+model eventdata {
+  id                  Int       @id @default(autoincrement())
+  team_name           String    @db.VarChar(255)
+  team_leader_name    String    @db.VarChar(255)
+  team_leader_email   String    @db.VarChar(255)
+  team_leader_phone   String?   @db.VarChar(20)
+  members             Json
+  category            String    @db.VarChar(255)
+  project_name        String    @db.VarChar(255)
+  project_description String    @db.Text
+  github              String    @db.VarChar(255)
+  linkedin            String    @db.VarChar(255)
+  project_proposal    String?   @db.VarChar(255)
+  proposalFileId       String? 
+  created_at          DateTime? @default(now()) @db.Timestamp(0)
+  status                String   @default("pending") 
+
+  @@map("eventdata")
+}
+
+model events {
+  id                 Int       @id @default(autoincrement())
+  title              String    @db.VarChar(255)
+  date               DateTime  @db.DateTime(0)
+  location           String    @db.VarChar(255)
+  participants       String    @db.VarChar(100)
+  prize_pool         String    @db.VarChar(100)
+  entry_fee          String    @db.VarChar(100)
+  categories         String    @db.VarChar(255)
+  about              String    @db.Text
+  image              String    @db.VarChar(255)
+  fileId String?
+  rules_guidelines   String?   @db.Text
+  registration_start DateTime? @db.DateTime(0)
+  registration_end   DateTime? @db.DateTime(0)
+  event_start        DateTime? @db.DateTime(0)
+  event_end          DateTime? @db.DateTime(0)
+
+
+registration_open  Boolean   @default(true)
+
+  @@map("events")
+}
+
+model join_us {
+  id               Int       @id @default(autoincrement())
+  full_name        String    @db.VarChar(255)
+  email            String    @db.VarChar(255)
+  phone            String?   @db.VarChar(20)
+  college_name     String?   @db.VarChar(255)
+  course_stream    String?   @db.VarChar(255)
+  year_of_study    String?   @db.VarChar(20)
+  skills           String?   @db.Text
+  interests        String?   @db.Text
+  motivation       String?   @db.Text
+  github_url       String?   @db.VarChar(255)
+  linkedin_url     String?   @db.VarChar(255)
+  website_url      String?   @db.VarChar(255)
+  team_preferences String?   @db.Text
+  created_at       DateTime? @default(now()) @db.Timestamp(0)
+  status           String?   @default("pending") @db.VarChar(20)
+  role_applied     String    @default("admin") @db.VarChar(20)
+
+
+  @@map("join_us")
+}
+
+model otps {
+  id         Int      @id @default(autoincrement())
+  email      String   @db.VarChar(255)
+  otp        String   @db.VarChar(10)
+  expires_at DateTime @db.DateTime(0)
+
+  @@map("otps")
+}
+
+model sponsors {
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(255)
+  logo    String @db.VarChar(255)
+  fileId  String?
+  website String @db.VarChar(255)
+
+
+  @@map("sponsors")
+}
+
+model team {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(100)
+  role     String? @db.VarChar(100)
+  image    String? @db.VarChar(255)
+  fileId    String?  
+  github   String? @db.VarChar(255)
+  linkedin String? @db.VarChar(255)
+
+
+  @@map("team")
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  email      String    @unique(map: "email") @db.VarChar(255)
+  phone      String    @unique(map: "phone") @db.VarChar(15)
+  password   String    @db.VarChar(255)
+  bio        String?   @db.Text
+  location   String?   @default("") @db.VarChar(255)
+  avatar     String?   @default("") @db.VarChar(500)
+   avatarFileId  String? 
+  join_date  DateTime? @default(now()) @db.DateTime(0)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @default(now()) @db.DateTime(0)
+  role                String    @default("student") @db.VarChar(20)
+  adminAccess         Boolean   @default(false)
+  superAdminAccess    Boolean   @default(false)
+  applicationStatus   String?   @default("pending") @db.VarChar(20)
+  appliedRole         String?   @db.VarChar(20)
+  yearOfStudy         String?   @db.VarChar(20)
+  collegeName         String?   @db.VarChar(255)
+  githubUrl           String?   @db.VarChar(255)
+  websiteUrl          String?   @db.VarChar(255)
+  company             String?   @db.VarChar(255)
+  position            String?   @db.VarChar(255)
+  batch               String?   @db.VarChar(20)
+  branch              String?   @db.VarChar(100)
+
+
+  tasks       tasks[]
+  webinarAttendances  webinar_attendances[]
+  createdRoadmaps    roadmap[]
+  roadmapProgress   roadmap_progress[]
+  studentTasks      student_tasks[]
+  studentRoadmaps   student_roadmaps[]
+  studentProgress   student_roadmap_progress[]
+  studentProfile    student_profiles?
+  alumniTasks       alumni_tasks[]
+  alumniProfile     alumni_profiles?
+  createdEvents     Event[]
+  createdJobs       Job[]
+  conversationParticipants conversation_participant[]
+  sentMessages     message[]
+  certificates     certificates[]
+   @@map("users")
+}
+
+
+model tasks {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  deadline    DateTime  @db.Date
+  priority    String    @db.VarChar(20) // high, medium, low
+  status      String    @db.VarChar(20) // pending, in-progress, completed
+  progress    Int       @default(0)
+  userId      Int
+  created_at  DateTime  @default(now())
+
+  user        users     @relation(fields: [userId], references: [id])
+
+  @@map("tasks")
+}
+
+
+model users1 {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(255)
+  email    String  @unique(map: "email") @db.VarChar(255)
+  phone    String  @unique(map: "phone") @db.VarChar(15)
+  password String  @db.VarChar(255)
+  bio      String? @db.Text
+  location String? @db.VarChar(255)
+  avatar   String? @db.VarChar(255)
+}
+
+model vlogs {
+  id               BigInt    @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  title            String    @db.Text
+  content          String?   @db.Text
+  excerpt          String?   @db.Text
+  slug             String?   @unique
+  published        Boolean   @default(false)
+
+  video_url        String    @db.Text
+  thumbnail_url    String    @db.Text
+  videoFileId      String?   
+  thumbnailFileId  String?
+
+  duration         String    @db.Text
+  views            Int?      @default(0)
+  likes            Int?      @default(0)
+  created_at       DateTime? @default(now()) @db.Timestamp(0)
+
+  @@map("vlogs")
+}
+
+
+
+// Add these to the end of your schema.prisma file
+// DO NOT TOUCH existing events or eventdata models as per instructions
+
+model webinars {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String    @db.Text
+  date        DateTime  @db.Date
+  time        String    @db.VarChar(50)
+  mode        String    @db.VarChar(50) // online or offline
+  host        String    @db.VarChar(255)
+  type        String    @db.VarChar(100) // webinar, meetup, workshop, conference, bootcamp, etc.
+  place       String?   @db.VarChar(255)
+  link        String?   @db.VarChar(255)
+  capacity    Int?      // Optional slots/capacity
+  created_at  DateTime  @default(now())
+
+  attendances webinar_attendances[]
+
+  @@map("webinars")
+}
+
+model webinar_attendances {
+  id               Int       @id @default(autoincrement())
+  webinarId        Int
+  userId           Int
+  status           String    @db.VarChar(50) @default("registered") // registered, attended, missed
+  registrationDate DateTime  @default(now())
+
+  webinar          webinars  @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+  user             users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+@@unique([webinarId, userId])
+  @@map("webinar_attendances")
+}
+
+model roadmap {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String   @db.Text
+  category    String?  @db.VarChar(255)
+  difficulty  String   @default("beginner") @db.VarChar(50)
+  duration   String?   @db.VarChar(100)
+  authorId    Int
+  created_at DateTime  @default(now()) @db.DateTime(0)
+  updated_at DateTime  @default(now()) @db.DateTime(0)
+
+  author           users            @relation(fields: [authorId], references: [id])
+  steps            roadmap_step[]
+  roadmapProgress roadmap_progress[]
+
+  @@index([authorId])
+  @@index([created_at])
+  @@map("roadmap")
+}
+
+model roadmap_step {
+  id          Int      @id @default(autoincrement())
+  roadmapId   Int
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  link        String?  @db.VarChar(500)
+  step_order Int
+  created_at  DateTime @default(now()) @db.DateTime(0)
+
+  roadmap          roadmap          @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  roadmapProgress roadmap_progress[]
+
+  @@index([roadmapId])
+  @@unique([roadmapId, step_order])
+  @@map("roadmap_step")
+}
+
+model roadmap_progress {
+  id         Int       @id @default(autoincrement())
+  studentId  Int
+  roadmapId  Int
+  stepId     Int
+  completed  Boolean  @default(false)
+  created_at DateTime @default(now()) @db.DateTime(0)
+  updated_at DateTime @default(now()) @db.DateTime(0)
+
+  student  users       @relation(fields: [studentId], references: [id])
+  roadmap  roadmap     @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  step    roadmap_step @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, stepId])
+  @@index([studentId, roadmapId])
+  @@index([roadmapId])
+  @@map("roadmap_progress")
+}
+
+model student_tasks {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  deadline    DateTime  @db.Date
+  priority    String    @db.VarChar(20)
+  status      String    @db.VarChar(20) @default("pending")
+  progress    Int       @default(0)
+  userId      Int
+  created_at  DateTime  @default(now())
+
+  user        users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("student_tasks")
+}
+
+model student_roadmaps {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String    @db.Text
+  category    String?   @db.VarChar(255)
+  difficulty  String    @default("beginner") @db.VarChar(50)
+  duration    String?   @db.VarChar(100)
+  authorId    Int
+  created_at  DateTime  @default(now()) @db.DateTime(0)
+  updated_at  DateTime  @default(now()) @db.DateTime(0)
+
+  author              users                    @relation(fields: [authorId], references: [id])
+  steps               student_roadmap_step[]
+  studentProgress    student_roadmap_progress[]
+
+  @@index([authorId])
+  @@map("student_roadmaps")
+}
+
+model student_roadmap_step {
+  id          Int      @id @default(autoincrement())
+  roadmapId   Int
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  link        String?  @db.VarChar(500)
+  step_order  Int
+  created_at  DateTime @default(now()) @db.DateTime(0)
+
+  roadmap              student_roadmaps              @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  studentProgress      student_roadmap_progress[]
+
+  @@index([roadmapId])
+  @@unique([roadmapId, step_order])
+  @@map("student_roadmap_step")
+}
+
+model student_roadmap_progress {
+  id         Int       @id @default(autoincrement())
+  studentId  Int
+  roadmapId  Int
+  stepId     Int
+  completed  Boolean  @default(false)
+  created_at DateTime @default(now()) @db.DateTime(0)
+  updated_at DateTime @default(now()) @db.DateTime(0)
+
+  student  users             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  roadmap  student_roadmaps  @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  step     student_roadmap_step @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, stepId])
+  @@index([studentId, roadmapId])
+  @@map("student_roadmap_progress")
+}
+
+model alumni_tasks {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  deadline    DateTime  @db.Date
+  priority    String    @db.VarChar(20)
+  status      String    @db.VarChar(20) @default("pending")
+  progress    Int       @default(0)
+  userId      Int
+  created_at  DateTime  @default(now())
+
+  user        users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("alumni_tasks")
+}
+
+model alumni_profiles {
+  id              Int       @id @default(autoincrement())
+  userId          Int       @unique
+  bio             String?   @db.Text
+  location        String?   @db.VarChar(255)
+  company         String?   @db.VarChar(255)
+  position        String?   @db.VarChar(255)
+  batch           String?   @db.VarChar(20)
+  branch          String?   @db.VarChar(100)
+  githubUrl       String?   @db.VarChar(255)
+  linkedinUrl     String?   @db.VarChar(255)
+  websiteUrl      String?   @db.VarChar(255)
+  skills          String?   @db.Text
+  updated_at      DateTime  @default(now()) @db.DateTime(0)
+
+  user            users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("alumni_profiles")
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  type        String   @db.VarChar(50)
+  date        DateTime @db.DateTime(0)
+  endDate     DateTime @db.DateTime(0)
+  organizer   String   @db.VarChar(255)
+  tags        String?  @db.Text
+  status      String   @default("upcoming") @db.VarChar(50)
+  description String?  @db.Text
+  link        String?  @db.Text
+  creatorId   Int
+  createdAt   DateTime @default(now()) @db.DateTime(0)
+
+  creator     users    @relation(fields: [creatorId], references: [id])
+
+  @@index([creatorId])
+  @@index([createdAt])
+  @@map("events_new")
+}
+
+model Job {
+  id              Int       @id @default(autoincrement())
+  title           String    @db.VarChar(255)
+  company         String    @db.VarChar(255)
+  location        String    @db.VarChar(255)
+  type            String    @default("FULL_TIME") @db.VarChar(50)
+  deadline        String    @db.VarChar(50)
+  description     String?   @db.Text
+  applicationLink String?   @db.Text
+  tags            String?   @db.Text
+  posterId        Int
+  createdAt       DateTime  @default(now()) @db.DateTime(0)
+  updatedAt       DateTime  @default(now()) @db.DateTime(0)
+
+  poster     users    @relation(fields: [posterId], references: [id])
+
+  @@index([posterId])
+  @@index([createdAt])
+  @@map("jobs")
+}
+
+model student_profiles {
+  id              Int       @id @default(autoincrement())
+  userId          Int       @unique
+  bio             String?   @db.Text
+  location        String?   @db.VarChar(255)
+  yearOfStudy     String?   @db.VarChar(20)
+  collegeName     String?   @db.VarChar(255)
+  branch          String?   @db.VarChar(100)
+  githubUrl       String?   @db.VarChar(255)
+  websiteUrl      String?   @db.VarChar(255)
+  skills          String?   @db.Text
+  interests       String?   @db.Text
+  updated_at      DateTime  @default(now()) @db.DateTime(0)
+
+  user            users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("student_profiles")
+}
+
+// ==================== Chat/Messaging Models ====================
+
+model conversation {
+  id            Int       @id @default(autoincrement())
+  userPairKey   String?   @unique
+  createdAt     DateTime  @default(now())
+  lastMessageAt DateTime?
+
+  participants conversation_participant[]
+  messages     message[]
+
+  @@index([lastMessageAt])
+  @@map("conversation")
+}
+
+model conversation_participant {
+  id             Int  @id @default(autoincrement())
+  conversationId Int
+  userId         Int
+
+  conversation   conversation @relation(fields: [conversationId], references: [id])
+  user           users        @relation(fields: [userId], references: [id])
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+  @@index([conversationId])
+  @@map("conversation_participant")
+}
+
+model message {
+  id             Int      @id @default(autoincrement())
+  conversationId Int
+  senderId       Int
+  content        String
+  createdAt      DateTime @default(now())
+
+  conversation conversation @relation(fields: [conversationId], references: [id])
+  sender       users        @relation(fields: [senderId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@map("message")
+}
+
+model certificates {
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  title           String    @db.VarChar(255)
+  issuer          String    @db.VarChar(255)
+  date            DateTime  @db.Date
+  description     String?   @db.Text
+  credentialId    String?   @db.VarChar(100)
+  skills          String?   @db.Text
+  downloadUrl     String?   @db.VarChar(255)
+  verificationUrl String?   @db.VarChar(255)
+  status          String    @default("completed") @db.VarChar(50)
+  created_at      DateTime  @default(now())
+
+  user            users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("certificates")
+}
