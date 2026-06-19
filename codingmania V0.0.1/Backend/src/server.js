@@ -23,6 +23,7 @@ const joinUsRoutes = require('./routes/joinUsRoutes');
 const vlogRoutes = require('./routes/vlogRoutes');
 const chatRoutes = require("./routes/chatRoutes");
 const resumeAIRoutes = require("./routes/resumeAIRoutes");
+const coverLetterRoutes = require("./routes/coverLetterRoutes");
 const quizRoutes  = require("./routes/quizeRoutes");
 const messagesRoutes = require("./routes/messagesRoutes");
 
@@ -94,6 +95,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/join-us', joinUsRoutes);
 app.use('/api/vlogs', vlogRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/cover-letters", coverLetterRoutes);
 app.use("/api/", resumeAIRoutes);
 app.use('/api/quiz', quizRoutes);
 

@@ -42,6 +42,7 @@ import AuthPage from "./components/AuthPage";
 import { AuthProvider } from "./components/AuthContext";
 import ResumeBuilder from "./components/AI-Driven resume builder/ResumeBuilder";
 import InterviewPrep from "./components/AI Interview prep/InterviewPrep";
+import CoverLetter from "./components/AI-CoverLatterGen/CoverLatter";
 import Technobot3D from "./components/Technobot3d";
 // import background from "../public/TechnoverseBg.png";
 
@@ -137,6 +138,7 @@ function App() {
           <Route path="/terms-and-conditions" element={<Layout><TermsAndConditions /></Layout>} />
           <Route path="/resume-builder" element={<Layout><ResumeBuilder/></Layout>} />
           <Route path="/interview-prep" element={<Layout><InterviewPrep/></Layout>} />
+          <Route path="/cover-letter" element={<Layout><CoverLetter/></Layout>} />
           
           {/* 🔥 ✅ Dashboard Route (Navbar hidden) */}
           <Route path="/dashboard" element={<Dashboard />} />

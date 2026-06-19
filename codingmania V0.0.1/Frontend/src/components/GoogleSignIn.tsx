@@ -53,7 +53,7 @@ const GoogleSignIn = ({ onSuccess }: GoogleSignInProps) => {
       type="button"
       onClick={handleGoogleSignIn}
       disabled={loading}
-      className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-black font-medium"
     >
       <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
         <path

@@ -91,7 +91,7 @@ function Joinus() {
   };
 
   return (
-    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-32 pb-20">
+    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-16 pb-10">
       
       {/* Background Volumetric Lights and Grid */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-10 pointer-events-none"></div>
@@ -106,34 +106,34 @@ function Joinus() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-12 md:mb-6"
         >
-          <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-            <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
-              <Users size={16} />
-              Join Our Family
-            </span>
-          </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+         <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-4 mt-4 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+  <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
+    <Users size={16} />
+    Join Our Family
+  </span>
+</div>
+          <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-metallic mb-4 tracking-tighter drop-shadow-2xl">
             Become a Member
           </h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
             Fill out the form below to join our tech community and start your journey with Technoverse.
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-8 rounded-full opacity-80"></div>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto">
-          <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
+        <div className="max-w-7xl mx-auto">
+          <form ref={formRef} className="grid lg:grid-cols-2 gap-6 space-y-0" onSubmit={handleSubmit}>
             
             {/* Personal Information */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Personal Information</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Personal Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
@@ -172,9 +172,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Educational Details</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Educational Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">College/School Name</label>
@@ -216,9 +216,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] lg:col-span-2"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Technical Skills</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Technical Skills</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {skills.map((skill, index) => (
                   <label key={skill} className="flex items-center space-x-3 cursor-pointer group">
@@ -246,9 +246,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] lg:col-span-2"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Interests</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Interests</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {interests.map((interest, index) => (
                   <label key={interest} className="flex items-center space-x-3 cursor-pointer group">
@@ -268,9 +268,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] lg:col-span-2"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Why Do You Want to Join?</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Why Do You Want to Join?</h3>
               <textarea
                 name="motivation"
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-all"
@@ -285,9 +285,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] lg:col-span-2"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Portfolio Links (Optional)</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Portfolio Links (Optional)</h3>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Github className="w-5 h-5 text-red-500" />
@@ -324,9 +324,9 @@ function Joinus() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="glass-panel rounded-2xl p-8 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+              className="glass-panel rounded-2xl p-6 border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] lg:col-span-2"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">Team Preferences</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Team Preferences</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {roles.map((role, index) => (
                   <label key={role} className="flex items-center space-x-3 cursor-pointer group">
@@ -342,7 +342,7 @@ function Joinus() {
             </motion.div>
 
             {/* Submit Button */}
-            <div className="flex justify-center pt-6">
+            <div className="flex justify-center pt-6 lg:col-span-2">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

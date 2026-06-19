@@ -16,7 +16,7 @@ const About = () => {
   ];
 
   return (
-    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-32 pb-20">
+    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-15 pb-12">
       
       {/* Background Volumetric Lights and Rays */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-10 pointer-events-none"></div>
@@ -31,23 +31,25 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-12 md:mb-12"
         >
-          <div className="inline-block mt-2 px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-            <span className="text-red-400 text-sm font-semibold tracking-wider uppercase">
-              Discover Our Story
+          
+          <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+            <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
+              <Users size={16} />
+            our story
             </span>
           </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+          <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
             About Technoverse
           </h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
             Meet the passionate individuals behind Technoverse who make it all possible. A collective of forward-thinkers building the future.
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-8 rounded-full opacity-80"></div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center mb-24">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16">
           {/* Left side - Description */}
           <motion.div
             ref={ref}
@@ -56,7 +58,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="flex flex-col space-y-8"
           >
-            <h3 className="text-3xl sm:text-4xl font-bold text-white tracking-wide">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-wide">
               Who We Are
             </h3>
             <div className="space-y-6 text-gray-400 text-lg font-light leading-relaxed">
@@ -78,11 +80,11 @@ const About = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="relative h-[450px]"
+            className="relative h-auto md:h-[360px]"
           >
             <div className="glass-panel rounded-3xl p-8 h-full flex items-center justify-center border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transform hover:scale-[1.02] transition-transform duration-500 group relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="w-64 h-64 relative">
+              <div className="w-48 h-48 relative md:w-56 md:h-56">
                 {[0, 1, 2].map((index) => (
                   <motion.div
                     key={index}
@@ -100,8 +102,8 @@ const About = () => {
                   />
                 ))}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="p-6 rounded-full bg-[#050505] border border-red-500/40 shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                    <code className="text-red-400 text-3xl font-bold tracking-wider">&lt;/&gt;</code>
+                  <div className="p-5 rounded-full bg-[#050505] border border-red-500/40 shadow-[0_0_30px_rgba(220,38,38,0.3)]">
+                      <code className="text-red-400 text-2xl font-bold tracking-wider">&lt;/&gt;</code>
                   </div>
                 </div>
               </div>
@@ -110,23 +112,23 @@ const About = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group glass-panel rounded-3xl p-8 text-center border-t border-l border-white/10 shadow-lg transform hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(220,38,38,0.2)] transition-all duration-300"
+              className="group glass-panel rounded-2xl p-3 text-center border-t border-l border-white/10 shadow transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(220,38,38,0.12)] transition-all duration-300"
             >
-              <div className="flex justify-center mb-6">
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-red-500/20 group-hover:border-red-500/40 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-300">
-                  <stat.icon className="h-8 w-8 text-gray-400 group-hover:text-red-400 transition-colors" strokeWidth={1.5} />
+                <div className="flex justify-center mb-4">
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-red-500/20 group-hover:border-red-500/40 group-hover:shadow-[0_0_12px_rgba(220,38,38,0.2)] transition-all duration-200">
+                    <stat.icon className="h-5 w-5 text-gray-400 group-hover:text-red-400 transition-colors" strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
-              <div className="text-3xl sm:text-4xl font-light text-white mb-2 tracking-wide group-hover:text-shadow-glow transition-all">
-                {stat.value}
-              </div>
+                <div className="text-xl sm:text-2xl font-light text-white mb-2 tracking-wide group-hover:text-shadow-glow transition-all">
+                  {stat.value}
+                </div>
               <div className="text-xs text-gray-500 uppercase tracking-widest font-medium group-hover:text-gray-300 transition-colors">
                 {stat.label}
               </div>

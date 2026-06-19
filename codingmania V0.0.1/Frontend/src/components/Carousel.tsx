@@ -1,175 +1,3 @@
-
-// import { useEffect, useState } from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Autoplay, Pagination } from 'swiper/modules';
-// import axios from 'axios';
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-
-// interface Slide {
-//   id: number;
-//   title: string;
-//   description: string;
-//   image: string;
-// }
-
-
-// // const baseURL = import.meta.env.VITE_BASE_URL;
-// // const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-// // const IMAGEKIT_URL = import.meta.env.VITE_IMAGEKIT_URL;
-
-// const Carousel = () => {
-//   const [slides, setSlides] = useState<Slide[]>([]);
-
-//   useEffect(() => {
-//     const fetchSlides = async () => {
-//       try {import.meta.env.vite_api_base_url
-//         const response = await axios.get("${}/carousel/get-slides");
-//         // const response = await axios.get(`${VITE_BASE_URL}/api/carousel/get-slides`);
-//         setSlides(response.data);
-//       } catch (error) {
-//         console.error('Error fetching slides:', error);
-//       }
-//     };
-
-//     fetchSlides();
-//   }, []);
-
-//   if (slides.length === 0) {
-//     return null;
-//   }
-
-//   return (
-//     <Swiper
-//       modules={[Autoplay, Pagination]}
-//       spaceBetween={30}
-//       slidesPerView={1}
-//       autoplay={{
-//         delay: 2000,
-//         disableOnInteraction: false,
-//       }}
-//       pagination={{ clickable: true, el: '.swiper-pagination' }}
-//       className="rounded-xl overflow-hidden shadow-2xl"
-//     >
-//       {slides.map((slide) => (
-//         <SwiperSlide key={slide.id}>
-//           <div className="relative h-[400px]">
-//             <img
-//               src={`http://localhost:5001${slide.image}`}
-//               // src={`${IMAGEKIT_URL}${slide.image}`}
-//               alt={slide.title}
-//               className="absolute inset-0 w-full h-full object-cover"
-//             />
-//             <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-center p-8">
-//               <div>
-//                 <h2 className="text-3xl font-bold text-white mb-4">{slide.title}</h2>
-//                 <p className="text-xl text-gray-200">{slide.description}</p>
-//               </div>
-//             </div>
-//           </div>
-//         </SwiperSlide>
-//       ))}
-//       <div className="swiper-pagination"></div>
-//     </Swiper>
-//   );
-// };
-
-// export default Carousel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //imagekit direct url implementation
-// import { useEffect, useState } from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Autoplay, Pagination } from 'swiper/modules';
-// import axios from 'axios';
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-
-// interface Slide {
-//   id: number;
-//   title: string;
-//   description: string;
-//   image: string; // now full ImageKit URL
-// }
-
-// const Carousel = () => {
-//   const [slides, setSlides] = useState<Slide[]>([]);
-
-//   useEffect(() => {
-//     axios.get("${import.meta.env.vite_api_base_url}/carousel/get-slides")
-//       .then(res => setSlides(res.data))
-//       .catch(err => console.error(err));
-//   }, []);
-
-//   if (!slides.length) return null;
-
-//   return (
-//     <Swiper
-//      modules={[Autoplay, Pagination]} 
-//      spaceBetween={30}
-//       slidesPerView={1}
-//      autoplay={{ 
-//       delay: 2000 
-//      , disableOnInteraction: false }} 
-//        pagination={{ clickable: true, el: '.swiper-pagination' }}
-//       className="rounded-xl overflow-hidden shadow-2xl"
-//     >
-//       {slides.map(slide => (
-//         <SwiperSlide key={slide.id}>
-//           <div className="relative h-[400px]">
-//             <img
-//               src={slide.image}   // ✅ Direct ImageKit URL
-//               alt={slide.title}
-//               className="absolute inset-0 w-full h-full object-cover"
-//             />
-//             <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-center p-8">
-//               <div>
-//                 <h2 className="text-3xl font-bold text-white mb-4">{slide.title}</h2>
-//                 <p className="text-xl text-gray-200">{slide.description}</p>
-//               </div>
-//             </div>
-//           </div>
-//         </SwiperSlide>
-//       ))}
-//     </Swiper>
-//   );
-// };
-
-// export default Carousel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//6 slids
-// Updated UI/Carousel.jsx (minimal changes, now handles any number of slides)
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -181,50 +9,91 @@ interface Slide {
   id: number;
   title: string;
   description: string;
-  image: string; // full ImageKit URL
+  image: string;
 }
 
 const Carousel = () => {
   const [slides, setSlides] = useState<Slide[]>([]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/carousel/get-slides`)
-      .then(res => setSlides(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get(`${import.meta.env.VITE_API_BASE_URL}/carousel/get-slides`)
+      .then((res) => setSlides(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
   if (!slides.length) return null;
 
   return (
-    <Swiper
-      modules={[Autoplay, Pagination]} 
-      spaceBetween={30}
-      slidesPerView={1}
-      autoplay={{ 
-        delay: 2000, 
-        disableOnInteraction: false 
-      }} 
-      pagination={{ clickable: true, el: '.swiper-pagination' }}
-      className="rounded-xl overflow-hidden shadow-2xl"
-    >
-      {slides.map(slide => (
-        <SwiperSlide key={slide.id}>
-          <div className="relative h-[400px]">
-            <img
-              src={slide.image}   // Direct ImageKit URL
-              alt={slide.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-center p-8">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-4">{slide.title}</h2>
-                <p className="text-xl text-gray-200">{slide.description}</p>
+    <div className="relative overflow-hidden bg-[#050505] py-2">
+      {/* Grid Background */}
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-10 pointer-events-none"></div>
+
+      {/* Lights */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="volumetric-light-red"></div>
+        <div className="volumetric-light-secondary opacity-50"></div>
+      </div>
+
+      {/* Heading Section */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+            Our Glimpses
+          </h2>
+
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-8">
+            Discover the moments that define our community through featured
+            highlights and inspiring visuals.
+          </p>
+
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto rounded-full opacity-80"></div>
+        </div>
+      </div>
+
+      {/* Full Width Slider */}
+      <div className="relative z-10 w-full">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          slidesPerView={1}
+          spaceBetween={0}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          loop={true}
+          className="w-full"
+        >
+          {slides.map((slide) => (
+            <SwiperSlide key={slide.id}>
+              <div className="relative h-[400px] w-full">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-6">
+                  <div className="max-w-4xl">
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                      {slide.title}
+                    </h2>
+
+                    <p className="text-lg md:text-xl text-gray-200">
+                      {slide.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </div>
   );
 };
 

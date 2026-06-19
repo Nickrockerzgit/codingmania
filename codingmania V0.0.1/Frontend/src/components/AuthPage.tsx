@@ -582,7 +582,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6 overflow-hidden relative">
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 overflow-hidden relative py-16">
       {/* Grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
       
@@ -599,12 +599,12 @@ const AuthPage = () => {
       </div>
 
       <motion.div
-        className="w-full max-w-5xl bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10"
+        className="w-full max-w-3xl bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10 h-auto mt-12"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
-        <div className="grid md:grid-cols-2 min-h-[580px] relative">
+        <div className="grid md:grid-cols-2 gap-0 relative">
           {/* Image Side - changes position based on isSignUp */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -617,7 +617,7 @@ const AuthPage = () => {
                 isSignUp ? "md:order-1" : "md:order-2"
               }`}
             >
-              <div className="h-full w-full bg-gradient-to-br from-red-950/40 to-orange-950/40 flex items-center justify-center p-8">
+              <div className="h-full w-full bg-gradient-to-br from-red-950/40 to-orange-950/40 flex items-center justify-center p-4">
                 <img
                   src={authIllustration}
                   alt="Authentication Illustration"
@@ -628,7 +628,7 @@ const AuthPage = () => {
           </AnimatePresence>
 
           {/* Form Side */}
-          <div className={`p-8 md:p-12 flex flex-col justify-center ${isSignUp ? "md:order-2" : "md:order-1"}`}>
+          <div className={`p-6 md:p-8 flex flex-col justify-center ${isSignUp ? "md:order-2" : "md:order-1"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -639,18 +639,18 @@ const AuthPage = () => {
               >
                 {step === "form" ? (
                   <>
-                    <div className="text-center mb-8">
-                      <h1 className="text-3xl font-bold text-white mb-2">
+                    <div className="text-center mb-6">
+                      <h1 className="text-2xl font-bold text-white mb-1">
                         {isSignUp ? "Create Account" : "Welcome Back"}
                       </h1>
-                      <p className="text-gray-400">
+                      <p className="text-sm text-gray-400">
                         {isSignUp
                           ? "Join Technoverse and start learning today"
                           : "Sign in to continue your journey"}
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-3">
                       {isSignUp && (
                         <>
                           <FloatingInput
@@ -696,7 +696,7 @@ const AuthPage = () => {
                         whileTap={{ scale: 0.97 }}
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-3 rounded-xl font-semibold shadow-lg shadow-red-600/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-2 rounded-lg font-semibold text-sm shadow-lg shadow-red-600/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {isLoading ? (
                           <span className="flex items-center justify-center gap-2">
@@ -707,13 +707,13 @@ const AuthPage = () => {
                       </motion.button>
                     </form>
 
-                    <div className="mt-6">
-                      <div className="relative my-6">
+                    <div className="mt-4">
+                      <div className="relative my-4">
                         <div className="absolute inset-0 flex items-center">
                           <div className="w-full border-t border-gray-700"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                          <span className="px-4 bg-gray-900 text-gray-400">Or continue with</span>
+                          <span className="px-3 bg-gray-900 text-gray-400 text-xs">Or continue with</span>
                         </div>
                       </div>
 
@@ -721,10 +721,10 @@ const AuthPage = () => {
                     </div>
 
                     {!isSignUp && (
-                      <div className="text-center mt-4">
+                      <div className="text-center mt-3">
                         <button
                           onClick={() => setShowForgotPassword(true)}
-                          className="text-sm text-red-400 hover:text-red-300 underline"
+                          className="text-xs text-red-400 hover:text-red-300 underline"
                         >
                           Forgot password?
                         </button>
@@ -732,16 +732,16 @@ const AuthPage = () => {
                     )}
                   </>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <div className="text-center">
-                      <h2 className="text-2xl font-bold text-white mb-2">Verify Email</h2>
-                      <p className="text-gray-400">
+                      <h2 className="text-2xl font-bold text-white mb-1">Verify Email</h2>
+                      <p className="text-sm text-gray-400">
                         Enter the 6-digit code sent to <br />
                         <span className="font-medium text-white">{formData.email}</span>
                       </p>
                     </div>
 
-                    <form onSubmit={handleVerifyOtp} className="space-y-5">
+                    <form onSubmit={handleVerifyOtp} className="space-y-3">
                       <FloatingInput
                         label="OTP Code"
                         type="text"
@@ -756,7 +756,7 @@ const AuthPage = () => {
                         whileTap={{ scale: 0.97 }}
                         type="submit"
                         disabled={isVerifying}
-                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-3 rounded-xl font-semibold shadow-lg shadow-red-600/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-2 rounded-lg font-semibold text-sm shadow-lg shadow-red-600/20 disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {isVerifying ? (
                           <span className="flex items-center justify-center gap-2">
@@ -767,7 +767,7 @@ const AuthPage = () => {
                       </motion.button>
                     </form>
 
-                    <div className="text-center">
+                    <div className="text-center text-xs">
                       {timer > 0 ? (
                         <p className="text-gray-400">
                           Resend in <span className="text-red-400 font-medium">{timer}s</span>
@@ -775,7 +775,7 @@ const AuthPage = () => {
                       ) : (
                         <button
                           onClick={handleResendOtp}
-                          className="text-red-400 hover:text-red-300 underline"
+                          className="text-xs text-red-400 hover:text-red-300 underline"
                         >
                           Resend OTP
                         </button>
@@ -786,7 +786,7 @@ const AuthPage = () => {
               </motion.div>
             </AnimatePresence>
 
-            <div className="text-center mt-8 text-gray-400 text-sm">
+            <div className="text-center mt-4 text-gray-400 text-xs">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
               <button
                 onClick={toggleForm}
@@ -816,23 +816,23 @@ const AuthPage = () => {
               exit={{ opacity: 0, scale: 0.85 }}
               className="fixed inset-0 flex items-center justify-center z-50 p-4"
             >
-              <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl p-8 w-full max-w-md border border-white/10 relative">
+              <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl p-6 w-full max-w-md border border-white/10 relative">
                 <button
                   onClick={() => setShowForgotPassword(false)}
-                  className="absolute top-5 right-5 text-gray-400 hover:text-white"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-white"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
 
-                <div className="text-center mb-8">
-                  <div className="mx-auto w-16 h-16 bg-red-900/30 rounded-full flex items-center justify-center mb-5">
-                    <Mail className="w-8 h-8 text-red-400" />
+                <div className="text-center mb-6">
+                  <div className="mx-auto w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center mb-4">
+                    <Mail className="w-6 h-6 text-red-400" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Reset Password</h3>
-                  <p className="text-gray-400">We'll send instructions to your email</p>
+                  <h3 className="text-xl font-bold text-white mb-2">Reset Password</h3>
+                  <p className="text-xs text-gray-400">We'll send instructions to your email</p>
                 </div>
 
-                <form onSubmit={handleForgotPassword} className="space-y-5">
+                <form onSubmit={handleForgotPassword} className="space-y-3">
                   <FloatingInput
                     label="Email"
                     type="email"
@@ -853,7 +853,7 @@ const AuthPage = () => {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     type="submit"
-                    className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-3 rounded-xl font-semibold shadow-lg shadow-red-600/20"
+                    className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-2 rounded-lg font-semibold text-sm shadow-lg shadow-red-600/20"
                   >
                     Reset Password
                   </motion.button>
@@ -883,15 +883,15 @@ const FloatingInput = ({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
 }) => (
-  <div className="space-y-1.5">
-    <label className="block text-sm font-medium text-gray-300">{label}</label>
+  <div className="space-y-1">
+    <label className="block text-xs font-medium text-gray-300">{label}</label>
       <input
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-all"
+        className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-all"
       />
   </div>
 );
@@ -909,8 +909,8 @@ const PasswordInput = ({
   showPassword: boolean;
   toggleVisibility: () => void;
 }) => (
-  <div className="space-y-1.5">
-    <label className="block text-sm font-medium text-gray-300">Password</label>
+  <div className="space-y-1">
+    <label className="block text-xs font-medium text-gray-300">Password</label>
     <div className="relative">
       <input
         type={showPassword ? "text" : "password"}
@@ -918,14 +918,14 @@ const PasswordInput = ({
         value={value}
         onChange={onChange}
         placeholder="••••••••"
-        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 pr-12 transition-all"
+        className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 pr-10 transition-all"
       />
       <button
         type="button"
         onClick={toggleVisibility}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
       >
-        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
       </button>
     </div>
   </div>

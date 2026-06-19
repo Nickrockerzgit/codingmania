@@ -123,11 +123,18 @@ const Navbar = () => {
       <div className="flex justify-center px-4 pt-4">
         <div className="glass-panel-full w-full max-w-5xl px-6 py-3 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-              <img src="/Logo.png" alt="Technovers Logo" className="h-6 w-6 object-contain" />
-            </div>
-          </div>
+         <div
+  className="flex items-center gap-3 cursor-pointer"
+  onClick={() => navigate("/")}
+>
+  <div>
+    <img
+      src="/Logo.png"
+      alt="Technovers Logo"
+      className="h-8 w-18 object-cover rounded-lg"
+    />
+  </div>
+</div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
