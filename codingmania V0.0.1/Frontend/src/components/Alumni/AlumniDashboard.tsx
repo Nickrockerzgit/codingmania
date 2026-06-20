@@ -52,8 +52,8 @@ const AlumniDashboard = () => {
 
   if (isLoading || !isAuthInitialized || !isUserProfileReady) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex items-center gap-2 text-purple-600">
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-red-400">
           <Loader2 className="w-6 h-6 animate-spin" />
           <span>Loading...</span>
         </div>
@@ -94,57 +94,57 @@ const AlumniDashboard = () => {
       case "dashboard":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-500 mt-1">Welcome back to your community</p>
+            <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+            <p className="text-gray-300 mt-1">Welcome back to your community</p>
           </div>
         );
       case "profile":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-            <p className="text-gray-500 mt-1">Your alumni profile</p>
+            <h1 className="text-2xl font-bold text-white">Profile</h1>
+            <p className="text-gray-300 mt-1">Your alumni profile</p>
           </div>
         );
       case "events":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Events</h1>
-            <p className="text-gray-500 mt-1">Create and manage events</p>
+            <h1 className="text-2xl font-bold text-white">Events</h1>
+            <p className="text-gray-300 mt-1">Create and manage events</p>
           </div>
         );
       case "events2":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Events 2</h1>
-            <p className="text-gray-500 mt-1">My Registered Events</p>
+            <h1 className="text-2xl font-bold text-white">Events 2</h1>
+            <p className="text-gray-300 mt-1">My Registered Events</p>
           </div>
         );
       case "certificates":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Certificates</h1>
-            <p className="text-gray-500 mt-1">View and manage certifications</p>
+            <h1 className="text-2xl font-bold text-white">Certificates</h1>
+            <p className="text-gray-300 mt-1">View and manage certifications</p>
           </div>
         );
       case "messages":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-            <p className="text-gray-500 mt-1">Network with alumni</p>
+            <h1 className="text-2xl font-bold text-white">Messages</h1>
+            <p className="text-gray-300 mt-1">Network with alumni</p>
           </div>
         );
       case "jobs":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Jobs</h1>
-            <p className="text-gray-500 mt-1">Browse job opportunities</p>
+            <h1 className="text-2xl font-bold text-white">Jobs</h1>
+            <p className="text-gray-300 mt-1">Browse job opportunities</p>
           </div>
         );
       case "roadmaps":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Roadmaps</h1>
-            <p className="text-gray-500 mt-1">Create and share learning paths</p>
+            <h1 className="text-2xl font-bold text-white">Roadmaps</h1>
+            <p className="text-gray-300 mt-1">Create and share learning paths</p>
           </div>
         );
       default:
@@ -153,7 +153,7 @@ const AlumniDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-[#050505] flex">
       <AlumniSidebar
         activeTab={activeTab}
         onNavigate={handleNavigate}
@@ -171,7 +171,7 @@ const AlumniDashboard = () => {
             </div>
             <button
               onClick={() => navigate('/dashboard')}
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               Regular Dashboard

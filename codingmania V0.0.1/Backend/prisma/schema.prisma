@@ -23,16 +23,19 @@ model eventdata {
   team_leader_name    String    @db.VarChar(255)
   team_leader_email   String    @db.VarChar(255)
   team_leader_phone   String?   @db.VarChar(20)
+  college_name        String?   @db.VarChar(255)
   members             Json
   category            String    @db.VarChar(255)
-  project_name        String    @db.VarChar(255)
-  project_description String    @db.Text
-  github              String    @db.VarChar(255)
-  linkedin            String    @db.VarChar(255)
+  project_name        String?   @db.VarChar(255)
+  project_description String?   @db.Text
+  github              String?   @db.VarChar(255)
+  linkedin            String?   @db.VarChar(255)
   project_proposal    String?   @db.VarChar(255)
-  proposalFileId       String? 
+  proposalFileId       String?
+  payment_id          String?   @db.VarChar(255)
+  payment_order_id    String?   @db.VarChar(255)
   created_at          DateTime? @default(now()) @db.Timestamp(0)
-  status                String   @default("pending") 
+  status                String   @default("pending")
 
   @@map("eventdata")
 }

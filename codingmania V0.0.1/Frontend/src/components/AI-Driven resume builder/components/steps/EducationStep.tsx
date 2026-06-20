@@ -48,28 +48,28 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange, on
               type="text"
               value={editData.degree}
               onChange={(e) => setEditData({ ...editData, degree: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Degree"
             />
             <input
               type="text"
               value={editData.institution}
               onChange={(e) => setEditData({ ...editData, institution: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Institution"
             />
             <input
               type="text"
               value={editData.year}
               onChange={(e) => setEditData({ ...editData, year: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Year"
             />
             <input
               type="text"
               value={editData.percentage || ''}
               onChange={(e) => setEditData({ ...editData, percentage: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Percentage/CGPA (optional)"
             />
           </div>
@@ -107,7 +107,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange, on
           <div className="flex gap-2">
             <button
               onClick={() => setEditingId(education.id)}
-              className="p-2 text-gray-400 hover:text-blue-500 transition-colors"
+              className="p-2 text-gray-400 hover:text-red-400 transition-colors"
             >
               <Edit2 className="w-4 h-4" />
             </button>
@@ -126,10 +126,10 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange, on
   return (
     <div className="space-y-6 bg-black min-h-screen py-6 px-4 rounded-lg">
       {/* AI Assistant Button */}
-      <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-600 rounded-lg p-4">
+      <div className="bg-gradient-to-r from-red-900 to-orange-900 border border-red-500/50 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -139,7 +139,7 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange, on
           </div>
           <button
             onClick={onOpenAI}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all text-sm font-medium"
+            className="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 transition-all text-sm font-medium"
           >
             Try AI Assistant
           </button>
@@ -154,35 +154,35 @@ export const EducationStep: React.FC<EducationStepProps> = ({ data, onChange, on
             type="text"
             value={newEducation.degree}
             onChange={(e) => setNewEducation({ ...newEducation, degree: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Degree (e.g., B.Tech in Computer Science)"
           />
           <input
             type="text"
             value={newEducation.institution}
             onChange={(e) => setNewEducation({ ...newEducation, institution: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Institution Name"
           />
           <input
             type="text"
             value={newEducation.year}
             onChange={(e) => setNewEducation({ ...newEducation, year: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Year (e.g., 2024 or 2020-2024)"
           />
           <input
             type="text"
             value={newEducation.percentage || ''}
             onChange={(e) => setNewEducation({ ...newEducation, percentage: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Percentage/CGPA (optional)"
           />
         </div>
         <button
           onClick={addEducation}
           disabled={!newEducation.degree || !newEducation.institution || !newEducation.year}
-          className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Education

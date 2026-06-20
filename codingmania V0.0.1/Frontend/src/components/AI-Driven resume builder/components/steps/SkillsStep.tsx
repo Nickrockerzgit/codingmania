@@ -38,14 +38,14 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
           return (
             <span
               key={index}
-              className="inline-flex items-center px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm"
+              className="inline-flex items-center px-3 py-1 bg-red-900/30 text-red-400 rounded-full text-sm"
             >
               {skill.name}
               <button
                 onClick={() => removeSkill(globalIndex)}
-                className="ml-2 p-0.5 hover:bg-blue-800 rounded-full"
+                className="ml-2 p-0.5 hover:bg-red-800/50 rounded-full"
               >
-                <X className="w-3 h-3 text-blue-300" />
+                <X className="w-3 h-3 text-red-400" />
               </button>
             </span>
           );
@@ -57,10 +57,10 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
   return (
     <div className="space-y-6 bg-black min-h-screen p-6 rounded-lg">
       {/* AI Assistant Button */}
-      <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-4">
+      <div className="bg-gradient-to-r from-red-900 to-orange-900 border border-red-500/50 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -70,7 +70,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
           </div>
           <button
             onClick={onOpenAI}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all text-sm font-medium"
+            className="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 transition-all text-sm font-medium"
           >
             Try AI Assistant
           </button>
@@ -87,7 +87,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
               value={newSkill}
               onChange={(e) => setNewSkill(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addSkill()}
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-sm sm:text-base"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400 text-sm sm:text-base"
               placeholder="Enter a skill (e.g., React, JavaScript, Problem Solving)"
             />
           </div>
@@ -95,7 +95,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value as 'technical' | 'soft' | 'tools')}
-              className="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+              className="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 text-sm sm:text-base"
             >
               <option value="technical">Technical</option>
               <option value="tools">Tools</option>
@@ -103,7 +103,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({ data, onChange, onOpenAI
             </select>
             <button
               onClick={addSkill}
-              className="flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+              className="flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add

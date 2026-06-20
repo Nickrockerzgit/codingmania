@@ -91,11 +91,13 @@
 
 
 
-//imagkit version 
+//imagkit version
 const prisma = require('../../prisma/client');
 const imagekit = require('../config/imagekit');
 const { sendEmail } = require('../config/email');
 const emailTemplates = require('../utils/emailTemplates');
+const razorpay = require('../config/razorpay');
+const crypto = require('crypto');
 
 
 
@@ -321,9 +323,136 @@ const updateRegistrationStatus = async (req, res) => {
 };
 
 
+/* =========================================================
+   CREATE RAZORPAY ORDER (amount = event entry fee)
+========================================================= */
+const createPaymentOrder = async (req, res) => {
+    try {
+        const { eventId } = req.body;
+        if (!eventId) return res.status(400).json({ error: 'eventId is required' });
+
+        const event = await prisma.events.findUnique({ where: { id: Number(eventId) } });
+        if (!event) return res.status(404).json({ error: 'Event not found' });
+
+        // Parse entry fee → integer rupees (handles "₹100", "100", "Free", etc.)
+        const amountRupees = parseInt(String(event.entry_fee || '0').replace(/[^0-9]/g, ''), 10) || 0;
+
+        // Free event → skip payment
+        if (amountRupees <= 0) {
+            return res.status(200).json({ free: true, amount: 0, eventTitle: event.title });
+        }
+
+        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+            return res.status(500).json({ error: 'Payment is not configured. Please add Razorpay keys in .env.' });
+        }
+
+        const order = await razorpay.orders.create({
+            amount: amountRupees * 100, // amount in paise
+            currency: 'INR',
+            receipt: `evt_${eventId}_${Date.now()}`,
+        });
+
+        res.status(200).json({
+            free: false,
+            orderId: order.id,
+            amount: order.amount,
+            currency: order.currency,
+            keyId: process.env.RAZORPAY_KEY_ID,
+            eventTitle: event.title,
+            displayFee: event.entry_fee,
+        });
+    } catch (error) {
+        console.error('Create order error:', error);
+        res.status(500).json({ error: 'Failed to create payment order' });
+    }
+};
+
+/* =========================================================
+   VERIFY PAYMENT + SAVE REGISTRATION + EMAIL LEADER
+========================================================= */
+const verifyAndRegister = async (req, res) => {
+    try {
+        const {
+            eventId, free,
+            razorpay_order_id, razorpay_payment_id, razorpay_signature,
+            teamName, leaderName, leaderEmail, leaderPhone, collegeName,
+            members, category,
+        } = req.body;
+
+        // Verify Razorpay signature for paid registrations
+        if (!free) {
+            if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+                return res.status(400).json({ error: 'Missing payment details' });
+            }
+            const expectedSignature = crypto
+                .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+                .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+                .digest('hex');
+            if (expectedSignature !== razorpay_signature) {
+                return res.status(400).json({ error: 'Payment verification failed' });
+            }
+        }
+
+        // Fetch event for DB + email details
+        let event = null;
+        if (eventId) {
+            event = await prisma.events.findUnique({ where: { id: Number(eventId) } });
+        }
+        const eventName = event ? event.title : (category || 'Event');
+
+        // members may arrive as a JSON string
+        let parsedMembers = members;
+        try { if (typeof members === 'string') parsedMembers = JSON.parse(members); } catch { parsedMembers = []; }
+
+        const newRegistration = await prisma.eventdata.create({
+            data: {
+                team_name: teamName,
+                team_leader_name: leaderName,
+                team_leader_email: leaderEmail,
+                team_leader_phone: leaderPhone || null,
+                college_name: collegeName || null,
+                members: parsedMembers || [],
+                category: category || eventName,
+                payment_id: razorpay_payment_id || null,
+                payment_order_id: razorpay_order_id || null,
+                status: free ? 'pending' : 'paid',
+            },
+        });
+
+        // Send confirmation email to team leader with event details
+        const formatDate = (d) => {
+            try {
+                return new Date(d).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+            } catch { return d; }
+        };
+
+        await sendEmail(
+            leaderEmail,
+            `Registration Confirmed: ${eventName}`,
+            emailTemplates.eventRegistrationDetails(leaderName, {
+                eventName,
+                teamName,
+                college: collegeName,
+                category,
+                date: event ? formatDate(event.date) : '',
+                location: event ? event.location : '',
+                fee: event ? event.entry_fee : '',
+                paymentId: razorpay_payment_id || '',
+            })
+        );
+
+        res.status(201).json({ message: 'Registration successful', id: newRegistration.id });
+    } catch (error) {
+        console.error('Verify & register error:', error);
+        res.status(500).json({ error: 'Failed to complete registration' });
+    }
+};
+
 module.exports = {
     registerEvent,
     getRegistrations,
     deleteRegistration,
     updateRegistrationStatus,
+    createPaymentOrder,
+    verifyAndRegister,
 };

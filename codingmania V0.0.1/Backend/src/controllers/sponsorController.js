@@ -128,4 +128,101 @@ const getSponsors = async (req, res) => {
   }
 };
 
-module.exports = { addSponsors, getSponsors };
+// Add a single sponsor
+const addSponsor = async (req, res) => {
+  try {
+    const { name, website } = req.body;
+
+    if (!name || !website) {
+      return res.status(400).json({ message: "Name and website are required" });
+    }
+    if (!req.file) {
+      return res.status(400).json({ message: "Logo image is required" });
+    }
+
+    const uploadResult = await imagekit.upload({
+      file: req.file.buffer,
+      fileName: `sponsor_${Date.now()}`,
+      folder: "/uploads/sponsors"
+    });
+
+    const sponsor = await prisma.sponsors.create({
+      data: {
+        name,
+        website,
+        logo: uploadResult.url,
+        fileId: uploadResult.fileId
+      }
+    });
+
+    res.status(201).json(sponsor);
+  } catch (error) {
+    console.error("Add Sponsor Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Update a single sponsor (name/website always, logo only if a new file is sent)
+const updateSponsor = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const { name, website } = req.body;
+
+    const existing = await prisma.sponsors.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ message: "Sponsor not found" });
+    }
+
+    const data = {};
+    if (name !== undefined) data.name = name;
+    if (website !== undefined) data.website = website;
+
+    // Replace the logo only when a new file is uploaded
+    if (req.file) {
+      if (existing.fileId) {
+        try { await imagekit.deleteFile(existing.fileId); }
+        catch (err) { console.error("Delete old logo failed:", err.message); }
+      }
+
+      const uploadResult = await imagekit.upload({
+        file: req.file.buffer,
+        fileName: `sponsor_${Date.now()}`,
+        folder: "/uploads/sponsors"
+      });
+
+      data.logo = uploadResult.url;
+      data.fileId = uploadResult.fileId;
+    }
+
+    const sponsor = await prisma.sponsors.update({ where: { id }, data });
+    res.status(200).json(sponsor);
+  } catch (error) {
+    console.error("Update Sponsor Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Delete a single sponsor (and its ImageKit logo)
+const deleteSponsor = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+
+    const existing = await prisma.sponsors.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ message: "Sponsor not found" });
+    }
+
+    if (existing.fileId) {
+      try { await imagekit.deleteFile(existing.fileId); }
+      catch (err) { console.error("Delete logo failed:", err.message); }
+    }
+
+    await prisma.sponsors.delete({ where: { id } });
+    res.status(200).json({ message: "Sponsor deleted" });
+  } catch (error) {
+    console.error("Delete Sponsor Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = { addSponsors, getSponsors, addSponsor, updateSponsor, deleteSponsor };

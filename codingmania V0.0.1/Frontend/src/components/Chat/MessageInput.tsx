@@ -28,7 +28,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   };
 
   return (
-    <div className="border-t border-gray-100 bg-white p-4">
+    <div className="border-t border-white/10 bg-[#0a0a0a] p-4">
       <div className="flex items-end gap-3">
         <textarea
           value={message}
@@ -37,12 +37,12 @@ const MessageInput: React.FC<MessageInputProps> = ({
           placeholder={disabled ? "Select a conversation…" : "Type your message…"}
           disabled={disabled}
           rows={1}
-          className="flex-1 resize-none px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm disabled:bg-gray-50 disabled:text-gray-400"
+          className="flex-1 resize-none px-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm disabled:bg-white/5 disabled:text-gray-500"
         />
         <button
           onClick={handleSend}
           disabled={!message.trim() || disabled || sending}
-          className="p-3 bg-indigo-600 text-white rounded-2xl disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-indigo-700 transition-colors"
+          className="p-3 bg-red-600 text-white rounded-2xl disabled:bg-white/10 disabled:text-gray-500 disabled:cursor-not-allowed hover:bg-red-700 transition-colors"
         >
           {sending ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

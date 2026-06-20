@@ -64,6 +64,43 @@ const emailTemplates = {
         </div>
     `,
 
+    // Registration confirmation WITH full event + payment details (Technoverse red/black theme)
+    eventRegistrationDetails: (name, d = {}) => `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0b0b0b; border: 1px solid #2a2a2a; border-radius: 14px; overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #dc2626, #7f1d1d); padding: 28px 20px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">🎉 Registration Successful</h1>
+                <p style="color: #ffe4e6; margin: 8px 0 0; font-size: 14px;">Technoverse Coding Club</p>
+            </div>
+            <div style="padding: 28px 26px; color: #e5e5e5;">
+                <p style="font-size: 16px; margin: 0 0 6px;">Hello <strong style="color:#fff;">${name}</strong>,</p>
+                <p style="font-size: 15px; color: #b5b5b5; margin: 0 0 22px;">
+                    Your team has been successfully registered for <strong style="color:#f87171;">${d.eventName || 'the event'}</strong> and your payment is confirmed. Here are your details:
+                </p>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    ${[
+                        ['Event', d.eventName],
+                        ['Team Name', d.teamName],
+                        ['College', d.college],
+                        ['Category', d.category],
+                        ['Event Date', d.date],
+                        ['Venue', d.location],
+                        ['Entry Fee Paid', d.fee],
+                        ['Payment ID', d.paymentId],
+                    ].filter(([, v]) => v).map(([label, value]) => `
+                        <tr>
+                            <td style="padding: 10px 12px; border-bottom: 1px solid #222; color: #9ca3af; width: 40%;">${label}</td>
+                            <td style="padding: 10px 12px; border-bottom: 1px solid #222; color: #ffffff; font-weight: 600;">${value}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+                <div style="text-align: center; margin-top: 28px;">
+                    <a href="${process.env.WEBSITE_URL || 'http://localhost:5001'}/events" style="background: #dc2626; color: #fff; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">View Event</a>
+                </div>
+                <p style="color: #6b7280; font-size: 13px; margin-top: 26px; text-align: center;">See you at the event! For any queries, just reply to this email.</p>
+            </div>
+        </div>
+    `,
+
     // ... baaki templates same ...
 
 eventAccepted: (name, eventName) => `

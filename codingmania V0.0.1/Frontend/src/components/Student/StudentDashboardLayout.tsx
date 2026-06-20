@@ -68,9 +68,9 @@ const EVENT_TYPE_CONFIG = {
 };
 
 const EVENT_STATUS_CONFIG = {
-  registration_open: { label: "Registration Open", className: "bg-emerald-50 text-emerald-600 border-emerald-200" },
-  upcoming: { label: "Upcoming", className: "bg-blue-50 text-blue-600 border-blue-200" },
-  live: { label: "LIVE", className: "bg-red-50 text-red-600 border-red-200 animate-pulse" },
+  registration_open: { label: "Registration Open", className: "bg-green-500/15 text-green-400 border-green-500/30" },
+  upcoming: { label: "Upcoming", className: "bg-red-500/10 text-red-400 border-red-500/30" },
+  live: { label: "LIVE", className: "bg-red-500/15 text-red-300 border-red-500/30 animate-pulse" },
 };
 
 const EVENT_FILTERS = [
@@ -173,7 +173,7 @@ const StatCard = ({ label, Icon, value, trendUp, trendLabel, data, barHex, bgFro
       <span className={`text-[42px] font-extrabold leading-none ${textColor}`}>{value}</span>
       <span
         className={`flex items-center gap-0.5 text-xs font-semibold px-2 py-1 rounded-full mb-1
-          ${trendUp ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-600"}`}
+          ${trendUp ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-300"}`}
       >
         {trendUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
         {trendLabel}
@@ -211,8 +211,8 @@ const SidebarButton = ({ icon: Icon, label, active, expanded, onClick, isLogout,
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     if (isLogout) {
-      (e.target as HTMLElement).style.color = accent === "danger" ? "#fca5a5" : "#bfdbfe";
-      (e.target as HTMLElement).style.background = accent === "danger" ? "rgba(239,68,68,0.12)" : "rgba(96,165,250,0.12)";
+      (e.target as HTMLElement).style.color = accent === "danger" ? "#fca5a5" : "#fca5a5";
+      (e.target as HTMLElement).style.background = accent === "danger" ? "rgba(239,68,68,0.12)" : "rgba(239,68,68,0.12)";
     } else if (!active) {
       (e.target as HTMLElement).style.color = "rgba(255,255,255,0.7)";
       (e.target as HTMLElement).style.background = "rgba(255,255,255,0.08)";
@@ -241,7 +241,7 @@ const SidebarButton = ({ icon: Icon, label, active, expanded, onClick, isLogout,
       <div className="relative flex-shrink-0">
         <Icon className="w-[17px] h-[17px]" />
         {showDot && (
-          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-[#0f0f1e] animate-pulse" style={{ background: "#a855f7" }} />
+          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-[#0f0f1e] animate-pulse" style={{ background: "#ef4444" }} />
         )}
       </div>
       {expanded && (
@@ -326,7 +326,7 @@ const StudentDashboardLayout = () => {
   return (
     <div
       className="flex h-screen overflow-hidden"
-      style={{ background: "#ECEBF8", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
+      style={{ background: "#050505", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
     >
       {isMobile && mobileMenuOpen && (
         <div
@@ -420,13 +420,13 @@ const StudentDashboardLayout = () => {
                 {isMobile && (
                   <button
                     onClick={() => setMobileMenuOpen(true)}
-                    className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-500 hover:bg-white/90 transition-colors flex-shrink-0"
+                    className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:bg-white/10 transition-colors flex-shrink-0"
                   >
                     <Menu className="w-5 h-5" />
                   </button>
                 )}
                 <div className="min-w-0">
-                  <h1 className="text-lg md:text-xl font-extrabold text-gray-900 leading-tight truncate">
+                  <h1 className="text-lg md:text-xl font-extrabold text-white leading-tight truncate">
                     {greeting}, {userName}
                   </h1>
                   <p className="text-xs text-gray-400 mt-0.5">You have 3 upcoming events today</p>
@@ -435,31 +435,31 @@ const StudentDashboardLayout = () => {
 
               <div className="flex items-center gap-2 md:gap-2.5 flex-shrink-0">
                 <div className="relative hidden sm:block">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="pl-9 pr-4 py-2.5 bg-white/70 backdrop-blur-sm rounded-2xl text-sm placeholder-gray-300 text-gray-700 outline-none w-40 md:w-64 border border-white/70 focus:border-indigo-200 transition-colors"
+                    className="pl-9 pr-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-2xl text-sm placeholder-gray-500 text-white outline-none w-40 md:w-64 border border-white/10 focus:border-red-500 transition-colors"
                   />
                 </div>
 
                 {isMobile && (
-                  <button className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors flex-shrink-0">
+                  <button className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors flex-shrink-0">
                     <Search className="w-4 h-4" />
                   </button>
                 )}
 
                 {!isMobile && (
-                  <button className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors flex-shrink-0">
+                  <button className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors flex-shrink-0">
                     <SlidersHorizontal className="w-4 h-4" />
                   </button>
                 )}
 
                 <div className="relative flex-shrink-0">
-                  <button className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors">
+                  <button className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors">
                     <Bell className="w-4 h-4" />
                   </button>
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-indigo-500 text-white text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white text-[9px] font-bold flex items-center justify-center">
                     3
                   </span>
                 </div>
@@ -467,15 +467,15 @@ const StudentDashboardLayout = () => {
                 {!isMobile && (
                   <button
                     onClick={() => setRightPanelOpen(!rightPanelOpen)}
-                    className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors flex-shrink-0"
+                    className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors flex-shrink-0"
                     title={rightPanelOpen ? "Hide panel" : "Show panel"}
                   >
                     {rightPanelOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
                   </button>
                 )}
 
-                <div className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-white/70 border border-white/70 rounded-2xl cursor-pointer hover:bg-white/90 transition-colors flex-shrink-0">
-                  <div className="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-600 flex-shrink-0">
+                <div className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/10 transition-colors flex-shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0">
                     {userInitials}
                   </div>
                   <ChevronDown className="w-3 h-3 text-gray-400" />
@@ -493,9 +493,9 @@ const StudentDashboardLayout = () => {
                 trendLabel="18%"
                 data={MENTOR_DATA}
                 barHex="#5b6ef5"
-                bgFrom="#dde0f8"
-                bgTo="#c9cef4"
-                textColor="text-indigo-900"
+                bgFrom="#1a1416"
+                bgTo="#120d0f"
+                textColor="text-white"
               />
               <StatCard
                 id="hackathons"
@@ -506,9 +506,9 @@ const StudentDashboardLayout = () => {
                 trendLabel="2 ended"
                 data={HACKATHON_DATA}
                 barHex="#3b82f6"
-                bgFrom="#d6edf9"
-                bgTo="#bdddf5"
-                textColor="text-blue-900"
+                bgFrom="#1a1416"
+                bgTo="#120d0f"
+                textColor="text-white"
               />
               <StatCard
                 id="articles"
@@ -519,20 +519,20 @@ const StudentDashboardLayout = () => {
                 trendLabel="30%"
                 data={ARTICLE_DATA}
                 barHex="#a855f7"
-                bgFrom="#ead6f7"
-                bgTo="#d9bdf2"
-                textColor="text-purple-900"
+                bgFrom="#1a1416"
+                bgTo="#120d0f"
+                textColor="text-white"
               />
             </div>
 
             <div
               className="mx-4 md:mx-7 mt-5 mb-6 rounded-3xl overflow-hidden flex-shrink-0"
-              style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.8)" }}
+              style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-gray-100/60">
+              <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-indigo-500" />
-                  <h3 className="text-sm md:text-base font-bold text-gray-900">Upcoming Events</h3>
+                  <Calendar className="w-4 h-4 text-red-400" />
+                  <h3 className="text-sm md:text-base font-bold text-white">Upcoming Events</h3>
                 </div>
                 <div className="flex items-center gap-1.5 overflow-x-auto">
                   {EVENT_FILTERS.map(({ key, label }) => (
@@ -541,8 +541,8 @@ const StudentDashboardLayout = () => {
                       onClick={() => setEventFilter(key)}
                       className={`px-3 py-1 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-all duration-200 ${
                         eventFilter === key
-                          ? "bg-indigo-500 text-white shadow-sm"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          ? "bg-red-600 text-white shadow-sm"
+                          : "bg-white/5 text-gray-400 hover:bg-white/10"
                       }`}
                     >
                       {label}
@@ -556,8 +556,8 @@ const StudentDashboardLayout = () => {
                 <p>Events will appear here</p>
               </div>
 
-              <div className="px-4 md:px-6 py-3 border-t border-gray-100/60 text-center">
-                <button onClick={() => handleNavClick("events")} className="text-xs font-semibold text-indigo-500 hover:text-indigo-700 transition-colors">
+              <div className="px-4 md:px-6 py-3 border-t border-white/10 text-center">
+                <button onClick={() => handleNavClick("events")} className="text-xs font-semibold text-red-400 hover:text-red-300 transition-colors">
                   View All Events →
                 </button>
               </div>
@@ -568,15 +568,15 @@ const StudentDashboardLayout = () => {
             <div
               className="w-[255px] flex-shrink-0 overflow-y-auto py-6 px-5 flex flex-col gap-5 transition-all duration-300"
               style={{
-                background: "rgba(255,255,255,0.75)",
+                background: "rgba(255,255,255,0.05)",
                 backdropFilter: "blur(12px)",
-                borderLeft: "1px solid rgba(255,255,255,0.9)",
+                borderLeft: "1px solid rgba(255,255,255,0.1)",
               }}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-bold text-gray-900">Network Insight</h3>
-                  <button className="text-gray-400 hover:text-gray-600">
+                  <h3 className="text-sm font-bold text-white">Network Insight</h3>
+                  <button className="text-gray-400 hover:text-white">
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
                 </div>
@@ -591,14 +591,14 @@ const StudentDashboardLayout = () => {
                         >
                           {src.name[0]}
                         </div>
-                        <span className="text-xs font-medium text-gray-700 flex-1 min-w-0 truncate">
+                        <span className="text-xs font-medium text-gray-300 flex-1 min-w-0 truncate">
                           {src.name}
                         </span>
-                        <span className="text-xs font-bold text-gray-500 flex-shrink-0">
+                        <span className="text-xs font-bold text-gray-400 flex-shrink-0">
                           {src.pct}%
                         </span>
                       </div>
-                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden ml-9">
+                      <div className="h-1.5 bg-white/10 rounded-full overflow-hidden ml-9">
                         <div
                           className="h-full rounded-full transition-all duration-700"
                           style={{ width: `${src.pct}%`, background: src.hex }}
@@ -609,10 +609,10 @@ const StudentDashboardLayout = () => {
                 </div>
               </div>
 
-              <div className="border-t border-gray-100" />
+              <div className="border-t border-white/10" />
 
               <div>
-                <h3 className="text-sm font-bold text-gray-900 mb-4">Recent Alumni</h3>
+                <h3 className="text-sm font-bold text-white mb-4">Recent Alumni</h3>
                 <div className="flex flex-col gap-4">
                   {RECENT_ALUMNI.map((a) => (
                     <div key={a.name}>
@@ -624,7 +624,7 @@ const StudentDashboardLayout = () => {
                           {a.initials}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold text-gray-800 truncate leading-tight">
+                          <p className="text-xs font-semibold text-white truncate leading-tight">
                             {a.name}
                           </p>
                           <p className="text-[11px] text-gray-400 truncate">{a.email}</p>
@@ -639,10 +639,10 @@ const StudentDashboardLayout = () => {
                           {a.company}
                         </span>
                         <div className="flex gap-1.5">
-                          <button className="w-7 h-7 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
+                          <button className="w-7 h-7 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors">
                             <Phone className="w-3 h-3" />
                           </button>
-                          <button className="w-7 h-7 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
+                          <button className="w-7 h-7 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors">
                             <MessageCircle className="w-3 h-3" />
                           </button>
                         </div>
@@ -655,16 +655,16 @@ const StudentDashboardLayout = () => {
           )}
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto" style={{ background: "#ECEBF8" }}>
+        <div className="flex-1 overflow-y-auto" style={{ background: "#050505" }}>
           {isMobile && (
-            <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3 bg-[#ECEBF8]/90 backdrop-blur-sm">
+            <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3 bg-[#050505]/90 backdrop-blur-sm">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-500 hover:bg-white/90 transition-colors flex-shrink-0"
+                className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:bg-white/10 transition-colors flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
-              <h1 className="text-base font-bold text-gray-900 truncate capitalize">
+              <h1 className="text-base font-bold text-white truncate capitalize">
                 {activeKey}
               </h1>
             </div>

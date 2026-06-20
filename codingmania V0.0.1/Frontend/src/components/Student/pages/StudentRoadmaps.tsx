@@ -87,22 +87,22 @@ const StudentRoadmaps = () => {
   };
 
   const difficultyColors = {
-    beginner: "bg-green-100 text-green-700",
-    intermediate: "bg-yellow-100 text-yellow-700",
-    advanced: "bg-red-100 text-red-700",
+    beginner: "bg-green-500/15 text-green-400",
+    intermediate: "bg-amber-500/15 text-amber-400",
+    advanced: "bg-red-500/15 text-red-300",
   };
 
   if (view === "detail" && selectedRoadmap) {
     return (
       <div className="space-y-6">
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => {
                 setView("list");
                 setSelectedRoadmap(null);
               }}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 text-gray-300 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
@@ -110,7 +110,7 @@ const StudentRoadmaps = () => {
           </div>
 
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-white mb-2">
               {selectedRoadmap.title}
             </h2>
             <div className="flex flex-wrap items-center gap-3 text-sm">
@@ -124,42 +124,42 @@ const StudentRoadmaps = () => {
                 {selectedRoadmap.difficulty}
               </span>
               {selectedRoadmap.category && (
-                <span className="text-gray-500">{selectedRoadmap.category}</span>
+                <span className="text-gray-400">{selectedRoadmap.category}</span>
               )}
               {selectedRoadmap.duration && (
-                <span className="flex items-center gap-1 text-gray-500">
+                <span className="flex items-center gap-1 text-gray-400">
                   <Clock className="w-4 h-4" />
                   {selectedRoadmap.duration}
                 </span>
               )}
-              <span className="flex items-center gap-1 text-gray-500">
+              <span className="flex items-center gap-1 text-gray-400">
                 <BookOpen className="w-4 h-4" />
                 {selectedRoadmap.stepCount} steps
               </span>
-              <span className="flex items-center gap-1 text-gray-500">
+              <span className="flex items-center gap-1 text-gray-400">
                 <Users className="w-4 h-4" />
                 {selectedRoadmap.enrolledCount || 0} enrolled
               </span>
             </div>
           </div>
 
-          <p className="text-gray-600 mb-6">{selectedRoadmap.description}</p>
+          <p className="text-gray-300 mb-6">{selectedRoadmap.description}</p>
 
           {selectedRoadmap.isEnrolled && (
-            <div className="mb-6 p-4 bg-blue-50 rounded-xl">
+            <div className="mb-6 p-4 bg-red-500/10 rounded-xl">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-900">Your Progress</span>
-                <span className="font-medium text-blue-600">
+                <span className="font-medium text-white">Your Progress</span>
+                <span className="font-medium text-red-400">
                   {selectedRoadmap.completedSteps || 0} / {selectedRoadmap.stepCount} steps
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-white/5 rounded-full h-3">
                 <div
-                  className="bg-blue-600 h-3 rounded-full transition-all"
+                  className="bg-red-600 h-3 rounded-full transition-all"
                   style={{ width: `${selectedRoadmap.progressPercent || 0}%` }}
                 />
               </div>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-400 mt-2">
                 {selectedRoadmap.progressPercent || 0}% complete
               </p>
             </div>
@@ -169,7 +169,7 @@ const StudentRoadmaps = () => {
             <button
               onClick={(e) => handleEnrol(selectedRoadmap.id, e)}
               disabled={isLoading}
-              className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+              className="w-full mb-6 bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -183,15 +183,15 @@ const StudentRoadmaps = () => {
           )}
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Steps</h3>
+            <h3 className="font-semibold text-white mb-3">Steps</h3>
             <div className="space-y-3">
               {selectedRoadmap.steps.map((step) => (
                 <div
                   key={step.id}
                   className={`flex items-start gap-3 p-4 rounded-lg transition-colors ${
                     selectedRoadmap.isEnrolled
-                      ? "bg-gray-50 hover:bg-gray-100 cursor-pointer"
-                      : "bg-gray-50"
+                      ? "bg-white/5 hover:bg-white/10 cursor-pointer"
+                      : "bg-white/5"
                   }`}
                   onClick={() =>
                     selectedRoadmap.isEnrolled && handleToggleStep(step.id)
@@ -200,8 +200,8 @@ const StudentRoadmaps = () => {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center ${
                       step.completed
-                        ? "bg-green-100 text-green-600"
-                        : "bg-gray-200 text-gray-500"
+                        ? "bg-green-500/15 text-green-400"
+                        : "bg-white/5 text-gray-400"
                     }`}
                   >
                     {step.completed ? (
@@ -213,20 +213,20 @@ const StudentRoadmaps = () => {
                   <div className="flex-1">
                     <h4
                       className={`font-medium ${
-                        step.completed ? "text-gray-400 line-through" : "text-gray-900"
+                        step.completed ? "text-gray-400 line-through" : "text-white"
                       }`}
                     >
                       {step.title}
                     </h4>
                     {step.description && (
-                      <p className="text-sm text-gray-500 mt-1">{step.description}</p>
+                      <p className="text-sm text-gray-400 mt-1">{step.description}</p>
                     )}
                     {step.link && (
                       <a
                         href={step.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-600 hover:underline mt-1 block"
+                        className="text-sm text-red-400 hover:underline mt-1 block"
                         onClick={(e) => e.stopPropagation()}
                       >
                         View Resource →
@@ -246,11 +246,11 @@ const StudentRoadmaps = () => {
     <div className="space-y-6">
       {isLoading && roadmaps.length === 0 ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-red-400" />
         </div>
       ) : roadmaps.length === 0 ? (
-        <div className="bg-white border border-gray-200 rounded-2xl p-8 text-center">
-          <p className="text-gray-500">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+          <p className="text-gray-400">
             No roadmaps available yet. Check back later!
           </p>
         </div>
@@ -259,12 +259,12 @@ const StudentRoadmaps = () => {
           {roadmaps.map((roadmap) => (
             <div
               key={roadmap.id}
-              className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-lg transition-all cursor-pointer"
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-red-500/30 hover:shadow-lg transition-all cursor-pointer"
               onClick={() => handleViewDetail(roadmap.id)}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-blue-100 rounded-xl">
-                  <BookOpen className="w-6 h-6 text-blue-600" />
+                <div className="p-3 bg-red-500/10 rounded-xl">
+                  <BookOpen className="w-6 h-6 text-red-400" />
                 </div>
                 <span
                   className={`px-2 py-1 rounded-full text-xs ${
@@ -277,14 +277,14 @@ const StudentRoadmaps = () => {
                 </span>
               </div>
 
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-white mb-2">
                 {roadmap.title}
               </h3>
-              <p className="text-gray-500 text-sm mb-4 line-clamp-2">
+              <p className="text-gray-400 text-sm mb-4 line-clamp-2">
                 {roadmap.description}
               </p>
 
-              <div className="flex items-center gap-3 text-xs text-gray-500 mb-4">
+              <div className="flex items-center gap-3 text-xs text-gray-400 mb-4">
                 <span className="font-medium">{roadmap.author?.name}</span>
                 <span>•</span>
                 <span>{roadmap.stepCount} steps</span>
@@ -294,13 +294,13 @@ const StudentRoadmaps = () => {
 
               {roadmap.isEnrolled ? (
                 <>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-white/5 rounded-full h-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full transition-all"
+                      className="bg-red-600 h-2 rounded-full transition-all"
                       style={{ width: `${roadmap.progressPercent || 0}%` }}
                     />
                   </div>
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-sm text-gray-400 mt-2">
                     {roadmap.progressPercent || 0}% Complete
                     {roadmap.completedSteps !== undefined &&
                       ` (${roadmap.completedSteps}/${roadmap.stepCount})`}
@@ -310,7 +310,7 @@ const StudentRoadmaps = () => {
                 <button
                   onClick={(e) => handleEnrol(roadmap.id, e)}
                   disabled={isLoading}
-                  className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+                  className="w-full mt-2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
                 >
                   Enroll
                 </button>
@@ -320,11 +320,11 @@ const StudentRoadmaps = () => {
         </div>
       )}
 
-      <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+      <div className="p-6 bg-gradient-to-r from-red-600 to-orange-600 border border-red-500/30 rounded-2xl">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Create Your Own Roadmap
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Design a personalized learning path to achieve your career goals.
         </p>
       </div>

@@ -27,7 +27,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data, template }) 
   };
 
   return (
-    <div className="bg-black p-2 sm:p-4 min-h-screen text-white">
+    <div className="bg-[#050505] p-2 sm:p-4 min-h-screen text-gray-300">
       <div className="transform scale-75 sm:scale-90 origin-top">
         {renderTemplate()}
       </div>

@@ -523,3 +523,44 @@ body {
 .navbar-scroll-visible {
   transform: translateY(0);
 }
+
+/* ============================================
+   SPONSORS MARQUEE (right-to-left train)
+============================================ */
+.sponsor-marquee {
+  display: flex;
+  width: max-content;
+  animation: sponsor-scroll 20s linear infinite;
+}
+
+.sponsor-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes sponsor-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move by exactly one copy of the list (half of the duplicated track) */
+    transform: translateX(-50%);
+  }
+}
+
+/* Fade the edges so cards appear/disappear smoothly */
+.sponsor-marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}

@@ -93,13 +93,13 @@ const ChatLayout: React.FC<ChatLayoutProps> = ({ initialTargetUserId }) => {
   return (
     <div className="flex h-full gap-4">
       {/* Conversation List */}
-      <div className="w-80 flex-shrink-0 bg-white rounded-2xl p-4 overflow-hidden flex flex-col">
+      <div className="w-80 flex-shrink-0 bg-[#0a0a0a] border border-white/10 rounded-2xl p-4 overflow-hidden flex flex-col">
         <div className="flex items-center gap-2 mb-4">
-          <MessageSquare className="w-5 h-5 text-indigo-600" />
-          <h2 className="font-bold text-gray-900">Messages</h2>
+          <MessageSquare className="w-5 h-5 text-red-400" />
+          <h2 className="font-bold text-white">Messages</h2>
         </div>
         {conversationError && (
-          <div className="mb-4 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-600">
+          <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400">
             {conversationError}
           </div>
         )}

@@ -65,7 +65,7 @@ const Events = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-20 md:mb-28"
+                    className="text-center mb-8 md:mb-10"
                 >
                     <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
                         <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
@@ -73,10 +73,10 @@ const Events = () => {
                             Upcoming Events
                         </span>
                     </div>
-                    <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+                    <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
                         Events
                     </h2>
-                    <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+                    <p className="text-lg sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
                         Join us for exciting events and enhance your skills with hands-on experience.
                     </p>
                     <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-8 rounded-full opacity-80"></div>
@@ -86,7 +86,7 @@ const Events = () => {
                     <div className="grid md:grid-cols-2 gap-8">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="glass-panel rounded-2xl overflow-hidden border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-                                <div className="h-56 bg-white/5 animate-pulse"></div>
+                                <div className="h-40 bg-white/5 animate-pulse"></div>
                                 <div className="p-6 space-y-4">
                                     <div className="h-8 w-3/4 bg-white/5 rounded animate-pulse"></div>
                                     <div className="h-4 w-1/2 bg-white/5 rounded animate-pulse"></div>
@@ -113,14 +113,14 @@ const Events = () => {
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 
-                                <div className="relative h-56 overflow-hidden">
+                                <div className="relative h-40 overflow-hidden">
                                     <img
                                         src={event.image || "/default.jpg"}
                                         alt={event.title}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-transparent"></div>
-                                    
+
                                     {event.registration_open ? (
                                         <div className="absolute top-4 right-4 px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full">
                                             <span className="text-green-400 text-xs font-medium">Open</span>
@@ -131,13 +131,13 @@ const Events = () => {
                                         </div>
                                     )}
                                 </div>
-                                
-                                <div className="p-6 relative">
-                                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-shadow-glow transition-all">
+
+                                <div className="p-5 relative">
+                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-shadow-glow transition-all">
                                         {event.title}
                                     </h3>
-                                    
-                                    <div className="space-y-3 mb-6">
+
+                                    <div className="space-y-2 mb-4">
                                         <div className="flex items-center text-gray-400">
                                             <Calendar className="h-4 w-4 mr-3 text-red-500" />
                                             <span className="text-sm">{event.date}</span>
@@ -151,9 +151,9 @@ const Events = () => {
                                             <span className="text-sm">{event.participants} Participants</span>
                                         </div>
                                     </div>
-                                    
+
                                     <button
-                                        className={`w-full flex items-center justify-center gap-2 font-semibold py-3 px-4 rounded-xl transition-all ${
+                                        className={`w-full flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all ${
                                             event.registration_open
                                                 ? 'bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]'
                                                 : 'bg-gray-800 text-gray-500 cursor-not-allowed'

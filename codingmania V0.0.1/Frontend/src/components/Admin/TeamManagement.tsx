@@ -464,14 +464,16 @@
 
 // without vanta effect
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Users, Github, Linkedin, Save, ArrowLeft, Plus } from 'lucide-react';
+import { Users, Github, Linkedin, Save, ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface TeamMember {
+  id: number | null; // DB id (null = not saved yet)
   name: string;
   role: string;
   image: File | string | null; // File (new) OR ImageKit URL (string)
+  fileId: string | null; // ImageKit fileId for existing image
   github: string;
   linkedin: string;
 }
@@ -484,9 +486,11 @@ const TeamManagement = () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/team/get-team-members`);
       const formatted = res.data.map((m: any) => ({
+        id: m.id ?? null,
         name: m.name || '',
         role: m.role || '',
         image: m.image || null, // ImageKit URL
+        fileId: m.fileId || null,
         github: m.github || '',
         linkedin: m.linkedin || ''
       }));
@@ -515,36 +519,75 @@ const TeamManagement = () => {
   };
 
   const handleAddMember = () => {
+    if (teamMembers.length >= 7) {
+      alert('You can add up to 7 team members only.');
+      return;
+    }
     setTeamMembers([
       ...teamMembers,
-      { name: '', role: '', image: null, github: '', linkedin: '' }
+      { id: null, name: '', role: '', image: null, fileId: null, github: '', linkedin: '' }
     ]);
   };
 
-  const handleSave = async () => {
+  // Save / update a SINGLE member (per-member button)
+  const handleSaveMember = async (index: number) => {
+    const member = teamMembers[index];
     try {
       const formData = new FormData();
+      if (member.id) formData.append('id', String(member.id));
+      formData.append('name', member.name);
+      formData.append('role', member.role);
+      formData.append('github', member.github);
+      formData.append('linkedin', member.linkedin);
 
-      teamMembers.forEach((member, idx) => {
-        formData.append(`members[${idx}][name]`, member.name);
-        formData.append(`members[${idx}][role]`, member.role);
-        formData.append(`members[${idx}][github]`, member.github);
-        formData.append(`members[${idx}][linkedin]`, member.linkedin);
+      // Only send the image if the admin picked a new file for this member
+      if (member.image instanceof File) {
+        formData.append('image', member.image);
+      }
 
-        if (member.image instanceof File) {
-          formData.append(`members[${idx}][image]`, member.image);
-        }
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/team/save-member`,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
 
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/team/add-team-member`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const saved = res.data.member;
+      // Sync this member with the saved DB record (id + fresh image URL)
+      setTeamMembers(prev =>
+        prev.map((m, i) =>
+          i === index
+            ? {
+                ...m,
+                id: saved.id,
+                image: saved.image || null,
+                fileId: saved.fileId || null
+              }
+            : m
+        )
+      );
 
-      alert('Team updated successfully!');
-      fetchTeamMembers(); // reload fresh data + URLs
+      alert(`${member.name || 'Member'} ${member.id ? 'updated' : 'saved'} successfully!`);
     } catch (error) {
       console.error(error);
-      alert('Error saving team members');
+      alert('Error saving member. Please try again.');
+    }
+  };
+
+  // Delete a SINGLE member
+  const handleDeleteMember = async (index: number) => {
+    const member = teamMembers[index];
+    if (!window.confirm(`Remove ${member.name || 'this member'}?`)) return;
+
+    try {
+      if (member.id) {
+        await axios.delete(
+          `${import.meta.env.VITE_API_BASE_URL}/team/delete-member/${member.id}`
+        );
+      }
+      setTeamMembers(prev => prev.filter((_, i) => i !== index));
+    } catch (error) {
+      console.error(error);
+      alert('Error removing member. Please try again.');
     }
   };
 
@@ -566,12 +609,6 @@ const TeamManagement = () => {
               className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
             >
               <Plus className="mr-2 h-5 w-5" /> Add Member
-            </button>
-            <button
-              onClick={handleSave}
-              className="flex items-center px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
-            >
-              <Save className="mr-2 h-5 w-5" /> Save Changes
             </button>
           </div>
         </div>
@@ -658,6 +695,22 @@ const TeamManagement = () => {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* Per-member actions */}
+              <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-800">
+                <button
+                  onClick={() => handleDeleteMember(index)}
+                  className="flex items-center px-4 py-2 bg-red-600/90 hover:bg-red-700 rounded-lg transition-colors"
+                >
+                  <Trash2 className="mr-2 h-5 w-5" /> Remove
+                </button>
+                <button
+                  onClick={() => handleSaveMember(index)}
+                  className="flex items-center px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+                >
+                  <Save className="mr-2 h-5 w-5" /> {member.id ? 'Update' : 'Save'}
+                </button>
               </div>
             </div>
           ))}

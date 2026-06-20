@@ -107,12 +107,7 @@
 
 
 
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const { generateContent } = require('../service/geminiClient');
 
 const generateCoverLetter = async (req, res) => {
   try {
@@ -135,7 +130,13 @@ const generateCoverLetter = async (req, res) => {
       });
     }
 
-    // Create the prompt for Gemini AI
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: 'Missing GEMINI_API_KEY. Add it to your .env.'
+      });
+    }
+
+    // Create the prompt
     const prompt = `
    Write a professional cover letter. 
    Follow this exact structure and directly insert the provided information.
@@ -171,11 +172,8 @@ const generateCoverLetter = async (req, res) => {
       Format the cover letter as a complete document ready to send.
     `;
 
-    // Generate content using Gemini AI
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const coverLetter = response.text();
+    // Generate content using the shared Gemini client
+    const coverLetter = await generateContent(prompt);
 
     res.json({
       success: true,
@@ -183,23 +181,25 @@ const generateCoverLetter = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error generating cover letter:', error);
+    const status = error.response?.status;
+    const apiMessage = error.response?.data?.error?.message || error.message;
+    console.error('Error generating cover letter:', apiMessage);
 
-    if (error.message?.includes('API key')) {
-      return res.status(401).json({
-        error: 'Invalid API key. Please check your Gemini API configuration.'
+    if (status === 400 || status === 401 || status === 403) {
+      return res.status(status).json({
+        error: 'Invalid GEMINI_API_KEY or request. Please check your Gemini API configuration.'
       });
     }
 
-    if (error.message?.includes('quota')) {
+    if (status === 429) {
       return res.status(429).json({
-        error: 'API quota exceeded. Please try again later.'
+        error: 'API rate limit reached. Please try again in a few seconds.'
       });
     }
 
     res.status(500).json({
       error: 'Failed to generate cover letter. Please try again.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: process.env.NODE_ENV === 'development' ? apiMessage : undefined
     });
   }
 };

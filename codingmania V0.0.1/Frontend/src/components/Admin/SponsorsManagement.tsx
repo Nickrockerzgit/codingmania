@@ -193,31 +193,44 @@
 
 
 
-// without vanta code
+// without vanta code — per-sponsor add / update / delete
 import { useState, useEffect, ChangeEvent } from 'react';
 import { Plus, Save, Trash, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface Sponsor {
-  id?: number;
+  id: number;
   name: string;
-  logo: File | string | null;
+  logo: string | null; // existing ImageKit URL
   website: string;
+  newLogo?: File | null; // pending replacement image (not yet saved)
+}
+
+interface NewSponsor {
+  name: string;
+  website: string;
+  logo: File | null;
 }
 
 const SponsorsManagement = () => {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+  const [newSponsor, setNewSponsor] = useState<NewSponsor>({ name: '', website: '', logo: null });
+  const [savingId, setSavingId] = useState<number | null>(null);
+  const [adding, setAdding] = useState(false);
   const navigate = useNavigate();
+
+  const API = import.meta.env.VITE_API_BASE_URL;
 
   const fetchSponsors = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/sponsors/get-sponsors`);
-      const formatted = res.data.map((s: any) => ({
+      const res = await axios.get(`${API}/sponsors/get-sponsors`);
+      const formatted: Sponsor[] = res.data.map((s: any) => ({
         id: s.id,
         name: s.name || '',
         logo: s.logo || null,
-        website: s.website || ''
+        website: s.website || '',
+        newLogo: null
       }));
       setSponsors(formatted);
     } catch (err) {
@@ -229,7 +242,8 @@ const SponsorsManagement = () => {
     fetchSponsors();
   }, []);
 
-  const handleChange = (index: number, field: keyof Sponsor, value: string) => {
+  // ---- Existing sponsor handlers ----
+  const handleChange = (index: number, field: 'name' | 'website', value: string) => {
     const updated = [...sponsors];
     updated[index] = { ...updated[index], [field]: value };
     setSponsors(updated);
@@ -237,38 +251,65 @@ const SponsorsManagement = () => {
 
   const handleLogoChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
-    const file = event.target.files[0];
     const updated = [...sponsors];
-    updated[index].logo = file;
+    updated[index] = { ...updated[index], newLogo: event.target.files[0] };
     setSponsors(updated);
   };
 
-  const handleAddSponsor = () => {
-    setSponsors([...sponsors, { name: '', logo: null, website: '' }]);
-  };
-
-  const handleDeleteSponsor = (index: number) => {
-    setSponsors(sponsors.filter((_, i) => i !== index));
-  };
-
-  const handleSave = async () => {
+  const handleUpdate = async (index: number) => {
+    const s = sponsors[index];
     try {
+      setSavingId(s.id);
       const formData = new FormData();
+      formData.append('name', s.name);
+      formData.append('website', s.website);
+      if (s.newLogo) formData.append('logos', s.newLogo);
 
-      sponsors.forEach(s => {
-        formData.append('name', s.name);
-        formData.append('website', s.website);
-        if (s.logo instanceof File) {
-          formData.append('logos', s.logo);
-        }
-      });
-
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/sponsors/add-sponsors`, formData);
-      alert('Sponsors updated successfully!');
-      fetchSponsors();
+      await axios.put(`${API}/sponsors/update-sponsor/${s.id}`, formData);
+      await fetchSponsors();
     } catch (error) {
       console.error(error);
-      alert('Error saving sponsors');
+      alert('Error updating sponsor');
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('Delete this sponsor?')) return;
+    try {
+      setSavingId(id);
+      await axios.delete(`${API}/sponsors/delete-sponsor/${id}`);
+      await fetchSponsors();
+    } catch (error) {
+      console.error(error);
+      alert('Error deleting sponsor');
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  // ---- New sponsor handlers ----
+  const handleAddSponsor = async () => {
+    if (!newSponsor.name || !newSponsor.website || !newSponsor.logo) {
+      alert('Please add a name, website and logo image.');
+      return;
+    }
+    try {
+      setAdding(true);
+      const formData = new FormData();
+      formData.append('name', newSponsor.name);
+      formData.append('website', newSponsor.website);
+      formData.append('logos', newSponsor.logo);
+
+      await axios.post(`${API}/sponsors/add-sponsor`, formData);
+      setNewSponsor({ name: '', website: '', logo: null });
+      await fetchSponsors();
+    } catch (error) {
+      console.error(error);
+      alert('Error adding sponsor');
+    } finally {
+      setAdding(false);
     }
   };
 
@@ -281,31 +322,61 @@ const SponsorsManagement = () => {
         >
           <ArrowLeft className="mr-2" /> Back
         </button>
-
-        <div className="flex gap-3">
-          <button
-            onClick={handleAddSponsor}
-            className="flex items-center px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
-          >
-            <Plus className="mr-2" /> Add Sponsor
-          </button>
-          <button
-            onClick={handleSave}
-            className="flex items-center px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700"
-          >
-            <Save className="mr-2" /> Save Changes
-          </button>
-        </div>
       </div>
 
       <h2 className="text-2xl font-bold mb-6">Sponsors Management</h2>
 
+      {/* Add new sponsor */}
+      <div className="bg-white/5 backdrop-blur-sm p-6 rounded-lg border border-white/10 mb-8">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <Plus className="mr-2" /> Add New Sponsor
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            value={newSponsor.name}
+            onChange={(e) => setNewSponsor({ ...newSponsor, name: e.target.value })}
+            placeholder="Company Name"
+            className="w-full bg-white/10 border border-gray-600 rounded-lg px-4 py-2 text-white"
+          />
+          <input
+            type="text"
+            value={newSponsor.website}
+            onChange={(e) => setNewSponsor({ ...newSponsor, website: e.target.value })}
+            placeholder="Website URL"
+            className="w-full bg-white/10 border border-gray-600 rounded-lg px-4 py-2 text-white"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setNewSponsor({ ...newSponsor, logo: e.target.files?.[0] || null })}
+            className="w-full text-white"
+          />
+          {newSponsor.logo && (
+            <img
+              src={URL.createObjectURL(newSponsor.logo)}
+              alt="preview"
+              className="h-20 object-contain"
+            />
+          )}
+        </div>
+        <button
+          onClick={handleAddSponsor}
+          disabled={adding}
+          className="mt-4 flex items-center px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          <Plus className="mr-2" /> {adding ? 'Adding...' : 'Add Sponsor'}
+        </button>
+      </div>
+
+      {/* Existing sponsors */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {sponsors.map((sponsor, index) => (
-          <div key={index} className="bg-white/5 backdrop-blur-sm p-6 rounded-lg relative border border-white/10">
+          <div key={sponsor.id} className="bg-white/5 backdrop-blur-sm p-6 rounded-lg relative border border-white/10">
             <button
-              onClick={() => handleDeleteSponsor(index)}
-              className="absolute top-4 right-4 text-red-500 hover:text-red-400"
+              onClick={() => handleDelete(sponsor.id)}
+              disabled={savingId === sponsor.id}
+              className="absolute top-4 right-4 text-red-500 hover:text-red-400 disabled:opacity-50"
             >
               <Trash className="h-5 w-5" />
             </button>
@@ -317,9 +388,9 @@ const SponsorsManagement = () => {
                 onChange={(e) => handleLogoChange(index, e)}
                 className="w-full text-white"
               />
-              {sponsor.logo && (
+              {(sponsor.newLogo || sponsor.logo) && (
                 <img
-                  src={sponsor.logo instanceof File ? URL.createObjectURL(sponsor.logo) : sponsor.logo}
+                  src={sponsor.newLogo ? URL.createObjectURL(sponsor.newLogo) : (sponsor.logo as string)}
                   alt={sponsor.name}
                   className="h-20 mt-3 object-contain"
                 />
@@ -342,6 +413,14 @@ const SponsorsManagement = () => {
                 placeholder="Website URL"
                 className="w-full bg-white/10 border border-gray-600 rounded-lg px-4 py-2 text-white"
               />
+
+              <button
+                onClick={() => handleUpdate(index)}
+                disabled={savingId === sponsor.id}
+                className="flex items-center px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-50"
+              >
+                <Save className="mr-2" /> {savingId === sponsor.id ? 'Saving...' : 'Update'}
+              </button>
             </div>
           </div>
         ))}

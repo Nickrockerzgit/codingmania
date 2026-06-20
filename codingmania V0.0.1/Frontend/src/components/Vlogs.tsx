@@ -28,6 +28,14 @@ const Vlogs = () => {
     fetchVlogs();
   }, []);
 
+  // Lock background page scroll while the video modal is open
+  useEffect(() => {
+    document.body.style.overflow = selectedVlog ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedVlog]);
+
   const fetchVlogs = async () => {
     setLoading(true);
     setError(null);
@@ -77,7 +85,7 @@ const Vlogs = () => {
           initial={{ opacity: 0, y: 20 }} 
           animate={inView ? { opacity: 1, y: 0 } : {}} 
           transition={{ duration: 0.8 }} 
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-8 md:mb-10"
         >
           <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
             <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
@@ -85,10 +93,10 @@ const Vlogs = () => {
               Watch & Learn
             </span>
           </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+          <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
             Vlogs
           </h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
             Watch our educational content and stay updated with the latest in technology.
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-8 rounded-full opacity-80"></div>
@@ -128,15 +136,19 @@ const Vlogs = () => {
           <>
             {/* Modal / Dialog */}
             {selectedVlog && (
-              <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
-                <motion.div 
+              <div
+                onClick={() => setSelectedVlog(null)}
+                className="fixed inset-0 bg-black/95 flex items-start sm:items-center justify-center z-[100] p-4 overflow-y-auto"
+              >
+                <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-[#050505] rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden relative border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                  onClick={(e) => e.stopPropagation()}
+                  className="bg-[#050505] rounded-2xl max-w-5xl w-full my-auto relative border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
                 >
                   <button
                     onClick={() => setSelectedVlog(null)}
-                    className="absolute top-4 right-4 z-10 text-gray-400 hover:text-white bg-black/50 p-2 rounded-full hover:bg-red-500/20 transition-colors"
+                    className="fixed top-6 right-6 z-[110] text-gray-400 hover:text-white bg-black/60 p-2 rounded-full hover:bg-red-500/20 transition-colors"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -145,7 +157,7 @@ const Vlogs = () => {
                     <video
                       controls
                       autoPlay
-                      className="w-full aspect-video"
+                      className="w-full aspect-video rounded-t-2xl"
                       onError={(e) => console.error('Video play error:', e)}
                     >
                       <source src={selectedVlog.video_url} type="video/mp4" />

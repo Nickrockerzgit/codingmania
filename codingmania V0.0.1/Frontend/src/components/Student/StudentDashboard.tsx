@@ -53,8 +53,8 @@ const StudentDashboard = () => {
 
   if (isLoading || !isAuthInitialized || !isUserProfileReady) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex items-center gap-2 text-blue-600">
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-red-400">
           <Loader2 className="w-6 h-6 animate-spin" />
           <span>Loading...</span>
         </div>
@@ -107,71 +107,71 @@ const StudentDashboard = () => {
       case "dashboard":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-500 mt-1">Continue your learning journey</p>
+            <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+            <p className="text-gray-300 mt-1">Continue your learning journey</p>
           </div>
         );
       case "profile":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-            <p className="text-gray-500 mt-1">Your student profile</p>
+            <h1 className="text-2xl font-bold text-white">Profile</h1>
+            <p className="text-gray-300 mt-1">Your student profile</p>
           </div>
         );
       case "roadmaps":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Roadmaps</h1>
-            <p className="text-gray-500 mt-1">Learning paths and career guidance</p>
+            <h1 className="text-2xl font-bold text-white">Roadmaps</h1>
+            <p className="text-gray-300 mt-1">Learning paths and career guidance</p>
           </div>
         );
       case "tasks":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
-            <p className="text-gray-500 mt-1">Track your coursework and assignments</p>
+            <h1 className="text-2xl font-bold text-white">Tasks</h1>
+            <p className="text-gray-300 mt-1">Track your coursework and assignments</p>
           </div>
         );
       case "mentors":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Mentors</h1>
-            <p className="text-gray-500 mt-1">Connect with alumni mentors</p>
+            <h1 className="text-2xl font-bold text-white">Mentors</h1>
+            <p className="text-gray-300 mt-1">Connect with alumni mentors</p>
           </div>
         );
       case "events":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Events</h1>
-            <p className="text-gray-500 mt-1">Discover hackathons, contests, workshops</p>
+            <h1 className="text-2xl font-bold text-white">Events</h1>
+            <p className="text-gray-300 mt-1">Discover hackathons, contests, workshops</p>
           </div>
         );
       case "events2":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Events 2</h1>
-            <p className="text-gray-500 mt-1">My Registered Events</p>
+            <h1 className="text-2xl font-bold text-white">Events 2</h1>
+            <p className="text-gray-300 mt-1">My Registered Events</p>
           </div>
         );
       case "certificates":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Certificates</h1>
-            <p className="text-gray-500 mt-1">View and manage my certifications</p>
+            <h1 className="text-2xl font-bold text-white">Certificates</h1>
+            <p className="text-gray-300 mt-1">View and manage my certifications</p>
           </div>
         );
       case "jobs":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Jobs</h1>
-            <p className="text-gray-500 mt-1">Find job opportunities and internships</p>
+            <h1 className="text-2xl font-bold text-white">Jobs</h1>
+            <p className="text-gray-300 mt-1">Find job opportunities and internships</p>
           </div>
         );
       case "messages":
         return (
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-            <p className="text-gray-500 mt-1">Chat with alumni and peers</p>
+            <h1 className="text-2xl font-bold text-white">Messages</h1>
+            <p className="text-gray-300 mt-1">Chat with alumni and peers</p>
           </div>
         );
       default:
@@ -180,7 +180,7 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-[#050505] flex">
       <StudentSidebar
         activeTab={activeTab}
         onNavigate={handleNavigate}
@@ -202,7 +202,7 @@ const StudentDashboard = () => {
             </div>
             <button
               onClick={() => navigate('/dashboard')}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               Regular Dashboard

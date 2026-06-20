@@ -50,6 +50,8 @@ router.delete('/delete-event/:id', eventController.deleteEvent);
 
 // Event registration routes
 router.post('/register', upload.single('proposal'), registrationController.registerEvent);
+router.post('/create-order', registrationController.createPaymentOrder);
+router.post('/verify-payment', registrationController.verifyAndRegister);
 router.get('/registrations', registrationController.getRegistrations);
 router.post('/registrations/:id/status', registrationController.updateRegistrationStatus);
 router.delete('/registrations/:id', registrationController.deleteRegistration);

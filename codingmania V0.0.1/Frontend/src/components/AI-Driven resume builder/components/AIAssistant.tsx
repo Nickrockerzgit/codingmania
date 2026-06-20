@@ -585,7 +585,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
                 <Bot className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -600,12 +600,12 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
 
           {!generatedContent ? (
             <>
-              <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-4">
+              <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 mb-4">
                 <div className="flex items-start gap-3">
-                  <Sparkles className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                  <Sparkles className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h3 className="font-medium text-blue-300 mb-1">How it works</h3>
-                    <p className="text-sm text-blue-200">
+                    <h3 className="font-medium text-red-300 mb-1">How it works</h3>
+                    <p className="text-sm text-red-200">
                       Write something about yourself and get AI generated resume content for this section.
                     </p>
                   </div>
@@ -616,7 +616,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-600 resize-none"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 resize-none"
                 placeholder={currentInfo?.placeholder}
               />
 
@@ -628,7 +628,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
               <button
                 onClick={generateContent}
                 disabled={isGenerating || !prompt.trim()}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-700 text-white rounded-lg hover:from-blue-700 hover:to-purple-800 disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 disabled:opacity-50"
               >
                 {isGenerating ? <><Loader2 className="animate-spin w-4 h-4" /> Generating...</> : <><Send className="w-4 h-4" /> Generate Content</>}
               </button>

@@ -37,8 +37,60 @@ const Team = () => {
     fetchTeamMembers();
   }, []);
 
+  // Glass card — circular photo (red ring), name, role, social icons, red bottom glow
+  const renderCard = (member: TeamMember, index: number, extraClass = '') => (
+    <motion.div
+      key={member.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: 'easeOut' }}
+      whileHover={{ y: -8 }}
+      className={`group relative rounded-[1.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-md flex flex-col overflow-hidden transition-all duration-300 hover:border-red-500/40 hover:bg-white/[0.05] shadow-[0_8px_30px_rgba(0,0,0,0.5)] ${extraClass}`}
+    >
+      {/* Red glow at the bottom edge */}
+      <div className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 w-3/4 h-12 bg-red-600/40 blur-2xl rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
+
+      {/* Photo — full card width box at the top */}
+      <div className="relative w-full aspect-[4/3] overflow-hidden border-b-2 border-red-500/60">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+      </div>
+
+      {/* Details */}
+      <div className="relative flex flex-col items-center text-center px-3 py-5">
+        <h3 className="text-white font-bold text-base sm:text-lg leading-tight">{member.name}</h3>
+        <p className="text-red-500 text-xs sm:text-sm font-medium mt-1">{member.role}</p>
+
+        <div className="flex gap-3 mt-4">
+          <a
+            href={member.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] border border-white/10 text-white hover:text-red-500 hover:bg-red-500/10 hover:border-red-500/50 transition-all duration-300"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] border border-white/10 text-white hover:text-red-500 hover:bg-red-500/10 hover:border-red-500/50 transition-all duration-300"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
-    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-32 pb-20">
+    <div className="bg-[#050505] min-h-screen relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-white pt-20 pb-8">
       
       {/* Background Volumetric Lights and Grid */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-10 pointer-events-none"></div>
@@ -53,21 +105,21 @@ const Team = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-8 md:mb-10"
         >
           <div className="inline-block px-5 py-2 bg-red-500/10 rounded-full border border-red-500/50 mb-6 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-            <span className="text-red-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
+            <span className="text-red-500 text-sm font-bold tracking-[0.2em] uppercase flex items-center gap-2">
+              Our Team
               <Users size={16} />
-              Meet Our Team
             </span>
           </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
-            The Team
+         <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-metallic mb-6 tracking-tighter drop-shadow-2xl">
+            Our Team
           </h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            Meet the passionate individuals behind Technoverse who make it all possible.
+        <p className="text-lg sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+             Meet the passionate individuals behind Technoverse who make it all possible.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-8 rounded-full opacity-80"></div>
+          
         </motion.div>
 
         {loading ? (
@@ -87,97 +139,17 @@ const Team = () => {
             <p className="text-gray-500 text-lg">No team members found.</p>
           </div>
         ) : (
-          <>
-            {/* President and Vice President - Top Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
-              {teamMembers.slice(0, 2).map((member, index) => (
-                <motion.div
-                  key={member.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group glass-panel rounded-3xl p-8 text-center border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative">
-                    <div className="relative mb-6 mx-auto w-40 h-40">
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-red-500/30 to-orange-500/30 blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="relative rounded-full w-full h-full object-cover border-2 border-white/10 group-hover:border-red-500/40 transition-all duration-300"
-                      />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-shadow-glow transition-all">{member.name}</h3>
-                    <p className="text-red-400 mb-4 font-medium">{member.role}</p>
-                    <div className="flex justify-center space-x-4">
-                      <a 
-                        href={member.github} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 glass-panel rounded-full text-gray-400 hover:text-red-500 hover:bg-red-500/20 hover:border-red-500/40 hover:scale-110 transition-all duration-300"
-                      >
-                        <Github className="h-5 w-5" />
-                      </a>
-                      <a 
-                        href={member.linkedin} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 glass-panel rounded-full text-gray-400 hover:text-red-500 hover:bg-red-500/20 hover:border-red-500/40 hover:scale-110 transition-all duration-300"
-                      >
-                        <Linkedin className="h-5 w-5" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Other Team Members - Bottom Row */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {teamMembers.slice(2).map((member, index) => (
-                <motion.div
-                  key={member.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: (index + 2) * 0.1 }}
-                  className="group glass-panel rounded-2xl p-4 sm:p-6 text-center border-t border-l border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(220,38,38,0.2)] transition-all duration-300 relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative">
-                    <div className="relative mb-4 mx-auto w-20 h-20 sm:w-24 sm:h-24">
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-red-500/20 to-orange-500/20 blur-lg group-hover:blur-xl transition-all duration-300"></div>
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="relative rounded-full w-full h-full object-cover border-2 border-white/10 group-hover:border-red-500/40 transition-all duration-300"
-                      />
-                    </div>
-                    <h3 className="text-base font-semibold text-white mb-1 group-hover:text-shadow-glow transition-all">{member.name}</h3>
-                    <p className="text-red-400 mb-3 text-xs">{member.role}</p>
-                    <div className="flex justify-center space-x-3">
-                      <a 
-                        href={member.github} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-red-500 transition-colors"
-                      >
-                        <Github className="h-4 w-4" />
-                      </a>
-                      <a 
-                        href={member.linkedin} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-red-500 transition-colors"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 sm:gap-5 max-w-7xl mx-auto items-start">
+            {[3, 1, 2, 0, 4, 5, 6].map((memberIdx, pos) => {
+              const member = teamMembers[memberIdx];
+              if (!member) return null;
+              return renderCard(
+                member,
+                pos,
+                ['xl:mt-0', 'xl:mt-10', 'xl:mt-20', 'xl:mt-28', 'xl:mt-20', 'xl:mt-10', 'xl:mt-0'][pos] || ''
+              );
+            })}
+          </div>
         )}
       </div>
     </div>

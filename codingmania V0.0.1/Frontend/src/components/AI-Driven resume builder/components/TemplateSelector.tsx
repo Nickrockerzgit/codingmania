@@ -15,7 +15,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       id: 'modern' as Template,
       name: 'Modern',
       description: 'Clean design with gradient header and organized layout',
-      preview: 'bg-gradient-to-r from-blue-500 to-purple-600'
+      preview: 'bg-gradient-to-r from-red-500 to-orange-600'
     },
     {
       id: 'classic' as Template,
@@ -27,7 +27,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       id: 'creative' as Template,
       name: 'Creative',
       description: 'Colorful sidebar design perfect for creative roles',
-      preview: 'bg-gradient-to-b from-purple-500 to-pink-600'
+      preview: 'bg-gradient-to-b from-red-500 to-orange-600'
     },
     {
       id: 'minimal' as Template,
@@ -38,7 +38,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   ];
 
   return (
-    <div className="bg-black rounded-lg p-4 sm:p-6 shadow-lg">
+    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 sm:p-6 shadow-lg">
       <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Choose Template</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {templates.map((template) => (
@@ -47,8 +47,8 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
             onClick={() => onTemplateChange(template.id)}
             className={`p-3 sm:p-4 rounded-lg border transition-all text-left ${
               selectedTemplate === template.id
-                ? 'border-blue-500 bg-blue-900/30'
-                : 'border-gray-600 hover:border-blue-400 hover:bg-white/5'
+                ? 'border-red-500 ring-1 ring-red-500 bg-red-900/20'
+                : 'border-white/10 hover:border-red-400 hover:bg-white/5'
             }`}
           >
             <div className={`w-full h-16 sm:h-20 rounded ${template.preview} mb-2 sm:mb-3`}></div>

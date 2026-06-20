@@ -13,7 +13,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
     <div className="bg-white shadow-lg max-w-4xl mx-auto overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-3">
         {/* Sidebar */}
-        <div className="bg-gradient-to-b from-purple-600 to-pink-600 text-white p-8">
+        <div className="bg-gradient-to-b from-red-600 to-orange-600 text-white p-8">
           <div className="text-center mb-8">
             <div className="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
               <Code className="w-12 h-12" />
@@ -57,7 +57,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
                   
                   return (
                     <div key={category}>
-                      <h3 className="font-semibold text-purple-100 mb-2 capitalize text-sm">
+                      <h3 className="font-semibold text-red-100 mb-2 capitalize text-sm">
                         {category === 'technical' ? 'Technical' : category === 'tools' ? 'Tools' : 'Soft Skills'}
                       </h3>
                       <div className="space-y-1">
@@ -115,8 +115,8 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
                 {certifications.map((cert) => (
                   <div key={cert.id} className="text-sm">
                     <div className="font-semibold">{cert.name}</div>
-                    <div className="text-purple-100">{cert.issuer}</div>
-                    <div className="text-purple-200 text-xs">{cert.year}</div>
+                    <div className="text-red-100">{cert.issuer}</div>
+                    <div className="text-red-200 text-xs">{cert.year}</div>
                   </div>
                 ))}
               </div>
@@ -129,7 +129,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           {/* Professional Summary */}
           <section className="mb-8">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+              <div className="w-12 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
               <h2 className="text-2xl font-bold text-gray-900">Professional Summary</h2>
             </div>
             <p className="text-gray-700 leading-relaxed">{personalInfo.professionalSummary}</p>
@@ -139,19 +139,19 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           {experience.length > 0 && (
             <section className="mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div className="w-12 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
                 <h2 className="text-2xl font-bold text-gray-900">Experience</h2>
               </div>
               <div className="space-y-6">
                 {experience.map((exp, index) => (
                   <div key={exp.id} className="relative pl-6">
-                    <div className="absolute left-0 top-0 w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <div className="absolute left-0 top-0 w-3 h-3 bg-red-500 rounded-full"></div>
                     {index < experience.length - 1 && (
-                      <div className="absolute left-1.5 top-3 w-0.5 h-full bg-purple-200"></div>
+                      <div className="absolute left-1.5 top-3 w-0.5 h-full bg-red-200"></div>
                     )}
                     <div className="ml-4">
                       <h3 className="text-lg font-bold text-gray-900">{exp.title}</h3>
-                      <p className="text-purple-600 font-semibold">{exp.company}</p>
+                      <p className="text-red-600 font-semibold">{exp.company}</p>
                       <p className="text-gray-500 text-sm mb-2">{exp.duration}</p>
                       <p className="text-gray-700">{exp.description}</p>
                     </div>
@@ -165,16 +165,16 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           {projects.length > 0 && (
             <section className="mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div className="w-12 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
                 <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
               </div>
               <div className="grid grid-cols-1 gap-6">
                 {projects.map((project) => (
-                  <div key={project.id} className="border-l-4 border-purple-500 pl-4 bg-gray-50 p-4 rounded-r-lg">
+                  <div key={project.id} className="border-l-4 border-red-500 pl-4 bg-gray-50 p-4 rounded-r-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">{project.name}</h3>
                       {project.link && (
-                        <ExternalLink className="w-4 h-4 text-purple-600" />
+                        <ExternalLink className="w-4 h-4 text-red-600" />
                       )}
                     </div>
                     <p className="text-gray-700 mb-3">{project.description}</p>
@@ -182,7 +182,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
                       {project.technologies.split(',').map((tech, index) => (
                         <span
                           key={index}
-                          className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full"
+                          className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full"
                         >
                           {tech.trim()}
                         </span>
@@ -198,14 +198,14 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           {education.length > 0 && (
             <section className="mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div className="w-12 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
                 <h2 className="text-2xl font-bold text-gray-900">Education</h2>
               </div>
               <div className="space-y-4">
                 {education.map((edu) => (
                   <div key={edu.id} className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="text-lg font-bold text-gray-900">{edu.degree}</h3>
-                    <p className="text-purple-600 font-semibold">{edu.institution}</p>
+                    <p className="text-red-600 font-semibold">{edu.institution}</p>
                     <div className="flex gap-4 text-sm text-gray-500">
                       <span>{edu.year}</span>
                       {edu.percentage && <span>{edu.percentage}</span>}
@@ -220,7 +220,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           {achievements.length > 0 && (
             <section>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div className="w-12 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
                 <h2 className="text-2xl font-bold text-gray-900">Achievements</h2>
               </div>
               <div className="space-y-4">

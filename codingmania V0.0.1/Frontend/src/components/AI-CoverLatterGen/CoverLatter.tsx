@@ -44,22 +44,24 @@ function CoverLatter() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5001/api/cover-latter/generate-cover-letter', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/cover-letters/generate-cover-letter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
       });
-      
-      if (!response.ok) {
-        throw new Error('Failed to generate cover letter');
-      }
-      
+
       const data = await response.json();
+
+      if (!response.ok) {
+        // Surface the real backend error (e.g. quota exceeded / invalid API key)
+        throw new Error(data.error || 'Failed to generate cover letter');
+      }
+
       setGeneratedLetter(data.coverLetter);
     } catch (err) {
-      setError('Failed to generate cover letter. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to generate cover letter. Please try again.');
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -77,13 +79,13 @@ function CoverLatter() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#050505] text-white">
       {/* Header */}
-      <header className="py-8 px-4 text-center border-b border-gray-800">
+      <header className="pt-32 pb-8 px-4 text-center border-b border-white/10">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <FileText className="w-8 h-8 text-purple-400" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+            <FileText className="w-8 h-8 text-red-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-orange-600 bg-clip-text text-transparent">
               AI Cover Letter Builder
             </h1>
           </div>
@@ -95,12 +97,12 @@ function CoverLatter() {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Form Section */}
-            <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Personal Information */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <User className="w-5 h-5 text-purple-400" />
+                    <User className="w-5 h-5 text-red-400" />
                     <h2 className="text-xl font-semibold">Personal Information</h2>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -114,7 +116,7 @@ function CoverLatter() {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -128,7 +130,7 @@ function CoverLatter() {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter your email"
                       />
                     </div>
@@ -144,7 +146,7 @@ function CoverLatter() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter your phone number"
                       />
                     </div>
@@ -157,7 +159,7 @@ function CoverLatter() {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter your address"
                       />
                     </div>
@@ -167,7 +169,7 @@ function CoverLatter() {
                 {/* Company Information */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <Building2 className="w-5 h-5 text-blue-400" />
+                    <Building2 className="w-5 h-5 text-red-400" />
                     <h2 className="text-xl font-semibold">Company Information</h2>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -181,7 +183,7 @@ function CoverLatter() {
                         value={formData.companyName}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter company name"
                       />
                     </div>
@@ -195,7 +197,7 @@ function CoverLatter() {
                         value={formData.jobTitle}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                         placeholder="Enter job title"
                       />
                     </div>
@@ -205,7 +207,7 @@ function CoverLatter() {
                 {/* Job Details */}
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <Briefcase className="w-5 h-5 text-green-400" />
+                    <Briefcase className="w-5 h-5 text-red-400" />
                     <h2 className="text-xl font-semibold">Job Details</h2>
                   </div>
                   
@@ -220,7 +222,7 @@ function CoverLatter() {
                         onChange={handleInputChange}
                         required
                         rows={4}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200 resize-none"
                         placeholder="Paste or describe the job requirements and responsibilities..."
                       />
                     </div>
@@ -234,7 +236,7 @@ function CoverLatter() {
                         value={formData.experience}
                         onChange={handleInputChange}
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200 resize-none"
                         placeholder="Describe your relevant work experience..."
                       />
                     </div>
@@ -248,7 +250,7 @@ function CoverLatter() {
                         value={formData.skills}
                         onChange={handleInputChange}
                         rows={3}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none"
+                        className="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200 resize-none"
                         placeholder="List your relevant skills and competencies..."
                       />
                     </div>
@@ -259,7 +261,7 @@ function CoverLatter() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-lg shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>
@@ -277,7 +279,7 @@ function CoverLatter() {
             </div>
 
             {/* Preview Section */}
-            <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold">Generated Cover Letter</h2>
                 {generatedLetter && (
@@ -291,7 +293,7 @@ function CoverLatter() {
                 )}
               </div>
               
-              <div className="min-h-96 bg-gray-800 rounded-lg p-6 border border-gray-700">
+              <div className="min-h-96 bg-white/5 rounded-lg p-6 border border-white/10">
                 {error && (
                   <div className="text-red-400 bg-red-900/20 border border-red-800 rounded-lg p-4 mb-4">
                     {error}
@@ -300,7 +302,7 @@ function CoverLatter() {
                 
                 {isLoading ? (
                   <div className="flex flex-col items-center justify-center h-96">
-                    <Loader2 className="w-12 h-12 animate-spin text-purple-400 mb-4" />
+                    <Loader2 className="w-12 h-12 animate-spin text-red-400 mb-4" />
                     <p className="text-gray-400">Creating your professional cover letter...</p>
                   </div>
                 ) : generatedLetter ? (

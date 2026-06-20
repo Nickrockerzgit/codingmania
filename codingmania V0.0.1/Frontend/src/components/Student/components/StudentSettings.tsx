@@ -52,15 +52,15 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <SettingsIcon className="w-6 h-6 text-blue-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+            <SettingsIcon className="w-6 h-6 text-red-400" />
+            <h2 className="text-2xl font-bold text-white">Settings</h2>
           </div>
-          <button 
+          <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl font-semibold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100"
+            className="text-gray-400 hover:text-white text-xl font-semibold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10"
           >
             ×
           </button>
@@ -68,7 +68,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
         
         <div className="flex flex-col md:flex-row">
           {/* Sidebar */}
-          <div className="w-full md:w-1/4 bg-gray-50 p-6">
+          <div className="w-full md:w-1/4 bg-white/5 p-6">
             <ul className="space-y-1">
               {[
                 { id: "general", icon: Globe, label: "General" },
@@ -80,8 +80,8 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                   <button
                     className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors duration-200 ${
                       activeTab === tab.id 
-                        ? "bg-blue-100 text-blue-600 font-medium" 
-                        : "hover:bg-gray-200 text-gray-700"
+                        ? "bg-red-500/10 text-red-400 font-medium"
+                        : "hover:bg-white/10 text-gray-300"
                     }`}
                     onClick={() => setActiveTab(tab.id)}
                   >
@@ -98,15 +98,15 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
             {/* General Settings */}
             {activeTab === "general" && (
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-gray-900">General Settings</h3>
+                <h3 className="text-xl font-semibold mb-6 text-white">General Settings</h3>
                 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Language</label>
+                    <label className="block text-gray-300 font-medium mb-2">Language</label>
                     <select 
                       value={settings.language}
                       onChange={(e) => handleChange("language", e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="english">English</option>
                       <option value="hindi">Hindi</option>
@@ -117,11 +117,11 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Time Zone</label>
+                    <label className="block text-gray-300 font-medium mb-2">Time Zone</label>
                     <select 
                       value={settings.timezone}
                       onChange={(e) => handleChange("timezone", e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="UTC+0">UTC+0 (London)</option>
                       <option value="UTC+1">UTC+1 (Paris, Berlin)</option>
@@ -132,11 +132,11 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Date Format</label>
+                    <label className="block text-gray-300 font-medium mb-2">Date Format</label>
                     <select 
                       value={settings.dateFormat}
                       onChange={(e) => handleChange("dateFormat", e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                       <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -150,15 +150,15 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
             {/* Privacy Settings */}
             {activeTab === "privacy" && (
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-gray-900">Privacy Settings</h3>
+                <h3 className="text-xl font-semibold mb-6 text-white">Privacy Settings</h3>
                 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Profile Visibility</label>
+                    <label className="block text-gray-300 font-medium mb-2">Profile Visibility</label>
                     <select 
                       value={settings.profileVisibility}
                       onChange={(e) => handleChange("profileVisibility", e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="public">Public (Everyone can see)</option>
                       <option value="private">Private (Only you can see)</option>
@@ -171,10 +171,10 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                     { key: "showPhone", title: "Show Phone Number", desc: "Allow others to see your phone number" },
                     { key: "dataSharing", title: "Data Sharing", desc: "Allow us to use your data to improve our services" },
                   ].map((item) => (
-                    <div key={item.key} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div key={item.key} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg">
                       <div>
-                        <h4 className="font-medium text-gray-900">{item.title}</h4>
-                        <p className="text-sm text-gray-600">{item.desc}</p>
+                        <h4 className="font-medium text-white">{item.title}</h4>
+                        <p className="text-sm text-gray-300">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input 
@@ -183,7 +183,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                           onChange={(e) => handleChange(item.key, e.target.checked)}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-white/10 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-500/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                       </label>
                     </div>
                   ))}
@@ -194,7 +194,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
             {/* Notification Settings */}
             {activeTab === "notifications" && (
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-gray-900">Notification Settings</h3>
+                <h3 className="text-xl font-semibold mb-6 text-white">Notification Settings</h3>
                 
                 <div className="space-y-4">
                   {[
@@ -205,10 +205,10 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                     { key: "systemUpdates", title: "System Updates", desc: "Receive notifications about system updates" },
                     { key: "marketingEmails", title: "Marketing Emails", desc: "Receive marketing and promotional emails" },
                   ].map((item) => (
-                    <div key={item.key} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div key={item.key} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg">
                       <div>
-                        <h4 className="font-medium text-gray-900">{item.title}</h4>
-                        <p className="text-sm text-gray-600">{item.desc}</p>
+                        <h4 className="font-medium text-white">{item.title}</h4>
+                        <p className="text-sm text-gray-300">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input 
@@ -217,7 +217,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                           onChange={(e) => handleChange(item.key, e.target.checked)}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-white/10 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-500/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                       </label>
                     </div>
                   ))}
@@ -228,20 +228,20 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
             {/* Theme Settings */}
             {activeTab === "theme" && (
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-gray-900">Theme Settings</h3>
+                <h3 className="text-xl font-semibold mb-6 text-white">Theme Settings</h3>
                 
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg">
                     <div>
-                      <h4 className="font-medium text-gray-900">Dark Mode</h4>
-                      <p className="text-sm text-gray-600">Switch between light and dark theme</p>
+                      <h4 className="font-medium text-white">Dark Mode</h4>
+                      <p className="text-sm text-gray-300">Switch between light and dark theme</p>
                     </div>
                     <button 
                       onClick={toggleTheme}
                       className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
                         settings.theme === "light" 
-                          ? "bg-gray-100 text-gray-700 hover:bg-gray-200" 
-                          : "bg-blue-500 text-white hover:bg-blue-600"
+                          ? "bg-white/5 text-gray-300 hover:bg-white/10"
+                          : "bg-red-600 text-white hover:bg-red-700"
                       }`}
                     >
                       {settings.theme === "light" ? "Light" : "Dark"}
@@ -249,7 +249,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-3">Primary Color</label>
+                    <label className="block text-gray-300 font-medium mb-3">Primary Color</label>
                     <div className="flex gap-3">
                       {[
                         { value: "#3B82F6", color: "bg-blue-500" },
@@ -269,8 +269,8 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                           />
                           <div className={`w-10 h-10 rounded-full ${colorOption.color} ${
                             settings.primaryColor === colorOption.value 
-                              ? "ring-4 ring-offset-2 ring-gray-400" 
-                              : "hover:ring-2 hover:ring-offset-1 hover:ring-gray-300"
+                              ? "ring-4 ring-offset-2 ring-offset-[#050505] ring-white/40"
+                              : "hover:ring-2 hover:ring-offset-1 hover:ring-offset-[#050505] hover:ring-white/20"
                           } transition-all duration-200`}></div>
                         </label>
                       ))}
@@ -278,11 +278,11 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Font Size</label>
+                    <label className="block text-gray-300 font-medium mb-2">Font Size</label>
                     <select 
                       value={settings.fontSize}
                       onChange={(e) => handleChange("fontSize", e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     >
                       <option value="small">Small</option>
                       <option value="medium">Medium</option>
@@ -290,10 +290,10 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                     </select>
                   </div>
                   
-                  <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg">
                     <div>
-                      <h4 className="font-medium text-gray-900">Reduced Motion</h4>
-                      <p className="text-sm text-gray-600">Minimize animations throughout the interface</p>
+                      <h4 className="font-medium text-white">Reduced Motion</h4>
+                      <p className="text-sm text-gray-300">Minimize animations throughout the interface</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input 
@@ -302,7 +302,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
                         onChange={(e) => handleChange("reducedMotion", e.target.checked)}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      <div className="w-11 h-6 bg-white/10 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-500/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                     </label>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ const StudentSettings: React.FC<StudentSettingsProps> = ({ isOpen, onClose }) =>
             <div className="mt-8 flex justify-end">
               <button 
                 onClick={handleSaveSettings}
-                className="flex items-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-200"
+                className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200"
               >
                 <Save className="w-4 h-4" /> Save Settings
               </button>

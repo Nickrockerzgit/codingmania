@@ -221,13 +221,13 @@ function App() {
           <div className=" mx-auto px-3 sm:px-4 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-3">
-                <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600" />
+                <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" />
                 <h1 className="text-lg sm:text-xl font-bold text-gray-50">AI Resume Builder</h1>
               </div>
               <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={() => setViewMode('template')}
-                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
+                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
                 >
                   <Palette className="w-4 h-4" />
                   <span className="hidden sm:inline">Change Template</span>
@@ -270,13 +270,13 @@ function App() {
           <div className=" mx-auto px-3 sm:px-4 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-3">
-                <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600" />
+                <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" />
                 <h1 className="text-lg sm:text-xl font-bold text-gray-50">AI Resume Builder</h1>
               </div>
               <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={() => setViewMode('preview')}
-                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
                 >
                   <Eye className="w-4 h-4" />
                   <span className="hidden sm:inline">Preview Resume</span>
@@ -305,7 +305,7 @@ function App() {
         <div className=" mx-auto px-3 sm:px-4 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600" />
+              <FileUser className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" />
               <h1 className="text-lg sm:text-xl font-bold text-gray-50">AI Resume Builder</h1>
             </div>
             <div className="flex gap-2 sm:gap-3">
@@ -320,7 +320,7 @@ function App() {
               <button
                 onClick={() => setViewMode('preview')}
                 disabled={!isStepValid(1)}
-                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
               >
                 <Eye className="w-4 h-4" />
                 <span className="hidden sm:inline">Preview Resume</span>

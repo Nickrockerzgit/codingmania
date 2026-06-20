@@ -1,8 +1,6 @@
 
 
-const axios = require("axios");
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const { generateContent } = require("./geminiClient");
 
 exports.generateQuestions = async (technology, level, mcqCount, textCount) => {
   const prompt = `
@@ -26,30 +24,7 @@ Return ONLY the JSON.
 `;
 
   try {
-    const response = await axios.post(
-      
-      // "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent",
-       "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent",
-
-      {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: prompt }],
-          },
-        ],
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        params: {
-          key: GEMINI_API_KEY,
-        },
-      }
-    );
-
-    const rawText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const rawText = await generateContent(prompt);
     const cleanedText = rawText.trim().replace(/```json|```/g, "");
     const parsed = JSON.parse(cleanedText);
 

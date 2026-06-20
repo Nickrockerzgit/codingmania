@@ -82,21 +82,21 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
               type="text"
               value={editData.name}
               onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Certification Name"
             />
             <input
               type="text"
               value={editData.issuer}
               onChange={(e) => setEditData({ ...editData, issuer: e.target.value })}
-              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Issuer"
             />
             <input
               type="text"
               value={editData.year}
               onChange={(e) => setEditData({ ...editData, year: e.target.value })}
-              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Year"
             />
           </div>
@@ -118,7 +118,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
       <div className="bg-[#2c2c2e] border border-gray-700 rounded-lg p-4 text-white hover:shadow-lg transition-shadow">
         <div className="flex justify-between items-start">
           <div className="flex items-start gap-3">
-            <Award className="w-5 h-5 text-blue-400 mt-0.5" />
+            <Award className="w-5 h-5 text-red-400 mt-0.5" />
             <div>
               <h4 className="font-medium">{cert.name}</h4>
               <p className="text-sm text-gray-400">{cert.issuer}</p>
@@ -126,7 +126,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
             </div>
           </div>
           <div className="flex gap-1">
-            <button onClick={() => setEditingCertId(cert.id)} className="p-1 text-gray-400 hover:text-blue-400">
+            <button onClick={() => setEditingCertId(cert.id)} className="p-1 text-gray-400 hover:text-red-400">
               <Edit2 className="w-3 h-3" />
             </button>
             <button onClick={() => deleteCertification(cert.id)} className="p-1 text-gray-400 hover:text-red-500">
@@ -151,14 +151,14 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
               type="text"
               value={editData.title}
               onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-              className="w-full px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Achievement Title"
             />
             <textarea
               value={editData.description}
               onChange={(e) => setEditData({ ...editData, description: e.target.value })}
               rows={2}
-              className="w-full px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="w-full px-3 py-2 bg-[#1c1c1e] text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               placeholder="Description"
             />
           </div>
@@ -187,7 +187,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
             </div>
           </div>
           <div className="flex gap-1">
-            <button onClick={() => setEditingAchId(achievement.id)} className="p-1 text-gray-400 hover:text-blue-400">
+            <button onClick={() => setEditingAchId(achievement.id)} className="p-1 text-gray-400 hover:text-red-400">
               <Edit2 className="w-3 h-3" />
             </button>
             <button onClick={() => deleteAchievement(achievement.id)} className="p-1 text-gray-400 hover:text-red-500">
@@ -202,10 +202,10 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
   return (
     <div className="space-y-6">
       {/* AI Assistant Button */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 border border-indigo-400 rounded-lg p-4 text-white">
+      <div className="bg-gradient-to-r from-red-600 to-orange-600 border border-red-500/50 rounded-lg p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -234,7 +234,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
             onClick={() => setActiveTab(id as any)}
             className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
               activeTab === id
-                ? 'border-blue-400 text-blue-400'
+                ? 'border-red-400 text-red-400'
                 : 'border-transparent text-gray-400 hover:text-white'
             }`}
           >
@@ -254,28 +254,28 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
                 type="text"
                 value={newCertification.name}
                 onChange={(e) => setNewCertification({ ...newCertification, name: e.target.value })}
-                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="Certification Name"
               />
               <input
                 type="text"
                 value={newCertification.issuer}
                 onChange={(e) => setNewCertification({ ...newCertification, issuer: e.target.value })}
-                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="Issuing Organization"
               />
               <input
                 type="text"
                 value={newCertification.year}
                 onChange={(e) => setNewCertification({ ...newCertification, year: e.target.value })}
-                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="Year"
               />
             </div>
             <button
               onClick={addCertification}
               disabled={!newCertification.name || !newCertification.issuer || !newCertification.year}
-              className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Certification
@@ -307,21 +307,21 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
                 type="text"
                 value={newAchievement.title}
                 onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="Achievement Title"
               />
               <textarea
                 value={newAchievement.description}
                 onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="Describe your achievement..."
               />
             </div>
             <button
               onClick={addAchievement}
               disabled={!newAchievement.title || !newAchievement.description}
-              className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-4"
+              className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-4"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Achievement
@@ -356,7 +356,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
                 type="url"
                 value={socialLinks.github}
                 onChange={(e) => onSocialLinksChange({ ...socialLinks, github: e.target.value })}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="https://github.com/yourusername"
               />
             </div>
@@ -368,7 +368,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
                 type="url"
                 value={socialLinks.linkedin}
                 onChange={(e) => onSocialLinksChange({ ...socialLinks, linkedin: e.target.value })}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="https://linkedin.com/in/yourprofile"
               />
             </div>
@@ -380,7 +380,7 @@ export const AdditionalStep: React.FC<AdditionalStepProps> = ({
                 type="url"
                 value={socialLinks.portfolio || ''}
                 onChange={(e) => onSocialLinksChange({ ...socialLinks, portfolio: e.target.value })}
-                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-400"
                 placeholder="https://yourportfolio.com (optional)"
               />
             </div>

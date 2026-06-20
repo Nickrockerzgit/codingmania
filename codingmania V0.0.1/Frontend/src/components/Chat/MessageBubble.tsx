@@ -28,19 +28,19 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isMine }) => {
       <div
         className={`max-w-[75%] px-4 py-2 rounded-2xl ${
           isMine
-            ? "bg-indigo-600 text-white rounded-br-md"
-            : "bg-white text-gray-900 border border-gray-100 rounded-bl-md"
+            ? "bg-red-600 text-white rounded-br-md"
+            : "bg-white/10 text-gray-100 border border-white/10 rounded-bl-md"
         }`}
       >
         {!isMine && (
-          <p className="text-xs font-semibold text-indigo-600 mb-1">
+          <p className="text-xs font-semibold text-red-400 mb-1">
             {senderName}
           </p>
         )}
         <p className="text-sm break-words">{content}</p>
         <p
           className={`text-[10px] mt-1 ${
-            isMine ? "text-indigo-200" : "text-gray-400"
+            isMine ? "text-red-100" : "text-gray-400"
           }`}
         >
           {time}

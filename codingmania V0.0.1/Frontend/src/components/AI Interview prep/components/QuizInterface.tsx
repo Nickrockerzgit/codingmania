@@ -95,9 +95,9 @@ const formatTime = (seconds: number) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-500 mx-auto mb-4"></div>
           <p className="text-white text-xl">Generating questions...</p>
         </div>
       </div>
@@ -119,8 +119,8 @@ const formatTime = (seconds: number) => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 py-8 pt-16">
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
+    <div className="min-h-screen bg-[#050505] py-8 pt-16">
+      <div className="min-h-screen bg-[#050505] p-4">
        <div className="max-w-4xl mx-auto">
          <div className="flex items-center justify-between mb-6">
            <button
@@ -141,7 +141,7 @@ const formatTime = (seconds: number) => {
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-8 mb-6">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 mb-6">
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-gray-300">Question {currentQuestionIndex + 1} of {questions.length}</span>
@@ -149,7 +149,7 @@ const formatTime = (seconds: number) => {
             </div>
             <div className="w-full bg-gray-700 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-red-600 to-orange-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
@@ -166,14 +166,14 @@ const formatTime = (seconds: number) => {
                     onClick={() => handleAnswerChange(currentQuestion.id, option)}
                     className={`w-full text-left p-4 rounded-lg border transition-all duration-200 ${
                       answers[currentQuestion.id] === option
-                        ? 'border-blue-500 bg-blue-500/10 text-blue-300'
+                        ? 'border-red-500 bg-red-500/10 text-red-400'
                         : 'border-gray-600 hover:border-gray-500 text-gray-300 hover:bg-gray-700/30'
                     }`}
                   >
                     <div className="flex items-center space-x-3">
                       <div className={`w-4 h-4 rounded-full border-2 ${
                         answers[currentQuestion.id] === option
-                          ? 'border-blue-500 bg-blue-500'
+                          ? 'border-red-500 bg-red-500'
                           : 'border-gray-500'
                       }`}>
                         {answers[currentQuestion.id] === option && (
@@ -190,7 +190,7 @@ const formatTime = (seconds: number) => {
                 value={answers[currentQuestion.id] || ''}
                 onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
                 placeholder="Type your answer here..."
-                className="w-full h-32 p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full h-32 p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             )}
           </div>
@@ -209,7 +209,7 @@ const formatTime = (seconds: number) => {
               {currentQuestionIndex < questions.length - 1 ? (
                 <button
                   onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
                 >
                   <span>Next</span>
                   <ArrowRight className="w-4 h-4" />
@@ -234,7 +234,7 @@ const formatTime = (seconds: number) => {
               onClick={() => setCurrentQuestionIndex(index)}
               className={`h-10 rounded-lg border-2 transition-all duration-200 ${
                 index === currentQuestionIndex
-                  ? 'border-blue-500 bg-blue-500/20 text-blue-300'
+                  ? 'border-red-500 bg-red-500/20 text-red-400'
                   : answers[questions[index].id]
                   ? 'border-green-500 bg-green-500/20 text-green-300'
                   : 'border-gray-600 hover:border-gray-500 text-gray-400'

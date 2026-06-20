@@ -140,10 +140,10 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({ data, onChan
   return (
     <div className="space-y-6 bg-black min-h-screen py-6 px-4 rounded-lg">
       {/* AI Assistant */}
-      <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-4">
+      <div className="bg-gradient-to-r from-red-900 to-orange-900 border border-red-500/50 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -153,7 +153,7 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({ data, onChan
           </div>
           <button
             onClick={onOpenAI}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all text-sm font-medium"
+            className="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 transition-all text-sm font-medium"
           >
             Try AI Assistant
           </button>

@@ -237,18 +237,18 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="flex justify-between items-center p-6 border-b border-white/10 bg-red-500/10">
           <div className="flex items-center gap-3">
-            <User className="w-7 h-7 text-blue-600" />
-            <h2 className="text-2xl font-bold text-gray-900">User Profile</h2>
+            <User className="w-7 h-7 text-red-400" />
+            <h2 className="text-2xl font-bold text-white">User Profile</h2>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-white/50 transition-colors"
+            className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -256,13 +256,13 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
 
         {/* Global messages */}
         {error && (
-          <div className="mx-6 mt-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
+          <div className="mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg flex items-center gap-3">
             <div className="w-2 h-2 bg-red-500 rounded-full"></div>
             {error}
           </div>
         )}
         {success && (
-          <div className="mx-6 mt-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-3">
+          <div className="mx-6 mt-4 p-4 bg-green-500/15 border border-green-500/30 text-green-400 rounded-lg flex items-center gap-3">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             {success}
           </div>
@@ -270,20 +270,20 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
 
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar – Avatar + basic info + tabs */}
-          <div className="w-full lg:w-1/3 bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+          <div className="w-full lg:w-1/3 bg-white/5 p-8">
             <div className="flex flex-col items-center mb-8">
               <div className="relative group">
                 {profileData.avatar ? (
                   <img
                     src={profileData.avatar}           // ← direct ImageKit URL
                     alt="Profile"
-                    className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg group-hover:shadow-xl transition-shadow"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-white/10 shadow-lg group-hover:shadow-xl transition-shadow"
                     onError={(e) => {
                       e.currentTarget.src = "/default-avatar.png"; // fallback
                     }}
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg group-hover:shadow-xl transition-shadow">
+                  <div className="w-32 h-32 rounded-full bg-red-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg group-hover:shadow-xl transition-shadow">
                     {profileData.name
                       .split(' ')
                       .map(n => n[0])
@@ -293,7 +293,7 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                 )}
 
                 {isEditing && (
-                  <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-3 rounded-full cursor-pointer hover:bg-blue-600 shadow-lg hover:shadow-xl transition-all">
+                  <label className="absolute bottom-0 right-0 bg-red-600 text-white p-3 rounded-full cursor-pointer hover:bg-red-700 shadow-lg hover:shadow-xl transition-all">
                     <Camera className="w-4 h-4" />
                     <input
                       type="file"
@@ -305,19 +305,19 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                 )}
               </div>
 
-              <h3 className="text-xl font-semibold mt-4 text-gray-900">{profileData.name || "User"}</h3>
-              <p className="text-gray-600 flex items-center gap-1.5 mt-1">
+              <h3 className="text-xl font-semibold mt-4 text-white">{profileData.name || "User"}</h3>
+              <p className="text-gray-300 flex items-center gap-1.5 mt-1">
                 <Mail className="w-4 h-4" />
                 {profileData.email}
               </p>
               {profileData.location && (
-                <p className="text-gray-500 flex items-center gap-1.5 mt-1">
+                <p className="text-gray-400 flex items-center gap-1.5 mt-1">
                   <MapPin className="w-4 h-4" />
                   {profileData.location}
                 </p>
               )}
               {profileData.joinDate && (
-                <p className="text-gray-500 flex items-center gap-1.5 mt-1">
+                <p className="text-gray-400 flex items-center gap-1.5 mt-1">
                   <Calendar className="w-4 h-4" />
                   Member since {new Date(profileData.joinDate).toLocaleDateString()}
                 </p>
@@ -330,8 +330,8 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                 <button
                   className={`w-full text-left p-3 rounded-lg transition-all ${
                     activeTab === "profile"
-                      ? "bg-blue-100 text-blue-600 font-medium shadow-sm"
-                      : "hover:bg-gray-200 text-gray-700"
+                      ? "bg-red-500/10 text-red-400 font-medium shadow-sm"
+                      : "hover:bg-white/10 text-gray-300"
                   }`}
                   onClick={() => setActiveTab("profile")}
                 >
@@ -342,8 +342,8 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                 <button
                   className={`w-full text-left p-3 rounded-lg transition-all ${
                     activeTab === "security"
-                      ? "bg-blue-100 text-blue-600 font-medium shadow-sm"
-                      : "hover:bg-gray-200 text-gray-700"
+                      ? "bg-red-500/10 text-red-400 font-medium shadow-sm"
+                      : "hover:bg-white/10 text-gray-300"
                   }`}
                   onClick={() => setActiveTab("security")}
                 >
@@ -357,19 +357,19 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
           <div className="w-full lg:w-2/3 p-8">
             {loading && (
               <div className="flex justify-center items-center py-12">
-                <Loader2 className="animate-spin w-8 h-8 text-blue-500" />
-                <span className="ml-3 text-gray-600">Loading...</span>
+                <Loader2 className="animate-spin w-8 h-8 text-red-400" />
+                <span className="ml-3 text-gray-300">Loading...</span>
               </div>
             )}
 
             {!loading && activeTab === "profile" && (
               <div>
                 <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-2xl font-semibold text-gray-900">Profile Information</h3>
+                  <h3 className="text-2xl font-semibold text-white">Profile Information</h3>
                   {!isEditing ? (
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="flex items-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-all shadow-sm hover:shadow-md"
+                      className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-all shadow-sm hover:shadow-md"
                     >
                       <Edit className="w-4 h-4" /> Edit Profile
                     </button>
@@ -380,14 +380,14 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                           setIsEditing(false);
                           setEditedData({ ...profileData });
                         }}
-                        className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors"
+                        className="bg-white/10 text-gray-300 px-6 py-3 rounded-lg hover:bg-white/20 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleSaveProfile}
                         disabled={loading}
-                        className="flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 disabled:opacity-60 transition-all shadow-sm hover:shadow-md"
+                        className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-60 transition-all shadow-sm hover:shadow-md"
                       >
                         {loading ? (
                           <Loader2 className="animate-spin w-4 h-4" />
@@ -404,30 +404,30 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                   // View mode
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-1">
-                      <p className="text-gray-500 text-sm font-medium">Full Name</p>
-                      <p className="text-lg font-semibold">{profileData.name || "—"}</p>
+                      <p className="text-gray-400 text-sm font-medium">Full Name</p>
+                      <p className="text-lg font-semibold text-white">{profileData.name || "—"}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-gray-500 text-sm font-medium">Email</p>
-                      <p className="text-lg font-semibold">{profileData.email || "—"}</p>
+                      <p className="text-gray-400 text-sm font-medium">Email</p>
+                      <p className="text-lg font-semibold text-white">{profileData.email || "—"}</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-gray-500 text-sm font-medium">Phone</p>
-                      <p className="text-lg font-semibold flex items-center gap-2">
+                      <p className="text-gray-400 text-sm font-medium">Phone</p>
+                      <p className="text-lg font-semibold text-white flex items-center gap-2">
                         <Phone className="w-4 h-4" />
                         {profileData.phone || "Not specified"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-gray-500 text-sm font-medium">Location</p>
-                      <p className="text-lg font-semibold flex items-center gap-2">
+                      <p className="text-gray-400 text-sm font-medium">Location</p>
+                      <p className="text-lg font-semibold text-white flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
                         {profileData.location || "Not specified"}
                       </p>
                     </div>
                     <div className="md:col-span-2 space-y-1">
-                      <p className="text-gray-500 text-sm font-medium">Bio</p>
-                      <p className="text-gray-900 leading-relaxed whitespace-pre-wrap">
+                      <p className="text-gray-400 text-sm font-medium">Bio</p>
+                      <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
                         {profileData.bio || "No bio available"}
                       </p>
                     </div>
@@ -436,7 +436,7 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                   // Edit mode
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-gray-700 font-medium mb-2">
+                      <label className="block text-gray-300 font-medium mb-2">
                         Full Name *
                       </label>
                       <input
@@ -444,13 +444,13 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                         name="name"
                         value={editedData.name}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                         required
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 font-medium mb-2">
+                      <label className="block text-gray-300 font-medium mb-2">
                         Email
                       </label>
                       <input
@@ -458,12 +458,12 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                         name="email"
                         value={editedData.email}
                         disabled
-                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                        className="w-full p-3 border border-white/10 rounded-lg bg-white/5 text-white cursor-not-allowed"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 font-medium mb-2">
+                      <label className="block text-gray-300 font-medium mb-2">
                         Phone *
                       </label>
                       <input
@@ -471,12 +471,12 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                         name="phone"
                         value={editedData.phone}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 font-medium mb-2">
+                      <label className="block text-gray-300 font-medium mb-2">
                         Location
                       </label>
                       <input
@@ -485,12 +485,12 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                         value={editedData.location}
                         onChange={handleInputChange}
                         placeholder="City, Country"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-gray-700 font-medium mb-2">
+                      <label className="block text-gray-300 font-medium mb-2">
                         Bio
                       </label>
                       <textarea
@@ -500,9 +500,9 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                         rows={4}
                         maxLength={500}
                         placeholder="Tell us about yourself..."
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       />
-                      <p className="text-sm text-gray-500 mt-2 text-right">
+                      <p className="text-sm text-gray-400 mt-2 text-right">
                         {editedData.bio.length} / 500
                       </p>
                     </div>
@@ -514,55 +514,55 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
             {!loading && activeTab === "security" && (
               <div>
                 <div className="flex items-center gap-3 mb-8">
-                  <Key className="w-6 h-6 text-blue-600" />
-                  <h3 className="text-2xl font-semibold text-gray-900">Change Password</h3>
+                  <Key className="w-6 h-6 text-red-400" />
+                  <h3 className="text-2xl font-semibold text-white">Change Password</h3>
                 </div>
 
                 <form onSubmit={handlePasswordChange} className="space-y-6 max-w-md">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-gray-300 font-medium mb-2">
                       Current Password
                     </label>
                     <input
                       type="password"
                       value={currentPassword}
                       onChange={e => setCurrentPassword(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       required
                       autoComplete="current-password"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-gray-300 font-medium mb-2">
                       New Password
                     </label>
                     <input
                       type="password"
                       value={newPassword}
                       onChange={e => setNewPassword(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       required
                       autoComplete="new-password"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block text-gray-300 font-medium mb-2">
                       Confirm New Password
                     </label>
                     <input
                       type="password"
                       value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                       required
                       autoComplete="new-password"
                     />
                   </div>
 
                   {passwordError && (
-                    <p className="text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+                    <p className="text-red-300 bg-red-500/10 p-3 rounded-lg border border-red-500/30">
                       {passwordError}
                     </p>
                   )}
@@ -570,7 +570,7 @@ const Profile: React.FC<ProfileProps> = ({ isOpen, onClose }) => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex items-center gap-2 bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 disabled:opacity-60 transition-all shadow-sm hover:shadow-md"
+                    className="flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 disabled:opacity-60 transition-all shadow-sm hover:shadow-md"
                   >
                     {loading ? (
                       <Loader2 className="animate-spin w-5 h-5" />

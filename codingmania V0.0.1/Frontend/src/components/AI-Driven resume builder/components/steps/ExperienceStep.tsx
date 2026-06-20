@@ -47,21 +47,21 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
               type="text"
               value={editData.title}
               onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Job Title"
             />
             <input
               type="text"
               value={editData.company}
               onChange={(e) => setEditData({ ...editData, company: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Company"
             />
             <input
               type="text"
               value={editData.duration}
               onChange={(e) => setEditData({ ...editData, duration: e.target.value })}
-              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
               placeholder="Duration"
             />
           </div>
@@ -69,7 +69,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
             value={editData.description}
             onChange={(e) => setEditData({ ...editData, description: e.target.value })}
             rows={3}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400 resize-none mb-4"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400 resize-none mb-4"
             placeholder="Job Description"
           />
           <div className="flex gap-2">
@@ -106,7 +106,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
           <div className="flex gap-2">
             <button
               onClick={() => setEditingId(experience.id)}
-              className="p-2 text-gray-400 hover:text-blue-500 transition-colors"
+              className="p-2 text-gray-400 hover:text-red-400 transition-colors"
             >
               <Edit2 className="w-4 h-4" />
             </button>
@@ -125,10 +125,10 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
   return (
     <div className="space-y-6 bg-black min-h-screen py-6 px-4 rounded-lg">
       {/* AI Assistant Button */}
-      <div className="bg-gradient-to-r from-blue-900 to-purple-900 border border-blue-700 rounded-lg p-4">
+      <div className="bg-gradient-to-r from-red-900 to-orange-900 border border-red-500/50 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -138,7 +138,7 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
           </div>
           <button
             onClick={onOpenAI}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all text-sm font-medium"
+            className="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 transition-all text-sm font-medium"
           >
             Try AI Assistant
           </button>
@@ -153,21 +153,21 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
             type="text"
             value={newExperience.title}
             onChange={(e) => setNewExperience({ ...newExperience, title: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Job Title (e.g., Software Developer Intern)"
           />
           <input
             type="text"
             value={newExperience.company}
             onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Company Name"
           />
           <input
             type="text"
             value={newExperience.duration}
             onChange={(e) => setNewExperience({ ...newExperience, duration: e.target.value })}
-            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400"
             placeholder="Duration (e.g., Jun 2023 - Aug 2023)"
           />
         </div>
@@ -175,13 +175,13 @@ export const ExperienceStep: React.FC<ExperienceStepProps> = ({ data, onChange, 
           value={newExperience.description}
           onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
           rows={3}
-          className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400 resize-none mb-4"
+          className="w-full px-4 py-3 bg-black text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 placeholder-gray-400 resize-none mb-4"
           placeholder="Describe your role and achievements..."
         />
         <button
           onClick={addExperience}
           disabled={!newExperience.title || !newExperience.company || !newExperience.duration}
-          className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Experience

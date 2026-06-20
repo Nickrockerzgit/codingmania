@@ -30,10 +30,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   const avatar = otherUser?.avatar || null;
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden">
+    <div className="flex flex-col h-full bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden">
       {/* Header */}
       {conversation && (
-        <div className="px-5 py-3 border-b border-gray-100 bg-white/60 flex items-center justify-between">
+        <div className="px-5 py-3 border-b border-white/10 bg-white/5 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
             {avatar ? (
               <img
@@ -42,11 +42,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 className="w-9 h-9 rounded-full object-cover"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(title)}&background=5b6ef5&color=fff&size=64`;
+                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(title)}&background=dc2626&color=fff&size=64`;
                 }}
               />
             ) : (
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white bg-gradient-to-br from-indigo-500 to-purple-600">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white bg-gradient-to-r from-red-600 to-orange-600">
                 {title
                   .split(" ")
                   .map((n) => n[0])
@@ -56,7 +56,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               </div>
             )}
             <div className="min-w-0">
-              <div className="text-sm font-bold text-gray-900 truncate">{title}</div>
+              <div className="text-sm font-bold text-white truncate">{title}</div>
               <div className="text-[11px] text-gray-400">
                 {otherUser?.role === "alumni" ? "Alumni" : "Student"}
               </div>
@@ -66,14 +66,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white/5">
         {loading && (
           <div className="flex items-center justify-center py-8">
-            <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
         {error && (
-          <div className="text-center py-4 text-red-500 text-sm">{error}</div>
+          <div className="text-center py-4 text-red-400 text-sm">{error}</div>
         )}
         {messages.map((m, idx) => (
           <MessageBubble

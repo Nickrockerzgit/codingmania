@@ -30,13 +30,13 @@ export const FormStep: React.FC<FormStepProps> = ({
           <span className="text-sm font-medium text-gray-300">
             Step {currentStep} of {totalSteps}
           </span>
-          <span className="text-sm font-medium text-blue-400">
+          <span className="text-sm font-medium text-red-400">
             {Math.round((currentStep / totalSteps) * 100)}% Complete
           </span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2">
           <div
-            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-red-600 to-orange-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
           ></div>
         </div>
@@ -68,7 +68,7 @@ export const FormStep: React.FC<FormStepProps> = ({
           <button
             onClick={onNext}
             disabled={nextDisabled}
-            className="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all order-1 sm:order-2"
+            className="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all order-1 sm:order-2"
           >
             Next
             <ChevronRight className="w-4 h-4 ml-2" />

@@ -25,7 +25,7 @@ const levels = [
     id: 'intermediate' as Level,
     name: 'Intermediate',
     icon: Award,
-    color: 'from-blue-500 to-purple-500',
+    color: 'from-red-600 to-orange-600',
     description: 'For developers with some experience',
     questions: 15,
     mcq: 10,
@@ -49,7 +49,7 @@ const levels = [
 
 const LevelSelection: React.FC<LevelSelectionProps> = ({ technology, onLevelSelect, onBack }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
+    <div className="min-h-screen bg-[#050505] p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <button
@@ -73,7 +73,7 @@ const LevelSelection: React.FC<LevelSelectionProps> = ({ technology, onLevelSele
               <button
                 key={level.id}
                 onClick={() => onLevelSelect(level.id)}
-                className="group w-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+                className="group w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${level.color} opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300`}></div>
                 <div className="relative flex items-center justify-between">

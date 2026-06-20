@@ -22,21 +22,21 @@ interface TopicSelectionProps {
 
 const technologies = [
   { id: 'html' as Technology, name: 'HTML', icon: FaHtml5, color: 'from-orange-500 to-red-500', description: 'Markup language for web' },
-  { id: 'css' as Technology, name: 'CSS', icon: FaCss3Alt, color: 'from-purple-500 to-pink-500', description: 'Styling and layout' },
+  { id: 'css' as Technology, name: 'CSS', icon: FaCss3Alt, color: 'from-red-600 to-orange-600', description: 'Styling and layout' },
   { id: 'javascript' as Technology, name: 'JavaScript', icon: SiJavascript, color: 'from-yellow-500 to-orange-500', description: 'Dynamic programming language' },
-  { id: 'react' as Technology, name: 'React', icon: FaReact, color: 'from-blue-500 to-cyan-500', description: 'Component-based UI library' },
+  { id: 'react' as Technology, name: 'React', icon: FaReact, color: 'from-red-600 to-orange-600', description: 'Component-based UI library' },
   { id: 'nodejs' as Technology, name: 'Node.js', icon: FaNodeJs, color: 'from-green-500 to-emerald-500', description: 'Server-side JavaScript runtime' },
-  { id: 'mysql' as Technology, name: 'MySQL', icon: SiMysql, color: 'from-blue-600 to-indigo-600', description: 'Relational database management' },
+  { id: 'mysql' as Technology, name: 'MySQL', icon: SiMysql, color: 'from-red-600 to-orange-600', description: 'Relational database management' },
   { id: 'dsa' as Technology, name: 'DSA', icon: GiArtificialHive, color: 'from-red-500 to-pink-500', description: 'Data Structures & Algorithms' },
-  { id: 'aptitude' as Technology, name: 'Aptitude', icon: MdOutlinePsychology, color: 'from-indigo-500 to-purple-500', description: 'Logical reasoning & math' },
+  { id: 'aptitude' as Technology, name: 'Aptitude', icon: MdOutlinePsychology, color: 'from-red-600 to-orange-600', description: 'Logical reasoning & math' },
   { id: 'java' as Technology, name: 'Java', icon: FaJava, color: 'from-orange-600 to-red-600', description: 'Object-oriented programming' },
   { id: 'cpp' as Technology, name: 'C++', icon: SiCplusplus, color: 'from-gray-600 to-gray-800', description: 'Systems programming language' },
-  { id: 'python' as Technology, name: 'Python', icon: FaPython, color: 'from-green-600 to-blue-600', description: 'High-level programming language' }
+  { id: 'python' as Technology, name: 'Python', icon: FaPython, color: 'from-red-600 to-orange-600', description: 'High-level programming language' }
 ];
 
 const TopicSelection: React.FC<TopicSelectionProps> = ({ onTechnologySelect, onBack }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
+    <div className="min-h-screen bg-[#050505] p-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <button
@@ -60,7 +60,7 @@ const TopicSelection: React.FC<TopicSelectionProps> = ({ onTechnologySelect, onB
               <button
                 key={tech.id}
                 onClick={() => onTechnologySelect(tech.id)}
-                className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-gray-800/70 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${tech.color} opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300`}></div>
                 <div className="relative">
@@ -74,9 +74,9 @@ const TopicSelection: React.FC<TopicSelectionProps> = ({ onTechnologySelect, onB
             );
           })}
         </div>
-        <div className="mt-12 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl border border-gray-700 shadow-2xl p-10 text-white">
+        <div className="mt-12 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 shadow-2xl p-10 text-white">
   <div className="text-center">
-    <Brain className="h-16 w-16 mx-auto mb-4 text-purple-400" />
+    <Brain className="h-16 w-16 mx-auto mb-4 text-red-400" />
     <h2 className="text-4xl font-extrabold mb-4 tracking-tight text-white">Powered by Google Gemini AI</h2>
     <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
       Experience next-generation interview preparation with AI-generated questions, 
@@ -84,20 +84,20 @@ const TopicSelection: React.FC<TopicSelectionProps> = ({ onTechnologySelect, onB
     </p>
     
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-      <div className="bg-gray-800/70 border border-gray-700 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-purple-500">
-        <Code className="h-8 w-8 mb-3 mx-auto text-purple-400" />
+      <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-red-500/40">
+        <Code className="h-8 w-8 mb-3 mx-auto text-red-400" />
         <h3 className="font-semibold text-lg text-white mb-2">Unique Questions</h3>
         <p className="text-sm text-gray-400">AI generates fresh questions for every session.</p>
       </div>
       
-      <div className="bg-gray-800/70 border border-gray-700 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-purple-500">
-        <Target className="h-8 w-8 mb-3 mx-auto text-purple-400" />
+      <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-red-500/40">
+        <Target className="h-8 w-8 mb-3 mx-auto text-red-400" />
         <h3 className="font-semibold text-lg text-white mb-2">Smart Evaluation</h3>
         <p className="text-sm text-gray-400">Intelligent scoring for both MCQ and text answers.</p>
       </div>
       
-      <div className="bg-gray-800/70 border border-gray-700 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-purple-500">
-        <TrendingUp className="h-8 w-8 mb-3 mx-auto text-purple-400" />
+      <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm transition hover:shadow-lg hover:border-red-500/40">
+        <TrendingUp className="h-8 w-8 mb-3 mx-auto text-red-400" />
         <h3 className="font-semibold text-lg text-white mb-2">Performance Insights</h3>
         <p className="text-sm text-gray-400">Detailed analytics and improvement recommendations.</p>
       </div>

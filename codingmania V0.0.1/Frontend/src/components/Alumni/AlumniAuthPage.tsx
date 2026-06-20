@@ -193,17 +193,17 @@ const AlumniAuthPage = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[20%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-20%] right-[20%] w-[500px] h-[500px] bg-violet-600/8 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[-20%] left-[20%] w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-20%] right-[20%] w-[500px] h-[500px] bg-red-600/8 rounded-full blur-[120px]"></div>
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-900/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-[-15%] left-[-15%] w-96 h-96 bg-violet-900/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-red-900/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-[-15%] left-[-15%] w-96 h-96 bg-red-900/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <motion.div
-        className="w-full max-w-5xl bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10"
+        className="w-full max-w-5xl bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
@@ -220,7 +220,7 @@ const AlumniAuthPage = () => {
                 isSignUp ? "md:order-1" : "md:order-2"
               }`}
             >
-              <div className="h-full w-full bg-gradient-to-br from-purple-950/40 to-violet-950/40 flex items-center justify-center p-8">
+              <div className="h-full w-full bg-gradient-to-br from-red-950/40 to-orange-950/40 flex items-center justify-center p-8">
                 <img
                   src={authIllustration}
                   alt="Authentication Illustration"
@@ -262,14 +262,14 @@ const AlumniAuthPage = () => {
                                 <img
                                   src={avatarPreview}
                                   alt="Profile preview"
-                                  className="w-24 h-24 rounded-full object-cover border-4 border-purple-500 shadow-lg"
+                                  className="w-24 h-24 rounded-full object-cover border-4 border-red-500 shadow-lg"
                                 />
                               ) : (
-                                <div className="w-24 h-24 rounded-full bg-gray-800 border-4 border-dashed border-gray-600 flex items-center justify-center">
-                                  <Camera className="w-8 h-8 text-gray-500" />
+                                <div className="w-24 h-24 rounded-full bg-white/5 border-4 border-dashed border-white/10 flex items-center justify-center">
+                                  <Camera className="w-8 h-8 text-gray-400" />
                                 </div>
                                                       )}
-                              <label className="absolute bottom-0 right-0 bg-purple-500 text-white p-2 rounded-full cursor-pointer hover:bg-purple-600 shadow-lg transition-all">
+                              <label className="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full cursor-pointer hover:bg-red-700 shadow-lg transition-all">
                                 {avatarPreview ? (
                                   <X className="w-4 h-4" onClick={handleRemoveAvatar} />
                                 ) : (
@@ -318,7 +318,7 @@ const AlumniAuthPage = () => {
                                 name="branch"
                                 value={formData.branch}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/50 transition-all"
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
                               >
                                 <option value="">Select Branch</option>
                                 <option value="CSE">CSE</option>
@@ -374,7 +374,7 @@ const AlumniAuthPage = () => {
                         whileTap={{ scale: 0.97 }}
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white py-3 rounded-xl font-semibold shadow-lg shadow-purple-600/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white py-3 rounded-xl font-semibold shadow-lg shadow-red-600/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {isLoading ? (
                           <span className="flex items-center justify-center gap-2">
@@ -410,7 +410,7 @@ const AlumniAuthPage = () => {
                         whileTap={{ scale: 0.97 }}
                         type="submit"
                         disabled={isVerifying}
-                        className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white py-3 rounded-xl font-semibold shadow-lg shadow-purple-600/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white py-3 rounded-xl font-semibold shadow-lg shadow-red-600/20 disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {isVerifying ? (
                           <span className="flex items-center justify-center gap-2">
@@ -424,12 +424,12 @@ const AlumniAuthPage = () => {
                     <div className="text-center">
                       {timer > 0 ? (
                         <p className="text-gray-400">
-                          Resend in <span className="text-purple-400 font-medium">{timer}s</span>
+                          Resend in <span className="text-red-400 font-medium">{timer}s</span>
                         </p>
                       ) : (
                         <button
                           onClick={handleResendOtp}
-                          className="text-purple-400 hover:text-purple-300 underline"
+                          className="text-red-400 hover:text-red-300 underline"
                         >
                           Resend OTP
                         </button>
@@ -444,7 +444,7 @@ const AlumniAuthPage = () => {
               {isSignUp ? "Already an alumni?" : "New to our community?"}{" "}
               <button
                 onClick={toggleForm}
-                className="text-purple-400 hover:text-purple-300 font-medium underline"
+                className="text-red-400 hover:text-red-300 font-medium underline"
               >
                 {isSignUp ? "Sign In" : "Register"}
               </button>
@@ -479,7 +479,7 @@ const FloatingInput = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/50 transition-all"
+      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
     />
   </div>
 );
@@ -506,7 +506,7 @@ const PasswordInput = ({
         value={value}
         onChange={onChange}
         placeholder="••••••••"
-        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/50 pr-12 transition-all"
+        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 pr-12 transition-all"
       />
       <button
         type="button"

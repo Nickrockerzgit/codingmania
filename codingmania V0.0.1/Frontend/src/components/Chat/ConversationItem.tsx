@@ -61,8 +61,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       onClick={onClick}
       className={`w-full flex items-center gap-3 p-3 rounded-xl transition-colors ${
         isActive
-          ? "bg-indigo-50 border border-indigo-100"
-          : "hover:bg-gray-50 border border-transparent"
+          ? "bg-red-500/10 border-l-2 border-red-500"
+          : "hover:bg-white/5 border border-transparent"
       }`}
     >
       {avatar ? (
@@ -79,25 +79,25 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       <div
         className={`${
           avatar ? "hidden" : ""
-        } w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm`}
+        } w-12 h-12 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center text-white font-bold text-sm`}
       >
         {initials}
       </div>
 
       <div className="flex-1 min-w-0 text-left">
         <div className="flex items-center justify-between">
-          <p className="font-semibold text-gray-900 truncate">{otherUser?.name}</p>
+          <p className="font-semibold text-white truncate">{otherUser?.name}</p>
           <span className="text-xs text-gray-400">
             {formatTime(conversation.lastMessageAt || undefined)}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500 truncate">{previewText}</p>
+          <p className="text-sm text-gray-300 truncate">{previewText}</p>
           <span
             className={`text-xs px-2 py-0.5 rounded-full ${
               otherUser?.role === "alumni"
-                ? "bg-purple-100 text-purple-700"
-                : "bg-blue-100 text-blue-700"
+                ? "bg-purple-500/20 text-purple-300"
+                : "bg-red-500/20 text-red-300"
             }`}
           >
             {otherUser?.role === "alumni" ? "Alumni" : "Student"}

@@ -498,20 +498,20 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case "upcoming": return "bg-blue-100 text-blue-800";
-      case "registered": return "bg-green-100 text-green-800";
-      case "attended": return "bg-purple-100 text-purple-800";
-      case "missed": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "upcoming": return "bg-amber-500/15 text-amber-400";
+      case "registered": return "bg-green-500/15 text-green-400";
+      case "attended": return "bg-purple-500/15 text-purple-400";
+      case "missed": return "bg-red-500/15 text-red-300";
+      default: return "bg-white/5 text-gray-300";
     }
   };
 
   const getTypeColor = (type: string) => {
     switch(type) {
-      case "online": return "bg-cyan-100 text-cyan-800";
-      case "offline": return "bg-orange-100 text-orange-800";
-      case "hybrid": return "bg-indigo-100 text-indigo-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "online": return "bg-cyan-500/15 text-cyan-400";
+      case "offline": return "bg-orange-500/15 text-orange-400";
+      case "hybrid": return "bg-indigo-500/15 text-indigo-400";
+      default: return "bg-white/5 text-gray-300";
     }
   };
 
@@ -550,16 +550,16 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
   if (loading) return <div>Loading events...</div>;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+      <div className="bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <Calendar className="w-6 h-6 text-purple-600" />
-            <h2 className="text-2xl font-bold text-gray-900">My Events</h2>
+            <Calendar className="w-6 h-6 text-red-400" />
+            <h2 className="text-2xl font-bold text-white">My Events</h2>
           </div>
-          <button 
+          <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl font-semibold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100"
+            className="text-gray-400 hover:text-white text-xl font-semibold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5"
           >
             ×
           </button>
@@ -575,17 +575,17 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
                 placeholder="Search events..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
               />
             </div>
             
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-gray-500" />
+                <Filter className="w-4 h-4 text-gray-400" />
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                 >
                   <option value="all">All Status</option>
                   <option value="upcoming">Upcoming</option>
@@ -598,7 +598,7 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
               >
                 <option value="all">All Types</option>
                 <option value="online">Online</option>
@@ -609,7 +609,7 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
               >
                 <option value="date">Sort by Date</option>
                 <option value="title">Sort by Title</option>
@@ -626,44 +626,44 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
                 const isUpcoming = isEventUpcoming(event.date, event.time);
                 
                 return (
-                  <div key={event.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-200">
+                  <div key={event.id} className="bg-white/5 border border-white/10 rounded-xl p-6 hover:shadow-lg transition-shadow duration-200">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-3">
-                          <h3 className="text-lg font-semibold text-gray-900">{event.title}</h3>
+                          <h3 className="text-lg font-semibold text-white">{event.title}</h3>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(event.status)}`}>
                             {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
                           </span>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(event.type)}`}>
                             {getTypeIcon(event.type)} {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
                           </span>
-                          <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">
+                          <span className="px-3 py-1 bg-white/5 text-gray-300 rounded-full text-xs font-medium">
                             {event.category}
                           </span>
                         </div>
-                        
-                        <p className="text-gray-600 mb-3">{event.description}</p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-sm text-gray-600">
+
+                        <p className="text-gray-300 mb-3">{event.description}</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-sm text-gray-300">
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-blue-500" />
+                            <Calendar className="w-4 h-4 text-orange-400" />
                             <span>{date}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-green-500" />
+                            <Clock className="w-4 h-4 text-green-400" />
                             <span>{time}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <MapPin className="w-4 h-4 text-red-500" />
+                            <MapPin className="w-4 h-4 text-red-400" />
                             <span className="truncate">{event.location}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Users className="w-4 h-4 text-purple-500" />
+                            <Users className="w-4 h-4 text-purple-400" />
                             <span>{event.registered}/{event.capacity} slots filled</span>
                           </div>
                         </div>
-                        
-                        <div className="mt-3 text-xs text-gray-500">
+
+                        <div className="mt-3 text-xs text-gray-400">
                           <p>Organized by: {event.organizer}</p>
                           <p>Registered on: {event.registrationDate || 'N/A'}</p>
                         </div>
@@ -675,35 +675,35 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
                             href={event.meetingLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
                           >
                             <ExternalLink className="w-4 h-4" />
                             Join Event
                           </a>
                         )}
-                        
+
                         {event.status === 'attended' && (
-                          <div className="px-4 py-2 bg-green-100 text-green-800 rounded-lg text-center">
+                          <div className="px-4 py-2 bg-green-500/15 text-green-400 rounded-lg text-center">
                             ✓ Attended
                           </div>
                         )}
-                        
+
                         {event.status === 'missed' && (
-                          <div className="px-4 py-2 bg-red-100 text-red-800 rounded-lg text-center">
+                          <div className="px-4 py-2 bg-red-500/15 text-red-300 rounded-lg text-center">
                             ✗ Missed
                           </div>
                         )}
-                        
+
                         {(event.status === 'upcoming' || event.status === 'registered') && !isUpcoming && (
-                          <div className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-center text-sm">
+                          <div className="px-4 py-2 bg-white/5 text-gray-400 rounded-lg text-center text-sm">
                             Event Ended
                           </div>
                         )}
-                        
+
                         {event.status === 'upcoming' && isUpcoming && (
                           <button
                             onClick={() => handleRegister(event.id)}
-                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
                           >
                             Register
                           </button>
@@ -712,14 +712,14 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
                     </div>
                     
                     {/* Progress bar for capacity */}
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <div className="flex justify-between text-xs text-gray-600 mb-1">
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <div className="flex justify-between text-xs text-gray-300 mb-1">
                         <span>Registration Progress</span>
                         <span>{Math.round((event.registered / event.capacity) * 100)}% full</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+                      <div className="w-full bg-white/5 rounded-full h-2">
+                        <div
+                          className="bg-red-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${(event.registered / event.capacity) * 100}%` }}
                         />
                       </div>
@@ -730,37 +730,37 @@ const Events: React.FC<EventsProps> = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">No events found.</p>
+              <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-400 text-lg">No events found.</p>
               <p className="text-gray-400 text-sm">Register for events to see them here!</p>
             </div>
           )}
           
           {/* Summary Stats */}
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-1">
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-amber-400 mb-1">
                 {events.filter(e => e.status === 'upcoming' || e.status === 'registered').length}
               </div>
-              <div className="text-sm text-blue-700">Upcoming</div>
+              <div className="text-sm text-amber-400">Upcoming</div>
             </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 mb-1">
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-purple-400 mb-1">
                 {events.filter(e => e.status === 'attended').length}
               </div>
-              <div className="text-sm text-purple-700">Attended</div>
+              <div className="text-sm text-purple-400">Attended</div>
             </div>
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-red-600 mb-1">
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-red-400 mb-1">
                 {events.filter(e => e.status === 'missed').length}
               </div>
-              <div className="text-sm text-red-700">Missed</div>
+              <div className="text-sm text-red-300">Missed</div>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-gray-600 mb-1">
+            <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-white mb-1">
                 {events.length}
               </div>
-              <div className="text-sm text-gray-700">Total</div>
+              <div className="text-sm text-gray-300">Total</div>
             </div>
           </div>
         </div>

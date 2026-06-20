@@ -18,14 +18,14 @@ const ConversationList: React.FC<ConversationListProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-40">
-        <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (conversations.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+      <div className="flex flex-col items-center justify-center h-40 text-gray-400">
         <p className="text-sm">No conversations yet</p>
         <p className="text-xs mt-1">Start chatting with alumni!</p>
       </div>

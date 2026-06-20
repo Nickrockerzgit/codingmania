@@ -96,7 +96,7 @@ interface StatCardProps {
 
 const StatCard = ({ label, Icon, value, trendUp, trendLabel, data, barHex, bgFrom, bgTo, textColor, id }: StatCardProps) => (
   <div
-    className="rounded-3xl p-6 flex flex-col gap-1 overflow-hidden relative"
+    className="rounded-3xl p-6 flex flex-col gap-1 overflow-hidden relative border border-white/10"
     style={{ background: `linear-gradient(145deg, ${bgFrom}, ${bgTo})` }}
   >
     <div className="flex items-start justify-between mb-1">
@@ -108,7 +108,7 @@ const StatCard = ({ label, Icon, value, trendUp, trendLabel, data, barHex, bgFro
       <span className={`text-[42px] font-extrabold leading-none ${textColor}`}>{value}</span>
       <span
         className={`flex items-center gap-0.5 text-xs font-semibold px-2 py-1 rounded-full mb-1
-          ${trendUp ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-600"}`}
+          ${trendUp ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-300"}`}
       >
         {trendUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
         {trendLabel}
@@ -145,8 +145,8 @@ const SidebarButton = ({ icon: Icon, label, active, expanded, onClick, isLogout,
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     if (isLogout) {
-      (e.target as HTMLElement).style.color = accent === "danger" ? "#fca5a5" : "#ddd6fe";
-      (e.target as HTMLElement).style.background = accent === "danger" ? "rgba(239,68,68,0.12)" : "rgba(139,92,246,0.14)";
+      (e.target as HTMLElement).style.color = accent === "danger" ? "#fca5a5" : "#fca5a5";
+      (e.target as HTMLElement).style.background = accent === "danger" ? "rgba(239,68,68,0.12)" : "rgba(239,68,68,0.12)";
     } else if (!active) {
       (e.target as HTMLElement).style.color = "rgba(255,255,255,0.7)";
       (e.target as HTMLElement).style.background = "rgba(255,255,255,0.08)";
@@ -259,7 +259,7 @@ const AlumniDashboardLayout = () => {
   return (
     <div
       className="flex h-screen overflow-hidden"
-      style={{ background: "#ECEBF8", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
+      style={{ background: "#050505", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
     >
       {isMobile && mobileMenuOpen && (
         <div
@@ -276,7 +276,7 @@ const AlumniDashboardLayout = () => {
             : SIDEBAR_WIDTH
           }
         `}
-        style={{ background: "#0f0f1e" }}
+        style={{ background: "#0a0a0a" }}
       >
         <div className={`flex items-center ${sidebarExpanded || isMobile ? "px-4 justify-between" : "justify-center"} mb-5 flex-shrink-0`}>
           <div className="flex items-center gap-2.5">
@@ -351,13 +351,13 @@ const AlumniDashboardLayout = () => {
               {isMobile && (
                 <button
                   onClick={() => setMobileMenuOpen(true)}
-                  className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-500 hover:bg-white/90 transition-colors flex-shrink-0"
+                  className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:bg-white/10 transition-colors flex-shrink-0"
                 >
                   <Menu className="w-5 h-5" />
                 </button>
               )}
               <div className="min-w-0">
-                <h1 className="text-lg md:text-xl font-extrabold text-gray-900 leading-tight truncate">
+                <h1 className="text-lg md:text-xl font-extrabold text-white leading-tight truncate">
                   {greeting}, {displayName}
                 </h1>
                 <p className="text-xs text-gray-400 mt-0.5">Here's your alumni dashboard overview</p>
@@ -366,31 +366,31 @@ const AlumniDashboardLayout = () => {
 
             <div className="flex items-center gap-2 md:gap-2.5 flex-shrink-0">
               <div className="relative hidden sm:block">
-                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="pl-9 pr-4 py-2.5 bg-white/70 backdrop-blur-sm rounded-2xl text-sm placeholder-gray-300 text-gray-700 outline-none w-40 md:w-64 border border-white/70 focus:border-[#5b6ef5]/30 transition-colors"
+                  className="pl-9 pr-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-2xl text-sm placeholder-gray-500 text-white outline-none w-40 md:w-64 border border-white/10 focus:border-red-500 transition-colors"
                 />
               </div>
 
               {isMobile && (
-                <button className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors flex-shrink-0">
+                <button className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors flex-shrink-0">
                   <Search className="w-4 h-4" />
                 </button>
               )}
 
               <div className="relative flex-shrink-0">
-                <button className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-400 hover:bg-white/90 transition-colors">
+                <button className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors">
                   <Bell className="w-4 h-4" />
                 </button>
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#5b6ef5] text-white text-[9px] font-bold flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white text-[9px] font-bold flex items-center justify-center">
                   2
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-white/70 border border-white/70 rounded-2xl cursor-pointer hover:bg-white/90 transition-colors flex-shrink-0">
-                <div className="w-7 h-7 rounded-full bg-[#5b6ef5]/10 flex items-center justify-center text-[10px] font-bold text-[#5b6ef5] flex-shrink-0">
+              <div className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/10 transition-colors flex-shrink-0">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0">
                   {userInitials}
                 </div>
                 <ChevronDown className="w-3 h-3 text-gray-400" />
@@ -402,7 +402,7 @@ const AlumniDashboardLayout = () => {
             <div
               className="rounded-2xl p-6 relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, #5b6ef5, #7c3aed)",
+                background: "linear-gradient(135deg, #dc2626, #ea580c)",
               }}
             >
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full" />
@@ -435,10 +435,10 @@ const AlumniDashboardLayout = () => {
                 trendUp={true}
                 trendLabel={`+${stats.studentsConnected}`}
                 data={STUDENTS_DATA}
-                barHex="#5b6ef5"
-                bgFrom="#dde0f8"
-                bgTo="#c9cef4"
-                textColor="text-indigo-900"
+                barHex="#ef4444"
+                bgFrom="#1a1a1a"
+                bgTo="#0a0a0a"
+                textColor="text-white"
               />
               <StatCard
                 id="qa"
@@ -448,10 +448,10 @@ const AlumniDashboardLayout = () => {
                 trendUp={true}
                 trendLabel={`+${stats.qaAnswered}`}
                 data={ANSWERS_DATA}
-                barHex="#3b82f6"
-                bgFrom="#d6edf9"
-                bgTo="#bdddf5"
-                textColor="text-blue-900"
+                barHex="#f97316"
+                bgFrom="#1a1a1a"
+                bgTo="#0a0a0a"
+                textColor="text-white"
               />
               <StatCard
                 id="jobs"
@@ -461,10 +461,10 @@ const AlumniDashboardLayout = () => {
                 trendUp={true}
                 trendLabel={`+${stats.jobsPosted}`}
                 data={JOBS_DATA}
-                barHex="#a855f7"
-                bgFrom="#ead6f7"
-                bgTo="#d9bdf2"
-                textColor="text-purple-900"
+                barHex="#dc2626"
+                bgFrom="#1a1a1a"
+                bgTo="#0a0a0a"
+                textColor="text-white"
               />
             </div>
 
@@ -472,18 +472,18 @@ const AlumniDashboardLayout = () => {
               <div
                 className="rounded-2xl p-6"
                 style={{
-                  background: "rgba(255,255,255,0.65)",
+                  background: "rgba(255,255,255,0.05)",
                   backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.8)",
+                  border: "1px solid rgba(255,255,255,0.1)",
                 }}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-[#5b6ef5]/10 flex items-center justify-center">
-                    <div className="w-4 h-px bg-[#5b6ef5]" />
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                    <div className="w-4 h-px bg-red-500" />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-widest text-[#5b6ef5] font-semibold">Quick</span>
-                    <h3 className="text-sm font-bold text-gray-900 leading-none">Quick Actions</h3>
+                    <span className="text-[10px] uppercase tracking-widest text-red-400 font-semibold">Quick</span>
+                    <h3 className="text-sm font-bold text-white leading-none">Quick Actions</h3>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -497,13 +497,13 @@ const AlumniDashboardLayout = () => {
                       onClick={() => {
                         if (label === "Edit Profile") handleNavClick("profile");
                       }}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#5b6ef5]/5 transition-colors cursor-pointer group"
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-red-500/5 transition-colors cursor-pointer group"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-[#5b6ef5]/10 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-4 h-4 text-[#5b6ef5]" />
+                      <div className="w-9 h-9 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-4 h-4 text-red-400" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-800 group-hover:text-[#5b6ef5] transition-colors">{label}</p>
+                        <p className="text-sm font-semibold text-gray-300 group-hover:text-red-400 transition-colors">{label}</p>
                         <p className="text-[11px] text-gray-400">{desc}</p>
                       </div>
                     </div>
@@ -514,18 +514,18 @@ const AlumniDashboardLayout = () => {
               <div
                 className="rounded-2xl p-6"
                 style={{
-                  background: "rgba(255,255,255,0.65)",
+                  background: "rgba(255,255,255,0.05)",
                   backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.8)",
+                  border: "1px solid rgba(255,255,255,0.1)",
                 }}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-[#5b6ef5]/10 flex items-center justify-center">
-                    <div className="w-4 h-px bg-[#5b6ef5]" />
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                    <div className="w-4 h-px bg-red-500" />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-widest text-[#5b6ef5] font-semibold">Feed</span>
-                    <h3 className="text-sm font-bold text-gray-900 leading-none">Recent Activity</h3>
+                    <span className="text-[10px] uppercase tracking-widest text-red-400 font-semibold">Feed</span>
+                    <h3 className="text-sm font-bold text-white leading-none">Recent Activity</h3>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -534,10 +534,10 @@ const AlumniDashboardLayout = () => {
                     { text: "New student joined your mentorship", time: "1d ago" },
                     { text: "Your job posting got 12 applications", time: "2d ago" },
                   ].map(({ text, time }, i) => (
-                    <div key={i} className="flex items-start gap-3 py-2 border-b border-gray-100/60 last:border-0">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#5b6ef5] mt-1.5 flex-shrink-0" />
+                    <div key={i} className="flex items-start gap-3 py-2 border-b border-white/10 last:border-0">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 flex-shrink-0" />
                       <div>
-                        <p className="text-sm text-gray-700">{text}</p>
+                        <p className="text-sm text-gray-300">{text}</p>
                         <p className="text-[11px] text-gray-400 mt-0.5">{time}</p>
                       </div>
                     </div>
@@ -547,7 +547,7 @@ const AlumniDashboardLayout = () => {
 
               <div
                 className="rounded-2xl p-6 text-white relative overflow-hidden"
-                style={{ background: "linear-gradient(135deg, #5b6ef5, #7c3aed)" }}
+                style={{ background: "linear-gradient(135deg, #dc2626, #ea580c)" }}
               >
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full" />
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-70 mb-1">Impact</p>
@@ -561,16 +561,16 @@ const AlumniDashboardLayout = () => {
           </div>
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto" style={{ background: "#ECEBF8" }}>
+        <div className="flex-1 overflow-y-auto" style={{ background: "#050505" }}>
           {isMobile && (
-            <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3 bg-[#ECEBF8]/90 backdrop-blur-sm">
+            <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3 bg-[#050505]/90 backdrop-blur-sm">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="w-10 h-10 rounded-2xl bg-white/70 border border-white/70 flex items-center justify-center text-gray-500 hover:bg-white/90 transition-colors flex-shrink-0"
+                className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:bg-white/10 transition-colors flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
-              <h1 className="text-base font-bold text-gray-900 truncate capitalize">
+              <h1 className="text-base font-bold text-white truncate capitalize">
                 {activeKey}
               </h1>
             </div>

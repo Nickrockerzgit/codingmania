@@ -171,7 +171,7 @@ const ChatBot3D = () => {
             <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
-        <div className="absolute top-8 left-(-4) bg-gradient-to-r from-purple-600 to-blue-600 text-black text-xs px-2 py-1 rounded shadow-md">
+        <div className="absolute top-8 left-(-4) bg-gradient-to-r from-red-600 to-orange-600 text-white text-xs px-2 py-1 rounded shadow-md">
          Ask me anything
        </div>
       </div>

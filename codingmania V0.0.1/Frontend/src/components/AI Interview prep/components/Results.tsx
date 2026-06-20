@@ -28,7 +28,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 pt-20">
+    <div className="min-h-screen bg-[#050505] pt-20">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <div className="relative">
@@ -42,7 +42,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
             <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${getScoreColor(result.score)} flex items-center justify-center`}>
               <Trophy className="w-8 h-8 text-white" />
             </div>
@@ -50,15 +50,15 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
             <p className="text-gray-400">Final Score</p>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center">
               <CheckCircle className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-3xl font-bold text-white mb-2">{result.correctAnswers}</h3>
             <p className="text-gray-400">Correct Answers</p>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
               <XCircle className="w-8 h-8 text-white" />
             </div>
@@ -66,7 +66,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
             <p className="text-gray-400">Incorrect Answers</p>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
               <Clock className="w-8 h-8 text-white" />
             </div>
@@ -75,7 +75,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 mb-8">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">Quiz Details</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
@@ -97,7 +97,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 mb-8">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">Answer Review</h2>
           <div className="space-y-4 max-h-96 overflow-y-auto">
             {result.answers.map((answer, index) => (
@@ -136,7 +136,7 @@ const Results: React.FC<ResultsProps> = ({ result, onBackToHome, onViewDashboard
           
           <button
             onClick={onViewDashboard}
-            className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors duration-200"
+            className="flex items-center justify-center space-x-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors duration-200"
           >
             <BarChart3 className="w-5 h-5" />
             <span>View Dashboard</span>

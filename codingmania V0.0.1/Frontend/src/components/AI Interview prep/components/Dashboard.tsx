@@ -65,7 +65,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
 
   return (
     // <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 pt-20 px-10 pb-10">
+    <div className="min-h-screen bg-[#050505] pt-20 px-10 pb-10">
 
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
@@ -83,7 +83,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
             <select
               value={selectedTechnology}
               onChange={(e) => setSelectedTechnology(e.target.value as Technology | 'all')}
-              className="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+              className="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-red-500"
             >
               {technologies.map(tech => (
                 <option key={tech} value={tech} className="capitalize">
@@ -95,7 +95,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value as Level | 'all')}
-              className="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+              className="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-red-500"
             >
               {levels.map(level => (
                 <option key={level} value={level} className="capitalize">
@@ -115,15 +115,15 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center">
                   <TrendingUp className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-2">{stats.avgScore}%</h3>
                 <p className="text-gray-400">Average Score</p>
               </div>
 
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
                   <Calendar className="w-8 h-8 text-white" />
                 </div>
@@ -131,7 +131,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
                 <p className="text-gray-400">Total Quizzes</p>
               </div>
 
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
                   <Trophy className="w-8 h-8 text-white" />
                 </div>
@@ -139,7 +139,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
                 <p className="text-gray-400">Best Score</p>
               </div>
 
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 text-center">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
                   <Target className="w-8 h-8 text-white" />
                 </div>
@@ -149,7 +149,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                   <BarChart3 className="w-6 h-6 mr-2" />
                   Technology Performance
@@ -158,7 +158,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
                   {Object.entries(techStats).map(([tech, data]) => (
                     <div key={tech} className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-red-600 rounded-full"></div>
                         <span className="text-gray-300 capitalize">{tech}</span>
                       </div>
                       <div className="flex items-center space-x-4">
@@ -170,7 +170,7 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
                 </div>
               </div>
 
-              <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                   <Clock className="w-6 h-6 mr-2" />
                   Recent Activity
@@ -192,13 +192,13 @@ const Dashboard: React.FC<DashboardProps> = ({ results, onBack }) => {
               </div>
             </div>
 
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <h2 className="text-2xl font-bold text-white mb-6">Score Progression</h2>
               <div className="h-64 flex items-end justify-center space-x-2">
                 {filteredResults.slice(-10).map((result, index) => (
                   <div key={result.id} className="flex flex-col items-center">
                     <div
-                      className="w-8 bg-gradient-to-t from-blue-600 to-purple-600 rounded-t-lg transition-all duration-300 hover:from-blue-500 hover:to-purple-500"
+                      className="w-8 bg-gradient-to-t from-red-600 to-orange-600 rounded-t-lg transition-all duration-300 hover:from-red-500 hover:to-orange-500"
                       style={{ height: `${(result.score / 100) * 200}px` }}
                     ></div>
                     <p className="text-xs text-gray-400 mt-2 rotate-45">{result.technology}</p>
