@@ -49,6 +49,13 @@ const { notifyUser } = require('./utils/notify');
 // Initialize Express app
 const app = express();
 
+// Trust the first proxy (e.g. Render / Nginx) so rate limiting & req.ip
+// use the real client IP instead of the proxy's.
+app.set('trust proxy', 1);
+
+// Rate limiters
+const { apiLimiter } = require('./middleware/rateLimiter');
+
 // ✅ Use Helmet for basic security headers
 // app.use(helmet());
 
@@ -87,6 +94,9 @@ app.use('/uploads/logos', express.static('uploads/logos'));
 app.use('/uploads/videos', express.static('uploads/videos'));
 app.use('/uploads/thumbnails', express.static('uploads/thumbnails'));
 
+// Apply the general rate limiter to every API route.
+app.use('/api', apiLimiter);
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
@@ -121,7 +131,9 @@ const allowedOrigins = [
   "http://localhost:5000",
   "http://localhost:5173",
   "http://localhost:5174",
-];
+  "http://localhost:8080", // dockerized frontend (nginx)
+  process.env.FRONTEND_URL, // production / custom origin
+].filter(Boolean);
 
 const io = new Server(server, {
   cors: {

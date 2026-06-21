@@ -199,10 +199,16 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 relative overflow-hidden">
-      {/* Background + Back Button */}
+    <div className="min-h-screen bg-[#050505] relative overflow-hidden">
+      <Toaster position="top-center" />
+
+      {/* Ambient red glow */}
+      <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-red-600/20 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-red-600/10 blur-[120px]" />
+
+      {/* Back Button */}
       <div className="absolute top-6 left-6 z-50">
-        <Link to="/" className="flex items-center space-x-2 text-white/80 hover:text-white transition-colors duration-300 group">
+        <Link to="/" className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors duration-300 group">
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
           <span>Back to Home</span>
         </Link>
@@ -210,28 +216,32 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
         <div className="w-full max-w-md">
-          <form onSubmit={otpSent ? handleVerifyOtp : handleSendOtp} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
+          <form onSubmit={otpSent ? handleVerifyOtp : handleSendOtp} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl mb-4">
-                <Shield className="w-8 h-8 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl mb-4">
+                <Shield className="w-8 h-8 text-red-400" />
               </div>
               <h2 className="text-3xl font-bold text-white mb-2">Admin Login</h2>
-              <p className="text-white/60">Enter your credentials to continue</p>
+              <p className="text-gray-400">Enter your credentials to continue</p>
             </div>
 
-            {error && <p className="text-red-400 text-sm mb-4 text-center">{error}</p>}
+            {error && (
+              <div className="px-4 py-2.5 mb-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-sm text-center">
+                {error}
+              </div>
+            )}
 
             <div className="space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">Email Address</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple/40" />
+                  <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40"
+                    className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
                     placeholder="Enter admin email"
                     required
                   />
@@ -240,15 +250,15 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
 
               {!otpSent && (
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-2">Password</label>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">Password</label>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple/40" />
+                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
                       type="password"
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40"
+                      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
                       placeholder="••••••••"
                       required
                     />
@@ -258,13 +268,13 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
 
               {otpSent && (
                 <div>
-                  <label htmlFor="otp" className="block text-sm font-medium text-white/80 mb-2">Enter OTP</label>
+                  <label htmlFor="otp" className="block text-sm font-medium text-gray-300 mb-2">Enter OTP</label>
                   <input
                     type="text"
                     id="otp"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40"
+                    className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors tracking-widest text-center"
                     placeholder="Enter 6-digit OTP"
                     required
                   />
@@ -274,7 +284,7 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
               <button
                 type="submit"
                 disabled={!otpSent ? (resendTimer > 0 || isLoading) : isVerifying}
-                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-red-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {otpSent ? (isVerifying ? <span className="flex items-center justify-center gap-2"><Loader2 className="animate-spin h-5 w-5" /> Verifying...</span> : "Verify OTP") : isLoading ? <span className="flex items-center justify-center gap-2"><Loader2 className="animate-spin h-5 w-5" /> Sending...</span> : (resendTimer > 0 ? `Wait ${resendTimer}s` : "Send OTP")}
               </button>
