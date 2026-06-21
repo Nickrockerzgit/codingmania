@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, Users, Search, Filter, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 
 interface Event {
@@ -17,10 +18,35 @@ interface Event {
   category: string;
   meetingLink?: string;
   registrationDate: string;
+  source?: 'webinar' | 'event';   // webinar = seat-based; event = hackathon/competition (Event Post)
+  registrationOpen?: boolean;     // for `event` source
 }
+
+// Map an "Event Post" record (hackathon/competition) to the shared Event shape.
+const mapEventPost = (e: any): Event => {
+  const start = e.event_start || e.date;
+  return {
+    id: e.id,
+    title: e.title,
+    description: e.about || 'No description provided.',
+    date: start ? new Date(start).toISOString().split('T')[0] : '',
+    time: e.event_start ? new Date(e.event_start).toTimeString().slice(0, 5) : '00:00',
+    location: e.location || 'TBD',
+    type: (e.location || '').toLowerCase().includes('online') ? 'online' : 'offline',
+    status: 'upcoming',
+    organizer: 'CodingMania',
+    capacity: parseInt(e.participants) || 0,
+    registered: 0,
+    category: e.categories || 'Event',
+    registrationDate: '',
+    source: 'event',
+    registrationOpen: e.registration_open !== false,
+  };
+};
 
 const AlumniEvents2: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -35,50 +61,26 @@ const AlumniEvents2: React.FC = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/webinars/user`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to fetch events');
-      const data = await response.json();
-      setEvents(data);
+      const API = import.meta.env.VITE_API_BASE_URL;
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+
+      // 1) Webinars/meetups (seat-based) + 2) Event Post events (hackathons/competitions).
+      const [webRes, evtRes] = await Promise.all([
+        fetch(`${API}/webinars/user`, { headers }),
+        fetch(`${API}/events/get-events`, { headers }),
+      ]);
+
+      const webinars: Event[] = webRes.ok
+        ? (await webRes.json()).map((w: any) => ({ ...w, source: 'webinar' as const }))
+        : [];
+      const eventPosts: Event[] = evtRes.ok
+        ? (await evtRes.json()).map(mapEventPost)
+        : [];
+
+      setEvents([...webinars, ...eventPosts]);
     } catch (err) {
       console.error(err);
-      // fallback dummy data just to show the UI
-      setEvents([
-        {
-          id: 1,
-          title: "React Advanced Patterns Workshop",
-          description: "Deep dive into advanced React patterns including compound components, render props, and custom hooks.",
-          date: "2026-05-25",
-          time: "14:00",
-          location: "TechHub Conference Center",
-          type: "offline",
-          status: "upcoming",
-          organizer: "React Experts Guild",
-          capacity: 50,
-          registered: 35,
-          category: "Workshop",
-          registrationDate: "2026-04-10"
-        },
-        {
-          id: 2,
-          title: "Full Stack Developer Meetup",
-          description: "Monthly meetup for full stack developers to share experiences, network, and learn about new technologies.",
-          date: "2026-05-20",
-          time: "18:30",
-          location: "Virtual Event",
-          type: "online",
-          status: "registered",
-          organizer: "Full Stack Community",
-          capacity: 100,
-          registered: 78,
-          category: "Meetup",
-          meetingLink: "https://meet.example.com/fullstack-meetup",
-          registrationDate: "2026-04-05"
-        }
-      ]);
+      setEvents([]);
     } finally {
       setLoading(false);
     }
@@ -284,6 +286,21 @@ const AlumniEvents2: React.FC = () => {
                       </div>
                       
                       <div className="flex flex-col gap-2 lg:w-auto">
+                        {event.source === 'event' ? (
+                          event.registrationOpen ? (
+                            <button
+                              onClick={() => navigate(`/register/${event.id}`)}
+                              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            >
+                              Register
+                            </button>
+                          ) : (
+                            <div className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg text-center text-sm">
+                              Registration Closed
+                            </div>
+                          )
+                        ) : (
+                        <>
                         {event.meetingLink && (event.status === 'registered' || event.status === 'upcoming') && isUpcoming && (
                           <a
                             href={event.meetingLink}
@@ -315,26 +332,38 @@ const AlumniEvents2: React.FC = () => {
                         )}
 
                         {event.status === 'upcoming' && isUpcoming && (
-                          <button
-                            onClick={() => handleRegister(event.id)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                          >
-                            Register
-                          </button>
+                          event.capacity > 0 && event.registered >= event.capacity ? (
+                            <div className="px-4 py-2 bg-red-500/15 text-red-300 rounded-lg text-center text-sm font-medium">
+                              Slots Full
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleRegister(event.id)}
+                              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            >
+                              Register
+                            </button>
+                          )
+                        )}
+                        </>
                         )}
                       </div>
                     </div>
-                    
+
                     {/* Progress bar for capacity */}
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex justify-between text-xs text-gray-300 mb-1">
                         <span>Registration Progress</span>
-                        <span>{Math.round((event.registered / event.capacity) * 100)}% full</span>
+                        <span>
+                          {event.capacity > 0
+                            ? `${Math.min(100, Math.round((event.registered / event.capacity) * 100))}% full`
+                            : 'Unlimited slots'}
+                        </span>
                       </div>
                       <div className="w-full bg-white/5 rounded-full h-2">
                         <div
                           className="bg-red-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${(event.registered / event.capacity) * 100}%` }}
+                          style={{ width: event.capacity > 0 ? `${Math.min(100, (event.registered / event.capacity) * 100)}%` : '0%' }}
                         />
                       </div>
                     </div>

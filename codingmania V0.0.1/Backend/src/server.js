@@ -37,12 +37,14 @@ const eventAlumniRoutes = require('./routes/eventAlumniRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const jobAlumniRoutes = require('./routes/jobAlumniRoutes');
 const certificateRoutes = require('./routes/certificateRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 // Import Prisma client (new)
 const prisma = require('../prisma/client'); // Centralized Prisma
 
 // Import chat service
 const chatService = require('./service/chatService');
+const { notifyUser } = require('./utils/notify');
 
 // Initialize Express app
 const app = express();
@@ -110,6 +112,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/alumni/jobs', jobAlumniRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/certificates', certificateRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // ================= Socket.io Setup =================
 const server = http.createServer(app);
@@ -133,6 +136,9 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
+// Make io available to REST controllers via req.app.get('io')
+app.set('io', io);
 
 io.use(async (socket, next) => {
   const token = socket.handshake.auth?.token || socket.handshake.query?.token;
@@ -204,6 +210,18 @@ io.on("connection", (socket) => {
           conversationId: result.conversationId,
         });
       });
+
+      // Bell notification for every participant except the sender.
+      participants
+        .filter((p) => p.userId !== socket.user.id)
+        .forEach((p) => {
+          notifyUser(io, p.userId, {
+            type: 'message',
+            title: 'New message',
+            message: (content || '').slice(0, 120),
+            link: 'messages',
+          });
+        });
     } catch (err) {
       console.error("Socket send error:", err.message);
       socket.emit("message_error", { message: err.message || "Failed to send message" });

@@ -1,9 +1,19 @@
 const jobService = require('../services/jobService');
+const { notifyByRole } = require('../utils/notify');
 
 const createAlumniJob = async (req, res) => {
   try {
     const posterId = req.user.id;
     const job = await jobService.createJob(posterId, req.body);
+
+    // New job posted by an alumni → notify students.
+    await notifyByRole(req.app.get('io'), 'student', {
+      type: 'job',
+      title: `New job: ${job.title || 'Opportunity'}`,
+      message: job.company ? `${job.title} at ${job.company}` : 'A new job opportunity was posted.',
+      link: 'jobs',
+    });
+
     res.status(201).json(job);
   } catch (error) {
     console.error('Create job error:', error);

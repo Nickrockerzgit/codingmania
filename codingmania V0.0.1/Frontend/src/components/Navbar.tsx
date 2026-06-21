@@ -11,8 +11,10 @@ import {
   FileEdit,
   BadgeCheck,
   ChevronDown,
+  GraduationCap,
 } from "lucide-react";
 import { useAuth } from "../components/AuthContext";
+import RollNumberModal from "./RollNumberModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +22,7 @@ const Navbar = () => {
   const [showAIToolsDropdown, setShowAIToolsDropdown] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showRollModal, setShowRollModal] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,9 +90,24 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const routeToRoleDashboard = (role?: string, appliedRole?: string, status?: string) => {
+    if (appliedRole === "alumni" || role === "alumni") {
+      navigate("/login/alumni/dashboard");
+      return true;
+    }
+    if (appliedRole === "student" && ["pending", "approved"].includes(status || "")) {
+      navigate("/login/student/dashboard");
+      return true;
+    }
+    return false;
+  };
+
   const handleDashboard = () => {
     setShowDropdown(false);
-    navigate("/dashboard");
+    // If the user already has a student/alumni role, go straight to that dashboard.
+    // Otherwise (e.g. Google sign-in with no roll number) ask for the enrollment number first.
+    const routed = routeToRoleDashboard(user?.role, user?.appliedRole, user?.applicationStatus);
+    if (!routed) setShowRollModal(true);
   };
 
   const getInitial = () => {
@@ -182,6 +200,18 @@ const Navbar = () => {
                       <BadgeCheck className="h-4 w-4 mr-2" />
                       Interview Prep
                     </button>
+                    {user?.appliedRole === "student" && (
+                      <button
+                        onClick={() => {
+                          setShowAIToolsDropdown(false);
+                          navigate("/login/student/dashboard?tab=mentors");
+                        }}
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/10 transition"
+                      >
+                        <GraduationCap className="h-4 w-4 mr-2" />
+                        Alumni Section
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -253,6 +283,18 @@ const Navbar = () => {
                 <BadgeCheck className="h-4 w-4 mr-2" />
                 Interview Prep
               </button>
+              {user?.appliedRole === "student" && (
+                <button
+                  onClick={() => {
+                    navigate("/login/student/dashboard?tab=mentors");
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center w-full px-2 py-2 text-sm text-gray-300 hover:bg-white/10 rounded"
+                >
+                  <GraduationCap className="h-4 w-4 mr-2" />
+                  Alumni Section
+                </button>
+              )}
             </>
           )}
 
@@ -289,6 +331,15 @@ const Navbar = () => {
           )}
         </div>
       )}
+
+      <RollNumberModal
+        isOpen={showRollModal}
+        onClose={() => setShowRollModal(false)}
+        onSuccess={(role) => {
+          setShowRollModal(false);
+          navigate(role === "alumni" ? "/login/alumni/dashboard" : "/login/student/dashboard");
+        }}
+      />
     </nav>
   );
 };

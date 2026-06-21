@@ -8,8 +8,7 @@ import {
   Calendar,
   Bell,
   Menu,
-  X,
-  UserPlus
+  X
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../AuthContext';
@@ -18,20 +17,12 @@ import Notifications from './Notifications';
 import SettingsComponent from './Settings';
 import Certifications from './Certification';
 import Events from './Events';
-import ApplyForRoleModal from '../ApplyForRoleModal';
 
 const Dashboard = () => {
-  const { user, logout, updateUser, isUserProfileReady } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showRoleModal, setShowRoleModal] = useState(false);
-
-  const showApplyButton = isUserProfileReady && !user?.appliedRole;
-
-  const isStudentUser = () => {
-    return user?.appliedRole === 'student' || user?.role === 'student';
-  };
 
   const handleLogout = () => {
     logout();
@@ -144,22 +135,6 @@ const Dashboard = () => {
                 <Menu size={24} />
               </button>
               <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-              {isUserProfileReady && (user?.role === 'alumni' || user?.appliedRole === 'alumni') && (
-                <button
-                  className="ml-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-                  onClick={() => navigate('/login/alumni/dashboard')}
-                >
-                  Alumni Dashboard
-                </button>
-              )}
-              {isUserProfileReady && (user?.appliedRole === 'student' && ['pending', 'approved'].includes(user?.applicationStatus)) && (
-                <button
-                  className="ml-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-colors"
-                  onClick={() => navigate('/login/student/dashboard')}
-                >
-                  Student Dashboard
-                </button>
-              )}
             </div>
 
             <div className="flex items-center space-x-4">
@@ -239,26 +214,6 @@ const Dashboard = () => {
               </button>
             </div>
 
-            {/* Apply for Role Card */}
-            {showApplyButton && (
-              <div className="bg-gradient-to-br from-orange-500 to-red-500 p-6 rounded-xl shadow-md text-white">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-white/20 rounded-lg">
-                    <UserPlus className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="text-sm text-white/80">Upgrade</span>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Unlock More Features</h3>
-                <p className="text-white/80 text-sm mb-4">Apply for the student or alumni role to unlock the dashboard and profile features made for your journey.</p>
-                <button
-                  onClick={() => setShowRoleModal(true)}
-                  className="w-full px-4 py-2 bg-white text-orange-600 rounded-lg hover:bg-gray-100 transition-colors duration-200 font-medium"
-                >
-                  Apply Now
-                </button>
-              </div>
-            )}
-
             {/* Quick Stats Card */}
             <div className="bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 md:col-span-2">
               <h3 className="text-lg font-semibold text-white mb-4">Quick Stats</h3>
@@ -287,24 +242,6 @@ const Dashboard = () => {
       <SettingsComponent isOpen={activeModal === 'settings'} onClose={closeModal} />
       <Certifications isOpen={activeModal === 'certifications'} onClose={closeModal} />
       <Events isOpen={activeModal === 'events'} onClose={closeModal} />
-
-      {showApplyButton && (
-        <ApplyForRoleModal
-          isOpen={showRoleModal}
-          onClose={() => setShowRoleModal(false)}
-          onSuccess={(role: string) => {
-            setShowRoleModal(false);
-            updateUser({ appliedRole: role, role: role });
-            if (role === 'alumni') {
-              navigate('/login/alumni/dashboard');
-            } else {
-              window.location.reload();
-            }
-          }}
-          userName={user?.name || ''}
-          userEmail={user?.email || ''}
-        />
-      )}
     </div>
   );
 };

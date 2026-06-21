@@ -1,8 +1,133 @@
 // src/controllers/userlistController.js   ← yeh file bana ya replace kar
 
 const { PrismaClient } = require('@prisma/client');
+const { parseRollNumber } = require('../utils/rollNumber');
+const { notifyUser } = require('../utils/notify');
 
 const prisma = new PrismaClient();
+
+// Admin: paginated list of students + alumni (10 per page) with block status.
+const getManagedUsers = async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 10);
+    const search = (req.query.search || '').trim();
+    const roleFilter = req.query.role; // optional: 'student' | 'alumni'
+
+    const where = {
+      appliedRole: roleFilter && ['student', 'alumni'].includes(roleFilter)
+        ? roleFilter
+        : { in: ['student', 'alumni'] },
+      ...(search
+        ? {
+            OR: [
+              { name: { contains: search } },
+              { email: { contains: search } },
+            ],
+          }
+        : {}),
+    };
+
+    const [total, users] = await Promise.all([
+      prisma.users.count({ where }),
+      prisma.users.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          batch: true,
+          branch: true,
+          appliedRole: true,
+          role: true,
+          blocked: true,
+          avatar: true,
+          created_at: true,
+        },
+        orderBy: { created_at: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+    ]);
+
+    res.json({
+      users,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('getManagedUsers error:', error);
+    res.status(500).json({ error: 'Failed to get users', details: error.message });
+  }
+};
+
+// Admin: block / unblock a user (toggles the flag).
+const toggleBlockUser = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const target = await prisma.users.findUnique({ where: { id }, select: { blocked: true } });
+    if (!target) return res.status(404).json({ error: 'User not found' });
+
+    const user = await prisma.users.update({
+      where: { id },
+      data: { blocked: !target.blocked },
+      select: { id: true, name: true, blocked: true },
+    });
+
+    res.json({ message: user.blocked ? 'User blocked' : 'User unblocked', user });
+  } catch (error) {
+    console.error('toggleBlockUser error:', error);
+    res.status(500).json({ error: 'Failed to update user', details: error.message });
+  }
+};
+
+// Admin: assign a task to a STUDENT only. Creates a student_tasks row,
+// then fires a real-time notification to that student's bell.
+const assignTask = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { title, description, deadline, priority = 'medium' } = req.body;
+
+    if (!title || !deadline) {
+      return res.status(400).json({ error: 'Title and deadline are required' });
+    }
+
+    const target = await prisma.users.findUnique({
+      where: { id },
+      select: { id: true, appliedRole: true },
+    });
+    if (!target) return res.status(404).json({ error: 'User not found' });
+    if (target.appliedRole !== 'student') {
+      return res.status(400).json({ error: 'Tasks can only be assigned to students' });
+    }
+
+    const task = await prisma.student_tasks.create({
+      data: {
+        title,
+        description: description || null,
+        deadline: new Date(deadline),
+        priority,
+        status: 'pending',
+        progress: 0,
+        userId: id,
+      },
+    });
+
+    await notifyUser(req.app.get('io'), id, {
+      type: 'task',
+      title: 'New task assigned',
+      message: title,
+      link: 'tasks',
+    });
+
+    res.json({ message: 'Task assigned successfully', task });
+  } catch (error) {
+    console.error('assignTask error:', error);
+    res.status(500).json({ error: 'Failed to assign task', details: error.message });
+  }
+};
 
 const getUserCount = async (req, res) => {
   try {
@@ -162,4 +287,58 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { getUserCount, getAllUsers, applyForRole, getCurrentUser, updateProfile };
+// Assign student/alumni from an enrollment (roll) number — used by users (e.g. Google sign-in)
+// who didn't provide a roll number at signup.
+const setRollNumber = async (req, res) => {
+  try {
+    const email = req.user.email;
+    const { rollNumber } = req.body;
+
+    const parsed = parseRollNumber(rollNumber);
+    if (!parsed.valid) {
+      return res.status(400).json({ error: parsed.error });
+    }
+
+    // Make sure this roll number isn't already used by someone else
+    const owner = await prisma.users.findUnique({ where: { rollNumber: parsed.rollNumber } });
+    if (owner && owner.email !== email) {
+      return res.status(400).json({ error: 'Roll number already registered' });
+    }
+
+    const user = await prisma.users.update({
+      where: { email },
+      data: {
+        rollNumber: parsed.rollNumber,
+        role: parsed.role,
+        appliedRole: parsed.role,
+        applicationStatus: 'approved',
+        collegeName: parsed.collegeName,
+        branch: parsed.branchName,
+        batch: parsed.batch,
+        yearOfStudy: parsed.yearOfStudy,
+      },
+    });
+
+    res.json({
+      message: 'Enrollment verified',
+      role: user.role,
+      appliedRole: user.appliedRole,
+      applicationStatus: user.applicationStatus,
+    });
+  } catch (error) {
+    console.error('setRollNumber error:', error);
+    res.status(500).json({ error: 'Failed to verify enrollment number', details: error.message });
+  }
+};
+
+module.exports = {
+  getUserCount,
+  getAllUsers,
+  applyForRole,
+  getCurrentUser,
+  updateProfile,
+  setRollNumber,
+  getManagedUsers,
+  toggleBlockUser,
+  assignTask,
+};

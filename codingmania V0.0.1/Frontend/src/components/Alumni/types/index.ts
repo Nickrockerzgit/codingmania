@@ -87,6 +87,7 @@ export interface NavItem {
   icon: typeof LayoutDashboard;
   label: string;
   path: string;
+  children?: NavItem[];
 }
 
 export interface MenuItem {
@@ -99,8 +100,7 @@ export interface MenuItem {
 export const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", path: "dashboard" },
   { icon: User, label: "Profile", path: "profile" },
-  { icon: Calendar, label: "Events", path: "events" },
-  { icon: Calendar, label: "Events 2", path: "events2" },
+  { icon: Calendar, label: "Event 2", path: "events2" },
   { icon: Award, label: "Certificates", path: "certificates" },
   { icon: MessageSquare, label: "Messages", path: "messages" },
   { icon: Briefcase, label: "Jobs", path: "jobs" },
@@ -108,7 +108,6 @@ export const navItems: NavItem[] = [
 ];
 
 export const menuItems: MenuItem[] = [
-  { icon: Calendar, title: "Events", description: "Create and manage events", comingSoon: false, path: "events" },
   { icon: Calendar, title: "Events 2", description: "My Registered Events", comingSoon: false, path: "events2" },
   { icon: Award, title: "Certificates", description: "View and manage certifications", comingSoon: false, path: "certificates" },
   { icon: Briefcase, title: "Jobs", description: "Post job opportunities", comingSoon: false, path: "jobs" },

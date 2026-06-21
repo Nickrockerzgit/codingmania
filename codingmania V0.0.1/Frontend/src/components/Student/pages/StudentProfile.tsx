@@ -22,7 +22,8 @@ interface StudentProfileProps {
 }
 
 const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, token } = useAuth();
+  const authConfig = { headers: { Authorization: `Bearer ${token}` } };
   const [profile, setProfile] = useState<StudentProfileData | null>(null);
   const [editedData, setEditedData] = useState<Partial<StudentProfileData>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -32,9 +33,12 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
   const fetchProfile = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/student/profile`);
-      setProfile(response.data.data);
-      setEditedData(response.data.data);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/profile`, authConfig);
+      const d = response.data.data || {};
+      // backend stores the academic year as `yearOfStudy`; map it to `year` for this UI
+      const mapped = { ...d, year: d.yearOfStudy ?? d.year ?? "" };
+      setProfile(mapped);
+      setEditedData(mapped);
     } catch (error) {
       console.error("Failed to fetch profile:", error);
     } finally {
@@ -60,14 +64,15 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
     setIsSaving(true);
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}/api/student/profile/update`,
+        `${import.meta.env.VITE_API_BASE_URL}/profile/update`,
         {
           name: editedData.name,
           phone: editedData.phone,
-          rollNumber: editedData.rollNumber,
           branch: editedData.branch,
-          year: editedData.year,
-        }
+          yearOfStudy: editedData.year,
+          bio: editedData.bio,
+        },
+        authConfig
       );
       toast.success("Profile updated successfully");
       setProfile(editedData as StudentProfileData);
@@ -103,16 +108,18 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
       formData.append("avatar", file);
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/student/profile/avatar`,
+        `${import.meta.env.VITE_API_BASE_URL}/profile/avatar`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       const newAvatarUrl = response.data.avatar || response.data.data?.avatar || "";
+      updateUser({ avatar: newAvatarUrl });
       setEditedData((prev) => ({ ...prev, avatar: newAvatarUrl }));
       setProfile((prev) => (prev ? { ...prev, avatar: newAvatarUrl } : null));
       toast.success("Avatar updated successfully");
@@ -128,7 +135,6 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
     setEditedData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const branches = ["CSE", "IT", "ECE", "EE", "ME", "CE", "Other"];
   const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
   const initials =
     profile?.name
@@ -335,17 +341,8 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
                   <GraduationCap className="h-4 w-4 text-red-400" />
                   Roll Number
                 </label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedData.rollNumber || ""}
-                    onChange={(e) => handleInputChange("rollNumber", e.target.value)}
-                    placeholder="e.g. 21CS001"
-                    className={inputClassName}
-                  />
-                ) : (
-                  <p className={valueClassName}>{profile?.rollNumber || "Not specified"}</p>
-                )}
+                <p className={valueClassName}>{profile?.rollNumber || "Not specified"}</p>
+                <p className="mt-1 text-xs text-gray-500">Auto-filled from signup · cannot be changed</p>
               </div>
 
               <div className={panelClassName}>
@@ -353,22 +350,8 @@ const StudentProfile = ({ isEditing, setIsEditing }: StudentProfileProps) => {
                   <BookOpen className="h-4 w-4 text-red-400" />
                   Branch
                 </label>
-                {isEditing ? (
-                  <select
-                    value={editedData.branch || ""}
-                    onChange={(e) => handleInputChange("branch", e.target.value)}
-                    className={inputClassName}
-                  >
-                    <option value="">Select Branch</option>
-                    {branches.map((branch) => (
-                      <option key={branch} value={branch}>
-                        {branch}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <p className={valueClassName}>{profile?.branch || "Not specified"}</p>
-                )}
+                <p className={valueClassName}>{profile?.branch || "Not specified"}</p>
+                <p className="mt-1 text-xs text-gray-500">Auto-filled from your roll number</p>
               </div>
 
               <div className={panelClassName}>

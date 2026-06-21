@@ -139,6 +139,7 @@
 
 
 const prisma = require('../../prisma/client');
+const { notifyByRole } = require('../utils/notify');
 const imagekit = require('../config/imagekit');
 const { getFolderPath } = require('../config/multer');
 const fs = require('fs');
@@ -235,6 +236,19 @@ const uploadVlog = async (req, res) => {
         likes: 0,
       },
     });
+
+    // Notify students + alumni about the new vlog (only when published).
+    if (newVlog.published) {
+      const io = req.app.get('io');
+      const payload = {
+        type: 'vlog',
+        title: `New vlog: ${newVlog.title}`,
+        message: newVlog.excerpt || 'A new vlog has been posted.',
+        link: 'vlogs',
+      };
+      await notifyByRole(io, 'student', payload);
+      await notifyByRole(io, 'alumni', payload);
+    }
 
     res.status(201).json({
       message: "Vlog uploaded successfully",

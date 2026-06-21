@@ -215,10 +215,17 @@ const getProfile = async (req, res) => {
         join_date: true,
         created_at: true,
         role: true,
+        appliedRole: true,
+        applicationStatus: true,
+        rollNumber: true,
         company: true,
         position: true,
         batch: true,
-        branch: true
+        branch: true,
+        yearOfStudy: true,
+        collegeName: true,
+        githubUrl: true,
+        websiteUrl: true
       }
     });
 
@@ -243,7 +250,7 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { name, phone, bio, location, company, position, batch, branch } = req.body;
+    const { name, phone, bio, location, company, position, batch, branch, yearOfStudy, collegeName, githubUrl, websiteUrl } = req.body;
 
     if (!name || !phone) {
       return res.status(400).json({ message: "Name and phone are required" });
@@ -257,18 +264,23 @@ const updateProfile = async (req, res) => {
       return res.status(400).json({ message: "Phone number already exists" });
     }
 
+    // Only update fields that were actually sent (so editing a student profile
+    // doesn't wipe alumni fields and vice-versa).
+    const updateData = { name, phone };
+    if (bio !== undefined) updateData.bio = bio;
+    if (location !== undefined) updateData.location = location;
+    if (company !== undefined) updateData.company = company;
+    if (position !== undefined) updateData.position = position;
+    if (batch !== undefined) updateData.batch = batch;
+    if (branch !== undefined) updateData.branch = branch;
+    if (yearOfStudy !== undefined) updateData.yearOfStudy = yearOfStudy;
+    if (collegeName !== undefined) updateData.collegeName = collegeName;
+    if (githubUrl !== undefined) updateData.githubUrl = githubUrl;
+    if (websiteUrl !== undefined) updateData.websiteUrl = websiteUrl;
+
     await prisma.users.update({
       where: { id: userId },
-      data: {
-        name,
-        phone,
-        bio: bio || "",
-        location: location || "",
-        company: company || "",
-        position: position || "",
-        batch: batch || "",
-        branch: branch || ""
-      }
+      data: updateData
     });
 
     res.json({ message: "Profile updated successfully" });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Mic, Plus, Edit, Trash2, Users, X, Calendar, Clock, Globe, MapPin, Users as UsersIcon } from 'lucide-react';
+import { Mic, Plus, Edit, Trash2, Users, X, Calendar, Clock, Globe, MapPin, Users as UsersIcon, Download } from 'lucide-react';
 
 interface Webinar {
   id: number;
@@ -139,6 +139,41 @@ function WebinarManagement() {
       console.error(err);
       alert('Failed to update attendance status');
     }
+  };
+
+  const downloadExcel = (webinarId: number) => {
+    if (attendances.length === 0) {
+      alert('No registrations to export');
+      return;
+    }
+    const webinar = webinars.find(w => w.id === webinarId);
+    const title = webinar?.title || 'webinar';
+
+    const headers = ['S.No', 'Name', 'Email', 'Status', 'Registered On'];
+    const escape = (val: any) => {
+      const s = String(val ?? '');
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+
+    const rows = attendances.map((att, i) => [
+      i + 1,
+      att.user?.name,
+      att.user?.email,
+      att.status,
+      (att as any).registrationDate ? new Date((att as any).registrationDate).toLocaleString('en-IN') : '',
+    ].map(escape).join(','));
+
+    // Prepend BOM so Excel reads UTF-8 correctly.
+    const csv = '﻿' + [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/[^a-z0-9]+/gi, '_')}_registrations.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const getTypeBadge = (type: string) => {
@@ -467,13 +502,24 @@ function WebinarManagement() {
                 <h2 className="text-2xl font-bold text-white flex items-center gap-3">
                   <Users size={24} className="text-indigo-400" />
                   Registered Users
+                  <span className="text-sm font-normal text-gray-400">({attendances.length} total)</span>
                 </h2>
-                <button 
-                  onClick={() => setAttendanceModal(null)}
-                  className="text-gray-400 hover:text-white"
-                >
-                  <X size={24} />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => downloadExcel(attendanceModal)}
+                    disabled={attendances.length === 0}
+                    className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+                  >
+                    <Download size={18} />
+                    Download Excel
+                  </button>
+                  <button
+                    onClick={() => setAttendanceModal(null)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
               </div>
 
               <div className="p-6">

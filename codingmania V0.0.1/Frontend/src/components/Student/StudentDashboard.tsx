@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { StudentSidebar, StudentHeader, StudentSettings } from "./components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import NotificationBell from "../common/NotificationBell";
 import {
   StudentDashboardPage,
   StudentProfile,
@@ -181,6 +182,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] flex">
+      <NotificationBell onNavigate={handleNavigate} />
       <StudentSidebar
         activeTab={activeTab}
         onNavigate={handleNavigate}
@@ -196,17 +198,8 @@ const StudentDashboard = () => {
         <StudentHeader onMenuClick={() => setSidebarOpen(true)} />
 
         <div className="p-6 lg:p-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              {renderTitle()}
-            </div>
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Regular Dashboard
-            </button>
+          <div className="mb-6">
+            {renderTitle()}
           </div>
           {renderContent()}
         </div>

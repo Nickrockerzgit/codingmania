@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, Users, Search, Filter, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 
 interface Event {
@@ -17,10 +18,35 @@ interface Event {
   category: string;
   meetingLink?: string;
   registrationDate: string;
+  source?: 'webinar' | 'event';   // webinar = seat-based; event = hackathon/competition (Event Post)
+  registrationOpen?: boolean;     // for `event` source
 }
+
+// Map an "Event Post" record (hackathon/competition) to the shared Event shape.
+const mapEventPost = (e: any): Event => {
+  const start = e.event_start || e.date;
+  return {
+    id: e.id,
+    title: e.title,
+    description: e.about || 'No description provided.',
+    date: start ? new Date(start).toISOString().split('T')[0] : '',
+    time: e.event_start ? new Date(e.event_start).toTimeString().slice(0, 5) : '00:00',
+    location: e.location || 'TBD',
+    type: (e.location || '').toLowerCase().includes('online') ? 'online' : 'offline',
+    status: 'upcoming',
+    organizer: 'CodingMania',
+    capacity: parseInt(e.participants) || 0,
+    registered: 0,
+    category: e.categories || 'Event',
+    registrationDate: '',
+    source: 'event',
+    registrationOpen: e.registration_open !== false,
+  };
+};
 
 const StudentEvents2: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -35,34 +61,25 @@ const StudentEvents2: React.FC = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/events/get-events`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to fetch events');
-      const data = await response.json();
-      
-      const mappedEvents = data.map((e: any) => ({
-        id: e.id,
-        title: e.title,
-        description: e.about || "No description provided.",
-        date: e.date ? new Date(e.date).toISOString().split('T')[0] : "TBD",
-        time: e.event_start ? new Date(e.event_start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "TBD",
-        location: e.location || "TBD",
-        type: e.location?.toLowerCase().includes("online") ? "online" : "offline",
-        status: e.registration_open ? "upcoming" : "closed",
-        organizer: "Admin",
-        capacity: parseInt(e.participants) || 100,
-        registered: 0,
-        category: e.categories || "General",
-        registrationDate: e.registration_start ? new Date(e.registration_start).toLocaleDateString() : null
-      }));
-      
-      setEvents(mappedEvents);
+      const API = import.meta.env.VITE_API_BASE_URL;
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+
+      // 1) Webinars/meetups (seat-based) + 2) Event Post events (hackathons/competitions).
+      const [webRes, evtRes] = await Promise.all([
+        fetch(`${API}/webinars/user`, { headers }),
+        fetch(`${API}/events/get-events`, { headers }),
+      ]);
+
+      const webinars: Event[] = webRes.ok
+        ? (await webRes.json()).map((w: any) => ({ ...w, source: 'webinar' as const }))
+        : [];
+      const eventPosts: Event[] = evtRes.ok
+        ? (await evtRes.json()).map(mapEventPost)
+        : [];
+
+      setEvents([...webinars, ...eventPosts]);
     } catch (err) {
       console.error(err);
-      // Remove fallback dummy data to make the section dynamic
       setEvents([]);
     } finally {
       setLoading(false);
@@ -77,11 +94,14 @@ const StudentEvents2: React.FC = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      if (!response.ok) throw new Error('Failed to register');
-      fetchEvents(); // Refresh
-    } catch (err) {
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to register');
+      }
+      fetchEvents(); // Refresh seats + status
+    } catch (err: any) {
       console.error(err);
-      alert('Failed to register. Slots may be full.');
+      alert(err.message || 'Failed to register. Slots may be full.');
     }
   };
 
@@ -269,6 +289,21 @@ const StudentEvents2: React.FC = () => {
                       </div>
                       
                       <div className="flex flex-col gap-2 lg:w-auto">
+                        {event.source === 'event' ? (
+                          event.registrationOpen ? (
+                            <button
+                              onClick={() => navigate(`/register/${event.id}`)}
+                              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            >
+                              Register
+                            </button>
+                          ) : (
+                            <div className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg text-center text-sm">
+                              Registration Closed
+                            </div>
+                          )
+                        ) : (
+                        <>
                         {event.meetingLink && (event.status === 'registered' || event.status === 'upcoming') && isUpcoming && (
                           <a
                             href={event.meetingLink}
@@ -280,32 +315,46 @@ const StudentEvents2: React.FC = () => {
                             Join Event
                           </a>
                         )}
-                        
+
+                        {event.status === 'registered' && isUpcoming && (
+                          <div className="px-4 py-2 bg-green-500/15 text-green-400 rounded-lg text-center text-sm font-medium">
+                            ✓ Registered
+                          </div>
+                        )}
+
                         {event.status === 'attended' && (
                           <div className="px-4 py-2 bg-green-500/15 text-green-400 rounded-lg text-center">
                             ✓ Attended
                           </div>
                         )}
-                        
+
                         {event.status === 'missed' && (
                           <div className="px-4 py-2 bg-red-500/15 text-red-300 rounded-lg text-center">
                             ✗ Missed
                           </div>
                         )}
-                        
+
                         {(event.status === 'upcoming' || event.status === 'registered') && !isUpcoming && (
                           <div className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg text-center text-sm">
                             Event Ended
                           </div>
                         )}
-                        
+
                         {event.status === 'upcoming' && isUpcoming && (
-                          <button
-                            onClick={() => handleRegister(event.id)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                          >
-                            Register
-                          </button>
+                          event.capacity > 0 && event.registered >= event.capacity ? (
+                            <div className="px-4 py-2 bg-red-500/15 text-red-300 rounded-lg text-center text-sm font-medium">
+                              Slots Full
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleRegister(event.id)}
+                              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            >
+                              Register
+                            </button>
+                          )
+                        )}
+                        </>
                         )}
                       </div>
                     </div>
@@ -314,12 +363,16 @@ const StudentEvents2: React.FC = () => {
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex justify-between text-xs text-gray-300 mb-1">
                         <span>Registration Progress</span>
-                        <span>{Math.round((event.registered / event.capacity) * 100)}% full</span>
+                        <span>
+                          {event.capacity > 0
+                            ? `${Math.min(100, Math.round((event.registered / event.capacity) * 100))}% full`
+                            : 'Unlimited slots'}
+                        </span>
                       </div>
                       <div className="w-full bg-white/5 rounded-full h-2">
                         <div
                           className="bg-red-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${(event.registered / event.capacity) * 100}%` }}
+                          style={{ width: event.capacity > 0 ? `${Math.min(100, (event.registered / event.capacity) * 100)}%` : '0%' }}
                         />
                       </div>
                     </div>

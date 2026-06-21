@@ -1742,6 +1742,7 @@ import {
   Mail,
   User as UserIcon,
   Mic, // New for webinars
+  ChevronDown,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -1753,6 +1754,7 @@ import SponsorsManagement from './SponsorsManagement';
 import TeamManagement from './TeamManagement';
 import VlogsManagement from './VlogsManagement';
 import AdminMembers from './AdminMembers';
+import AdminUserList from './AdminUserList';
 import WebinarManagement from '../Project/WebinarManagement';
 
 import { useAuth } from '../Project/AuthContext';
@@ -1764,10 +1766,11 @@ function AdminDashboard() {
   const token = localStorage.getItem('authToken');
 
   const [activeTab, setActiveTab] = useState<
-    'dashboard' | 'join-us' | 'events-registrations' | 'carousel' | 'team' | 'events' | 'vlogs' | 'sponsors' | 'users' | 'webinars'
+    'dashboard' | 'join-us' | 'events-registrations' | 'carousel' | 'team' | 'events' | 'vlogs' | 'sponsors' | 'users' | 'webinars' | 'user-list'
   >('dashboard');
 
   const [adminMemberCount, setAdminMemberCount] = useState(0);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (!isAuthInitialized) {
@@ -1825,16 +1828,26 @@ function AdminDashboard() {
     return null;
   }
 
-  const menuItems = [
+  type MenuChild = { id: string; label: string; icon: typeof LayoutDashboard };
+  type MenuItem = MenuChild & { children?: MenuChild[] };
+  const menuItems: MenuItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'join-us', label: 'Join Us Requests', icon: UserPlus },
-    { id: 'events-registrations', label: 'Event Registrations', icon: CalendarCheck },
+    {
+      id: 'event-group',
+      label: 'Event',
+      icon: Calendar,
+      children: [
+        { id: 'events', label: 'Event Post', icon: Calendar },
+        { id: 'events-registrations', label: 'Event Register', icon: CalendarCheck },
+      ],
+    },
     { id: 'carousel', label: 'Carousel', icon: Images },
     { id: 'team', label: 'Team', icon: Users },
-    { id: 'events', label: 'Events', icon: Calendar },
     { id: 'vlogs', label: 'Vlogs', icon: Video },
     { id: 'sponsors', label: 'Sponsors', icon: HeartHandshake },
     { id: 'users', label: 'Admin Members', icon: UserIcon },
+    { id: 'user-list', label: 'User Management', icon: Users },
     { id: 'webinars', label: 'Webinars', icon: Mic }, // New tab
   ];
 
@@ -1869,9 +1882,58 @@ function AdminDashboard() {
         {/* Menu */}
         <div className="flex-1 space-y-1 overflow-y-auto px-3 py-6">
           {menuItems.map((item) => {
-            const isActive = activeTab === item.id;
             const Icon = item.icon;
 
+            // Grouped item with a dropdown of children
+            if (item.children) {
+              const childActive = item.children.some((c) => c.id === activeTab);
+              const isOpen = openGroups[item.id] ?? childActive;
+
+              return (
+                <div key={item.id}>
+                  <button
+                    onClick={() => setOpenGroups((prev) => ({ ...prev, [item.id]: !isOpen }))}
+                    className={`
+                      group flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all
+                      ${childActive ? 'bg-indigo-600/90 text-white shadow-md' : 'text-gray-300 hover:bg-gray-800/60 hover:text-white'}
+                    `}
+                  >
+                    <Icon size={20} className={childActive ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
+                    <span>{item.label}</span>
+                    <ChevronDown
+                      size={16}
+                      className={`ml-auto transition-transform ${isOpen ? 'rotate-180' : ''} ${childActive ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="mt-1 space-y-1 pl-5">
+                      {item.children.map((child) => {
+                        const ChildIcon = child.icon;
+                        const isChildActive = activeTab === child.id;
+                        return (
+                          <button
+                            key={child.id}
+                            onClick={() => setActiveTab(child.id as any)}
+                            className={`
+                              group flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-all
+                              ${isChildActive ? 'bg-indigo-600/90 text-white shadow-md' : 'text-gray-400 hover:bg-gray-800/60 hover:text-white'}
+                            `}
+                          >
+                            <ChildIcon size={18} className={isChildActive ? 'text-white' : 'text-gray-500 group-hover:text-white'} />
+                            <span>{child.label}</span>
+                            {isChildActive && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-white/80" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            // Regular item
+            const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
@@ -1951,6 +2013,7 @@ function AdminDashboard() {
           {activeTab === 'vlogs' && <VlogsManagement />}
           {activeTab === 'sponsors' && <SponsorsManagement />}
           {activeTab === 'users' && <AdminMembers />}
+          {activeTab === 'user-list' && <AdminUserList />}
           {activeTab === 'webinars' && <WebinarManagement />}
         </div>
       </main>

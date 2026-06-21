@@ -390,7 +390,7 @@ const CreateEventForm = ({ onSubmit, submitting }: { onSubmit: (event: Partial<E
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-2">
+        <div className="flex items-center justify-center gap-3 pt-2">
           <button type="submit" disabled={submitting}
             className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-md"
             style={{ background: "linear-gradient(135deg, #dc2626, #ea580c)" }}>

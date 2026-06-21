@@ -4,6 +4,7 @@ const emailTemplates = require('../utils/emailTemplates');
 const generateOTP = require('../utils/generateOTP');
 const bcrypt = require('bcrypt');
 const generateToken = require('../config/jwt');
+const { parseRollNumber } = require('../utils/rollNumber');
 
 // Google Auth
 const { OAuth2Client } = require('google-auth-library');
@@ -20,24 +21,34 @@ const buildAuthPayload = (user) => ({
 
 // -------------------- OTP SIGNUP --------------------
 const sendSignupOTP = async (req, res) => {
-  const { name, email, phone, password } = req.body;
+  const { name, email, phone, password, rollNumber } = req.body;
   try {
-    // Check if email or phone already exists
+    // Validate the roll number up-front so we don't send an OTP for an invalid one
+    const parsed = parseRollNumber(rollNumber);
+    if (!parsed.valid) {
+      return res.status(400).json({ message: parsed.error });
+    }
+
+    // Check if email, phone, or roll number already exists
     const existingUser = await prisma.users.findFirst({
       where: {
         OR: [
           { email },
-          { phone }
+          { phone },
+          { rollNumber: parsed.rollNumber }
         ]
       }
     });
-    
+
     if (existingUser) {
       if (existingUser.email === email) {
         return res.status(400).json({ message: "Email already registered" });
       }
       if (existingUser.phone === phone) {
         return res.status(400).json({ message: "Phone number already registered" });
+      }
+      if (existingUser.rollNumber === parsed.rollNumber) {
+        return res.status(400).json({ message: "Roll number already registered" });
       }
     }
 
@@ -66,8 +77,14 @@ const sendSignupOTP = async (req, res) => {
 };
 
 const verifySignupOTP = async (req, res) => {
-  const { name, email, phone, password, otp } = req.body;
+  const { name, email, phone, password, otp, rollNumber } = req.body;
   try {
+    // Re-validate & derive student/alumni from the roll number
+    const parsed = parseRollNumber(rollNumber);
+    if (!parsed.valid) {
+      return res.status(400).json({ message: parsed.error });
+    }
+
     const otpRecord = await prisma.otps.findFirst({
       where: { email },
       orderBy: { id: 'desc' }
@@ -77,17 +94,18 @@ const verifySignupOTP = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
-    // Check if email or phone already exists
+
+    // Check if email, phone, or roll number already exists
     const existingUser = await prisma.users.findFirst({
       where: {
         OR: [
           { email },
-          { phone }
+          { phone },
+          { rollNumber: parsed.rollNumber }
         ]
       }
     });
-    
+
     if (existingUser) {
       if (existingUser.email === email) {
         return res.status(400).json({ message: "Email already registered" });
@@ -95,10 +113,27 @@ const verifySignupOTP = async (req, res) => {
       if (existingUser.phone === phone) {
         return res.status(400).json({ message: "Phone number already registered" });
       }
+      if (existingUser.rollNumber === parsed.rollNumber) {
+        return res.status(400).json({ message: "Roll number already registered" });
+      }
     }
 
+    // Auto-assign student/alumni based on the roll number — no manual application needed.
     const user = await prisma.users.create({
-      data: { name, email, phone, password: hashedPassword }
+      data: {
+        name,
+        email,
+        phone,
+        password: hashedPassword,
+        rollNumber: parsed.rollNumber,
+        role: parsed.role,
+        appliedRole: parsed.role,
+        applicationStatus: 'approved',
+        collegeName: parsed.collegeName,
+        branch: parsed.branchName,
+        batch: parsed.batch,
+        yearOfStudy: parsed.yearOfStudy,
+      }
     });
     await prisma.otps.deleteMany({ where: { email } });
 
@@ -109,7 +144,13 @@ const verifySignupOTP = async (req, res) => {
     }
 
     const token = generateToken({ id: user.id, email });
-    res.status(201).json({ message: "Signup successful", token, role: user.role });
+    res.status(201).json({
+      message: "Signup successful",
+      token,
+      role: user.role,
+      appliedRole: user.appliedRole,
+      applicationStatus: user.applicationStatus,
+    });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: err.message || "Signup failed" });
@@ -122,6 +163,9 @@ const sendLoginOTP = async (req, res) => {
   try {
     const user = await prisma.users.findUnique({ where: { email } });
     if (!user) return res.status(404).json({ message: "User not found" });
+    if (user.blocked) {
+      return res.status(403).json({ message: "Your account has been blocked. Please contact the admin." });
+    }
 
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + 5 * 60000);

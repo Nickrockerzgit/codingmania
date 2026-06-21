@@ -138,6 +138,7 @@ model users {
   superAdminAccess    Boolean   @default(false)
   applicationStatus   String?   @default("pending") @db.VarChar(20)
   appliedRole         String?   @db.VarChar(20)
+  rollNumber          String?   @unique(map: "rollNumber") @db.VarChar(20)
   yearOfStudy         String?   @db.VarChar(20)
   collegeName         String?   @db.VarChar(255)
   githubUrl           String?   @db.VarChar(255)
@@ -146,9 +147,11 @@ model users {
   position            String?   @db.VarChar(255)
   batch               String?   @db.VarChar(20)
   branch              String?   @db.VarChar(100)
+  blocked             Boolean   @default(false)
 
 
   tasks       tasks[]
+  notifications     notifications[]
   webinarAttendances  webinar_attendances[]
   createdRoadmaps    roadmap[]
   roadmapProgress   roadmap_progress[]
@@ -166,6 +169,22 @@ model users {
    @@map("users")
 }
 
+
+model notifications {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  type       String   @db.VarChar(50)  // task, webinar, vlog, job, sponsor, message, alumni
+  title      String   @db.VarChar(255)
+  message    String?  @db.Text
+  link       String?  @db.VarChar(255) // optional in-app route, e.g. "tasks"
+  read       Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  user       users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notifications")
+}
 
 model tasks {
   id          Int       @id @default(autoincrement())

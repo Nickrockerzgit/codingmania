@@ -14,7 +14,7 @@
 //   const [step, setStep] = useState<"form" | "otp">("form");
 //   const [showPassword, setShowPassword] = useState(false);
 //   const [showForgotPassword, setShowForgotPassword] = useState(false);
-//   const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "" });
+//   const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "", rollNumber: "" });
 //   const [otp, setOtp] = useState("");
 //   const [timer, setTimer] = useState(30);
 //   const [forgotPasswordData, setForgotPasswordData] = useState({ email: "", newPassword: "" });
@@ -31,7 +31,7 @@
 //   const toggleForm = () => {
 //     setIsSignUp((prev) => !prev);
 //     setStep("form");
-//     setFormData({ name: "", email: "", phone: "", password: "" });
+//     setFormData({ name: "", email: "", phone: "", password: "", rollNumber: "" });
 //     setOtp("");
 //   };
 
@@ -77,7 +77,7 @@
 //         data.token
 //       );
 
-//       setFormData({ name: "", email: "", phone: "", password: "" });
+//       setFormData({ name: "", email: "", phone: "", password: "", rollNumber: "" });
 //       setOtp("");
 //       navigate("/joinus");
 //     } catch (err: any) {
@@ -453,7 +453,7 @@ const AuthPage = () => {
   const [step, setStep] = useState<"form" | "otp">("form");
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "", rollNumber: "" });
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(30);
   const [forgotPasswordData, setForgotPasswordData] = useState({ email: "", newPassword: "" });
@@ -472,7 +472,7 @@ const AuthPage = () => {
   const toggleForm = () => {
     setIsSignUp((prev) => !prev);
     setStep("form");
-    setFormData({ name: "", email: "", phone: "", password: "" });
+    setFormData({ name: "", email: "", phone: "", password: "", rollNumber: "" });
     setOtp("");
   };
 
@@ -525,7 +525,15 @@ const AuthPage = () => {
         data.token
       );
 
-      navigate("/");
+      // Auto-route to the right dashboard based on the role derived from the roll number
+      const effectiveRole = data.role || data.appliedRole;
+      if (effectiveRole === "alumni") {
+        navigate("/login/alumni/dashboard");
+      } else if (effectiveRole === "student") {
+        navigate("/login/student/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Invalid or expired OTP");
     } finally {
@@ -669,6 +677,17 @@ const AuthPage = () => {
                             onChange={handleChange}
                             placeholder="+91 98765 43210"
                           />
+                          <FloatingInput
+                            label="College Roll Number"
+                            type="text"
+                            name="rollNumber"
+                            value={formData.rollNumber}
+                            onChange={handleChange}
+                            placeholder="e.g. 0967CS221060"
+                          />
+                          <p className="text-xs text-gray-500 -mt-1 px-1">
+                            We use your enrollment number to set up your student or alumni profile.
+                          </p>
                         </>
                       )}
 

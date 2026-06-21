@@ -127,32 +127,40 @@ exports.updateAlumniProfile = async (req, res) => {
 
 exports.getAllAlumni = async (req, res) => {
   try {
-    const alumniProfiles = await prisma.alumni_profiles.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatar: true,
-          },
-        },
+    // Alumni live on the users table (role/appliedRole = 'alumni') — this covers users
+    // created via alumni signup and via the roll-number auto-assignment flow.
+    const alumniUsers = await prisma.users.findMany({
+      where: {
+        OR: [{ role: 'alumni' }, { appliedRole: 'alumni' }],
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        batch: true,
+        branch: true,
+        company: true,
+        position: true,
+        bio: true,
+        location: true,
+      },
+      orderBy: { name: 'asc' },
     });
 
-    const alumni = alumniProfiles.map(profile => ({
-      id: profile.id,
-      userId: profile.userId,
-      name: profile.user?.name || 'Alumni',
-      email: profile.user?.email,
-      avatar: profile.user?.avatar,
-      imageUrl: profile.user?.avatar,
-      batch: profile.batch,
-      branch: profile.branch,
-      company: profile.company,
-      position: profile.position,
-      bio: profile.bio,
-      location: profile.location,
+    const alumni = alumniUsers.map(u => ({
+      id: u.id,
+      userId: u.id,
+      name: u.name || 'Alumni',
+      email: u.email,
+      avatar: u.avatar,
+      imageUrl: u.avatar,
+      batch: u.batch,
+      branch: u.branch,
+      company: u.company,
+      position: u.position,
+      bio: u.bio,
+      location: u.location,
     }));
 
     res.json(alumni);

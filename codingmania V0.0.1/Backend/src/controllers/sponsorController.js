@@ -61,6 +61,7 @@
 //imagekit version
 const prisma = require('../../prisma/client');
 const imagekit = require('../config/imagekit');
+const { notifyByRole } = require('../utils/notify');
 
 // Add sponsors
 const addSponsors = async (req, res) => {
@@ -153,6 +154,13 @@ const addSponsor = async (req, res) => {
         logo: uploadResult.url,
         fileId: uploadResult.fileId
       }
+    });
+
+    await notifyByRole(req.app.get('io'), 'student', {
+      type: 'sponsor',
+      title: `New sponsor: ${sponsor.name}`,
+      message: 'A new sponsor has joined CodingMania.',
+      link: 'dashboard',
     });
 
     res.status(201).json(sponsor);

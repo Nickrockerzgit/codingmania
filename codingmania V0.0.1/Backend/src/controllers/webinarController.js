@@ -1,6 +1,7 @@
 // src/controllers/webinarController.js
 
 const { PrismaClient } = require('@prisma/client');
+const { notifyByRole } = require('../utils/notify');
 const prisma = new PrismaClient();
 
 exports.getAllWebinars = async (req, res) => {
@@ -38,6 +39,22 @@ exports.createWebinar = async (req, res) => {
       },
     });
 
+    // Notify students + alumni about the new event.
+    const io = req.app.get('io');
+    const label = (type || 'event').toLowerCase();
+    await notifyByRole(io, 'student', {
+      type: 'webinar',
+      title: `New ${label}: ${title}`,
+      message: description || `A new ${label} has been scheduled.`,
+      link: 'events2',
+    });
+    await notifyByRole(io, 'alumni', {
+      type: 'webinar',
+      title: `New ${label}: ${title}`,
+      message: description || `A new ${label} has been scheduled.`,
+      link: 'events',
+    });
+
     res.json(webinar);
   } catch (error) {
     console.error('Create webinar error:', error);
@@ -56,8 +73,10 @@ exports.registerForWebinar = async (req, res) => {
     }
 
     if (webinar.capacity) {
+      // Count every claimed seat (registered/attended/missed) so freed slots
+      // can't be silently re-opened once a student takes one.
       const registeredCount = await prisma.webinar_attendances.count({
-        where: { webinarId: parseInt(id), status: 'registered' },
+        where: { webinarId: parseInt(id) },
       });
       if (registeredCount >= webinar.capacity) {
         return res.status(400).json({ error: 'No slots available' });
@@ -122,11 +141,21 @@ exports.getUserWebinars = async (req, res) => {
       attendanceMap[att.webinarId] = att.status;
     });
 
+    // Global registered count per webinar (across all users), so seats fill correctly.
+    const counts = await prisma.webinar_attendances.groupBy({
+      by: ['webinarId'],
+      _count: { _all: true },
+    });
+    const countMap = {};
+    counts.forEach(c => {
+      countMap[c.webinarId] = c._count._all;
+    });
+
     const now = new Date();
 
     const shapedEvents = webinars.map(webinar => {
       const status = attendanceMap[webinar.id] || (new Date(webinar.date) > now ? 'upcoming' : 'missed');
-      const registeredCount = attendances.filter(att => att.webinarId === webinar.id && att.status === 'registered').length;
+      const registeredCount = countMap[webinar.id] || 0;
 
       return {
         id: webinar.id,
@@ -150,6 +179,48 @@ exports.getUserWebinars = async (req, res) => {
   } catch (error) {
     console.error('Get user webinars error:', error);
     res.status(500).json({ error: 'Failed to get user webinars' });
+  }
+};
+
+exports.updateWebinar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, date, time, mode, host, type, place, link, capacity } = req.body;
+
+    const data = {};
+    if (title !== undefined) data.title = title;
+    if (description !== undefined) data.description = description;
+    if (date !== undefined) data.date = new Date(date);
+    if (time !== undefined) data.time = time;
+    if (mode !== undefined) data.mode = mode;
+    if (host !== undefined) data.host = host;
+    if (type !== undefined) data.type = type;
+    if (mode !== undefined) {
+      data.place = mode === 'offline' ? (place ?? null) : null;
+      data.link = mode === 'online' ? (link ?? null) : null;
+    }
+    if (capacity !== undefined) data.capacity = capacity ? parseInt(capacity) : null;
+
+    const webinar = await prisma.webinars.update({
+      where: { id: parseInt(id) },
+      data,
+    });
+
+    res.json(webinar);
+  } catch (error) {
+    console.error('Update webinar error:', error);
+    res.status(500).json({ error: 'Failed to update webinar' });
+  }
+};
+
+exports.deleteWebinar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.webinars.delete({ where: { id: parseInt(id) } });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete webinar error:', error);
+    res.status(500).json({ error: 'Failed to delete webinar' });
   }
 };
 
