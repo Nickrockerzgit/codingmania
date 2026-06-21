@@ -127,12 +127,26 @@ app.use('/api/notifications', notificationRoutes);
 // ================= Socket.io Setup =================
 const server = http.createServer(app);
 
-const allowedOrigins = [
+// Local dev defaults; production / extra origins come from env.
+const defaultOrigins = [
   "http://localhost:5000",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:8080", // dockerized frontend (nginx)
-  process.env.FRONTEND_URL, // production / custom origin
+];
+
+// ALLOWED_ORIGINS = comma-separated list, e.g. "https://app.com,https://admin.app.com"
+const envOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [
+  ...new Set([
+    ...defaultOrigins,
+    ...envOrigins,
+    process.env.FRONTEND_URL, // single production / custom origin
+  ]),
 ].filter(Boolean);
 
 const io = new Server(server, {

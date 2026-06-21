@@ -172,7 +172,8 @@ npm run dev                   # http://localhost:5173
 | `GEMINI_API_KEY`, `OPENAI_API_KEY` | AI features |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | Google Sign-In |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | _Optional_ — Redis rate limiting |
-| `FRONTEND_URL` | Allowed Socket.io origin |
+| `FRONTEND_URL` | Primary allowed Socket.io / CORS origin |
+| `ALLOWED_ORIGINS` | _Optional_ — extra origins, comma-separated |
 
 ### Frontend (`Frontend/.env`)
 | Variable | Description |
